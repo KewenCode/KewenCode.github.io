@@ -1,23 +1,23 @@
 /* 方正正中黑简体 */
 @font-face {
   font-family: 'FZZZHONGJW';
-  src: url(../font/FZZZHONGJW.ttf);
+  src: url(../font/fzzzhongjw.woff);
 }
 
 /* 方正综艺简体 */
 @font-face {
   font-family: 'FZZYJW';
-  src: url(../font/FZZYJW.ttf);
+  src: url(../font/fzzyjw.woff);
 }
 
 /* 方正黑体简体 */
 @font-face {
   font-family: 'FZHTJW';
-  src: url(../font/FZHTJW.ttf);
+  src: url(../font/fzhtjw.woff);
 }
 
 /* 叶友根 */
 @font-face {
   font-family: 'YGYXSZITI';
-  src: url(../font/YGYXSZITI.ttf);
+  src: url(../font/ygyxsziti.woff);
 }
