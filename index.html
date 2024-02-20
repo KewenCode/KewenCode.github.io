@@ -25,11 +25,11 @@
 <body data-bs-theme="dark">
   <nav class="navbar navbar-expand-lg bg-body-secondary" data-bs-theme="dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#" style="font-family: 'FZZZHONGJW';">JiangNan Route Map</a>
+      <a class="navbar-brand" href="#">JiangNan Route Map</a>
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#" style="font-family: 'FZZZHONGJW';">首页</a>
+            <a class="nav-link active" aria-current="page" href="#">首页</a>
           </li>
           <!-- <li class="nav-item">
             <a class="nav-link" href="#">Link</a>
@@ -90,8 +90,7 @@
           </div>
           <div type="button">
             <button id="download">下载</button>
-            <!-- <button id="download" disabled="true">下载</button> -->
-            <button id="update">生成</button>
+            <button id="update" onclick="updateBtn();">生成</button>
           </div>
         </div>
         <!-- right-内容 -->
@@ -104,7 +103,9 @@
             <div class="detail">
               <p>共有<span>0</span>个站名</p>
               <div>
-                <button id="stationClear">清空</button>
+                <button id="stationClear" onclick="removeItemStation(0, stationMap.size - 1);">清空</button>
+                <button id="stationOutput" onclick="copyToClipboard(JSON.stringify(Data))">导出</button>
+                <button id="stationOutput" onclick='clipboardToData( prompt("请输入JSON", ""))'>导入</button>
               </div>
             </div>
             <!-- 站点列表-参数 -->
@@ -262,7 +263,7 @@
               <li class="col-12 my-2">
                 <div class="input-group">
                   <label class="input-group-text" for="infoLineNo">路号</label>
-                  <input type="text" class="form-control" name="lineNo" id="infoLineNo" placeholder="">
+                  <input type="number" class="form-control" name="lineNo" id="infoLineNo" placeholder="">
                   <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                     aria-expanded="false">路</button>
                   <ul class="dropdown-menu dropdown-menu-end">
