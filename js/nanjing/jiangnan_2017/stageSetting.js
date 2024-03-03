@@ -28,27 +28,93 @@ function reSize(jiangnanMap) {
 }
 
 async function loadResource() {
+  // const manifest = {
+  //   bundles: [{
+  //     name: 'load-box',
+  //     assets: [{
+  //       alias: 'box',
+  //       src: '../../../images/nanjing/BoxSprite.png',
+  //     },],
+  //   },
+  //   {
+  //     name: 'load-NJGJ',
+  //     assets: [{
+  //       alias: 'Price',
+  //       src: './images/nanjing/BusPriceSprite.png',
+  //     },
+  //     {
+  //       alias: 'Element',
+  //       src: './images/nanjing/NJGJSprite.png',
+  //     },
+  //     {
+  //       alias: 'Metro',
+  //       src: './images/nanjing/MetroSprite.png',
+  //     },
+  //     ],
+  //   },
+  //   {
+  //     name: 'load-icon',
+  //     assets: [{
+  //       alias: 'icon_Info',
+  //       src: './images/nanjing/IconSprite.png',
+  //     },
+  //     {
+  //       alias: 'logoSvg',
+  //       src: './images/Logo.svg',
+  //     },
+  //     {
+  //       alias: 'logoPng',
+  //       src: './images/Logo.png',
+  //     },
+  //     ],
+  //   },
+  //   {
+  //     name: 'load-font',
+  //     assets: [{
+  //       alias: 'FZZZHONGJW',
+  //       src: './font/fzzzhongjw.woff',
+  //     },
+  //     {
+  //       alias: 'FZHTJW',
+  //       src: './font/fzhtjw.woff',
+  //     },
+  //     {
+  //       alias: 'YGYXSZITI',
+  //       src: './font/YGYXSZITI.woff',
+  //     },
+  //     ],
+  //   },
+  //   {
+  //     name: 'load-font-mobile',
+  //     assets: [{
+  //       alias: 'TNR',
+  //       src: './font/Times New Roman.woff',
+  //     },
+  //     ],
+  //   },
+  //   ]
+  // };
   const manifest = {
     bundles: [{
       name: 'load-box',
       assets: [{
         alias: 'box',
-        src: '../../../images/nanjing/BoxSprite.png',
+        src: 'https://cdn.jsdelivr.net/gh/KewenCode/KewenCode.github.io@dev-format/images/nanjing/BoxSprite.png',
       },],
     },
     {
       name: 'load-NJGJ',
       assets: [{
         alias: 'Price',
-        src: './images/nanjing/BusPriceSprite.png',
+        src: 'https://cdn.jsdelivr.net/gh/KewenCode/KewenCode.github.io@dev-format/images/nanjing/BusPriceSprite.png',
       },
       {
         alias: 'Element',
-        src: './images/nanjing/NJGJSprite.png',
+        src: 'https://cdn.jsdelivr.net/gh/KewenCode/KewenCode.github.io@dev-format/images/nanjing/NJGJSprite.png',
       },
       {
         alias: 'Metro',
-        src: './images/nanjing/MetroSprite.png',
+        src: 'https://cdn.jsdelivr.net/gh/KewenCode/KewenCode.github.io@dev-format/images/nanjing/MetroSprite.png',
       },
       ],
     },
@@ -56,15 +122,15 @@ async function loadResource() {
       name: 'load-icon',
       assets: [{
         alias: 'icon_Info',
-        src: './images/nanjing/IconSprite.png',
+        src: 'https://cdn.jsdelivr.net/gh/KewenCode/KewenCode.github.io@dev-format/images/nanjing/IconSprite.png',
       },
       {
         alias: 'logoSvg',
-        src: './images/Logo.svg',
+        src: 'https://cdn.jsdelivr.net/gh/KewenCode/KewenCode.github.io@dev-format/images/Logo.svg',
       },
       {
         alias: 'logoPng',
-        src: './images/Logo.png',
+        src: 'https://cdn.jsdelivr.net/gh/KewenCode/KewenCode.github.io@dev-format/images/Logo.png',
       },
       ],
     },
@@ -72,7 +138,7 @@ async function loadResource() {
       name: 'load-font',
       assets: [{
         alias: 'FZZZHONGJW',
-        src: './font/fzzzhongjw.woff',
+        src: 'https://cdn.jsdelivr.net/gh/KewenCode/KewenCode.github.io@dev-format/font/fzzzhongjw.woff',
       },
       {
         alias: 'FZHTJW',
@@ -80,7 +146,7 @@ async function loadResource() {
       },
       {
         alias: 'YGYXSZITI',
-        src: './font/YGYXSZITI.woff',
+        src: 'https://cdn.jsdelivr.net/gh/KewenCode/KewenCode.github.io@dev-format/font/ygyxsziti.woff',
       },
       ],
     },
