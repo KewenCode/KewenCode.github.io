@@ -36,6 +36,21 @@
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              线路图
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">江南-2017</a></li>
+              <!-- <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" href="#">42路</a></li>
+              <li><a class="dropdown-item" href="#">206路</a></li>
+              <li><a class="dropdown-item" href="#">207路</a></li>
+              <li><a class="dropdown-item" href="#">538路</a></li> -->
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               关于
             </a>
             <ul class="dropdown-menu">
@@ -63,8 +78,10 @@
       <div class="left col-md-3">
         <div class="tags">
           <!-- tag-title -->
-          <div class="title">
-            <h2 class="select">待选站点</h2>
+          <div class="title row">
+            <div class="col-12 my-1">
+              <h2 class="select">待选站点</h2>
+            </div>
           </div>
           <!-- tag-内容 -->
           <div class="content">
@@ -86,14 +103,35 @@
       </div>
       <div class="right col-md-9">
         <!-- right-导航栏 -->
-        <div class="title">
-          <div type="h2">
+        <div class="title row">
+          <div class="col-12 col-lg-6 my-1" type="h2">
             <h2 data-link="lineStation" class="select">站点列表</h2>
             <h2 data-link="lineInfo">线路信息</h2>
           </div>
-          <div type="button">
-            <button id="download" onclick="outputBtn();">下载</button>
-            <button id="update" onclick="updateBtn();">生成</button>
+          <div class="col-12 col-lg-6 my-1"><!-- Example split danger button -->
+            <div class="float-end">
+              <div class="btn-group" id="exampleLines">
+                <button type="button" class="btn btn-success" data-line="_NEW">新建线路</button>
+                <button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split"
+                  data-bs-toggle="dropdown" aria-expanded="false">
+                  <span class="visually-hidden">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><span class="dropdown-item-text">示例线路</span></li>
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
+                  <li><button class="dropdown-item" type="button" data-line="42">42路</button></li>
+                  <li><button class="dropdown-item" type="button" data-line="206">206路</button></li>
+                  <li><button class="dropdown-item" type="button" data-line="207">207路</button></li>
+                  <li><button class="dropdown-item" type="button" data-line="503">503路</button></li>
+                  <li><button class="dropdown-item" type="button" data-line="521">521路</button></li>
+                  <li><button class="dropdown-item" type="button" data-line="538">538路</button></li>
+                </ul>
+              </div>
+              <button id="download" class="btn btn-success">下载</button>
+              <button id="update" class="btn btn-success">生成</button>
+            </div>
           </div>
         </div>
         <!-- right-内容 -->
@@ -104,9 +142,10 @@
             <ul id="mapStation" type="list"></ul>
             <!-- 站点列表-细节 -->
             <div class="detail">
-              <p>共有<span>0</span>个站名</p>
+              <p>共有<span>0</span>个条目</p>
               <div>
-                <button id="stationClear" onclick="removeItemStation(0, stationMap.size - 1);">清空</button>
+                <button id="stationClear"
+                  onclick="removeItemStation(0, Object.keys(Data.station).length - 1);">清空</button>
                 <button id="stationOutput" onclick="copyToClipboard(JSON.stringify(Data))">导出</button>
                 <button id="stationOutput" onclick='clipboardToData( prompt("请输入JSON", ""))'>导入</button>
               </div>
@@ -121,22 +160,34 @@
                     <label for="optionName">站名：</label>
                   </div>
                 </li>
-                <li class="row-div col-12 col-md-9 col-lg-7 my-2">
-                  <div class="row-div form-check form-switch form-check-inline">
-                    <input type="checkbox" class="form-check-input" name="stationIsSingle" id="optionSingle">
-                    <label class="form-check-label" for="optionSingle">单向站</label>
+                <li class="row col-12 col-md-9 col-lg-7 my-2">
+                  <div class="row-div col-12">
+                    <div class="row-div form-check form-switch form-check-inline">
+                      <input type="checkbox" class="form-check-input" name="stationIsSingle" id="optionSingle">
+                      <label class="form-check-label" for="optionSingle">单向站</label>
+                    </div>
+                    <div class="row-div form-check form-switch form-check-inline">
+                      <input type="checkbox" class="form-check-input" name="stationIsStart" id="optionStart">
+                      <label class="form-check-label" for="optionStart">起始站</label>
+                    </div>
+                    <div class="row-div form-check form-switch form-check-inline">
+                      <input type="checkbox" class="form-check-input" name="stationIsEnd" id="optionEnd">
+                      <label class="form-check-label" for="optionEnd">终点站</label>
+                    </div>
+                    <div class="row-div form-check form-switch form-check-inline">
+                      <input type="checkbox" class="form-check-input" name="stationIsRiver" id="optionRiver">
+                      <label class="form-check-label" for="optionRiver">图形站</label>
+                    </div>
                   </div>
-                  <div class="row-div form-check form-switch form-check-inline">
-                    <input type="checkbox" class="form-check-input" name="stationIsMetro" id="optionMetro">
-                    <label class="form-check-label" for="optionMetro">换乘站</label>
-                  </div>
-                  <div class="row-div form-check form-switch form-check-inline">
-                    <input type="checkbox" class="form-check-input" name="stationIsStart" id="optionStart">
-                    <label class="form-check-label" for="optionStart">起始站</label>
-                  </div>
-                  <div class="row-div form-check form-switch form-check-inline">
-                    <input type="checkbox" class="form-check-input" name="stationIsEnd" id="optionEnd">
-                    <label class="form-check-label" for="optionEnd">终点站</label>
+                  <div class="row-div col-12  justify-content-start">
+                    <div class="row-div form-check form-switch form-check-inline">
+                      <input type="checkbox" class="form-check-input" name="stationIsMetro" id="optionMetro">
+                      <label class="form-check-label" for="optionMetro">换乘站</label>
+                    </div>
+                    <div class="row-div form-check form-switch form-check-inline">
+                      <input type="checkbox" class="form-check-input" name="stationIsPriSeg" id="optionPrice">
+                      <label class="form-check-label" for="optionPrice">计价点</label>
+                    </div>
                   </div>
                 </li>
                 <li class="row-div col-12 col-lg-2 my-2">
@@ -145,19 +196,46 @@
                   </div>
                 </li>
               </ul>
-              <ul class="stationSingle divWrap row justify-content-between hidden">
-                <li class="col-12 my-2">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="0" id="down" name="singleDir">
-                    <label class="form-check-label" for="down">
-                      下行（从右往左）
-                    </label>
+              <ul class="stationSingle divWrap row hidden">
+                <li class="col-12 col-md-6 my-2">
+                  <div class="input-group col-12">
+                    <div class="input-group-text col-12 col-md-6">
+                      <div class="row-div form-check form-switch form-check-inline">
+                        <input class="form-check-input" type="checkbox" value="1" id="dirUp" name="singleDir">
+                        <label class="form-check-label" for="dirUp">上行（从左往右）</label>
+                      </div>
+                    </div>
+                    <div class="input-group-text col-12 col-md-6">
+                      <div class="row-div form-check form-switch form-check-inline">
+                        <input class="form-check-input" type="checkbox" value="0" id="dirDown" name="singleDir">
+                        <label class="form-check-label" for="dirDown">下行（从右往左）</label>
+                      </div>
+                    </div>
                   </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="1" id="up" name="singleDir">
-                    <label class="form-check-label" for="up">
-                      上行（从左往右）
-                    </label>
+                </li>
+                <li class="col-12 col-md-6 my-2">
+                  <div class="input-group col-12">
+                    <div class="input-group-text col-6 col-md-3"><span style="width: 100%;">Tag位置</span></div>
+                    <div class="input-group-text col-6 col-md-3">
+                      <div class="row-div form-check form-switch form-check-inline">
+                        <input class="form-check-input" type="checkbox" value="1" id="tagUp" name="singleTag" disabled>
+                        <label class="form-check-label" for="tagUp">上侧</label>
+                      </div>
+                    </div>
+                    <div class="input-group-text col-6 col-md-3">
+                      <div class="row-div form-check form-switch form-check-inline">
+                        <input class="form-check-input" type="checkbox" value="0" id="tagDown" name="singleTag"
+                          disabled>
+                        <label class="form-check-label" for="tagDown">下侧</label>
+                      </div>
+                    </div>
+                    <div class="input-group-text col-6 col-md-3">
+                      <div class="row-div form-check form-switch form-check-inline">
+                        <input class="form-check-input" type="checkbox" value="-1" id="tagHid" name="singleTag"
+                          disabled>
+                        <label class="form-check-label" for="tagHid">隐藏</label>
+                      </div>
+                    </div>
                   </div>
                 </li>
               </ul>
@@ -231,6 +309,67 @@
                   </div>
                 </li>
               </ul>
+              <ul class="stationPrice divWrap row col-md-12">
+                <li class="col-12 my-2 row">
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <select id="priSegDir" class="form-select">
+                        <option value=null selected disabled="true">请选择</option>
+                        <option value="1">上行（红色）</option>
+                        <option value="0">下行（蓝色）</option>
+                      </select>
+                      <label for="priSegDir" class="form-label">计价点方向</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <select id="priSegPrice" class="form-select">
+                        <option value=null selected disabled="true">请选择</option>
+                        <option value="2">￥2</option>
+                        <option value="3">￥3</option>
+                        <option value="4">￥4</option>
+                      </select>
+                      <label for="priSegPrice" class="form-label">票价</label>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              <ul class="stationRiver divWrap row col-md-12">
+                <li class="col-12 col-lg-4 my-2">
+                  <div class="form-floating col-12">
+                    <input type="text" class="form-control" name="stationRiver" id="optionRS" placeholder="">
+                    <label for="optionRS">道路名称</label>
+                  </div>
+                </li>
+                <li class="col-12 col-sm-6 col-lg-4 my-2">
+                  <div class="input-group">
+                    <div class="input-group-text">
+                      <div class="row-div form-check form-switch form-check-inline">
+                        <input class="form-check-input" type="checkbox" value=false id="optionRLD" name="stationRiver">
+                        <label class="form-check-label" for="optionRLD">置底</label>
+                      </div>
+                    </div>
+                    <div class="form-floating col-12">
+                      <input type="text" class="form-control" name="stationRiver" id="optionRL" placeholder="">
+                      <label for="optionRL">左侧附注</label>
+                    </div>
+                  </div>
+                </li>
+                <li class="col-12 col-sm-6 col-lg-4 my-2">
+                  <div class="input-group">
+                    <div class="input-group-text">
+                      <div class="row-div form-check form-switch form-check-inline">
+                        <input class="form-check-input" type="checkbox" value=false id="optionRRD" name="stationRiver">
+                        <label class="form-check-label" for="optionRRD">置底</label>
+                      </div>
+                    </div>
+                    <div class="form-floating">
+                      <input type="text" class="form-control" name="stationRiver" id="optionRR" placeholder="">
+                      <label for="optionRR">右侧附注</label>
+                    </div>
+                  </div>
+                </li>
+              </ul>
             </div>
           </div>
           <!-- 服务数据 -->
@@ -266,7 +405,7 @@
               <li class="col-12 my-2">
                 <div class="input-group">
                   <label class="input-group-text" for="infoLineNo">路号</label>
-                  <input type="number" class="form-control" name="lineNo" id="infoLineNo" placeholder="">
+                  <input type="text" class="form-control" name="lineNo" id="infoLineNo" placeholder="">
                   <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                     aria-expanded="false">路</button>
                   <ul class="dropdown-menu dropdown-menu-end">
@@ -280,41 +419,55 @@
                 </div>
               </li>
               <!-- 售票方式 -->
-              <li class="linePrice row-div col-12 my-2">
-                <div class="col-12 col-xl-6">
-                  <div class="input-group">
-                    <label class="input-group-text" for="linePriceSelect">售票方式：</label>
-                    <select class="form-select" id="linePriceSelect">
+              <li class="linePrice col-12 my-2 row">
+                <div class="col-12 col-lg-6 my-2">
+                  <div class="form-floating">
+                    <select id="linePriceSelect" class="form-select">
                       <option value=null selected disabled="true">待选择</option>
                       <option value="infoNoSeg">单一票价</option>
                       <option value="infoSeg">分段计价</option>
-                      <option value="infoPerSeg" disabled="true">有人售票</option>
+                      <option value="infoPerSeg">有人售票</option>
                     </select>
+                    <label class="form-label" for="linePriceSelect">售票方式：</label>
                   </div>
                 </div>
                 <!-- 票价选择 -->
-                <div class="col-12 col-xl-4  ms-auto">
+                <div class="col-12 col-lg-6 my-2">
                   <div class="input-group">
-                    <label class="input-group-text" for="infoPrice1">票价</label>
-                    <select class="form-select" id="infoPrice1">
-                      <option>待选择</option>
-                      <option value="0">0元</option>
-                      <option value="1">1元</option>
-                      <option value="2" selected>2元</option>
-                      <option value="3">3元</option>
-                      <option value="4">4元</option>
-                      <option value="5">5元</option>
-                    </select>
-                    <label class="input-group-text hidden" for="infoPrice2" name="priceHidden">至</label>
-                    <select class="form-select hidden" id="infoPrice2" name="priceHidden">
-                      <option>待选择</option>
-                      <option value="0">0元</option>
-                      <option value="1">1元</option>
-                      <option value="2" selected>2元</option>
-                      <option value="3">3元</option>
-                      <option value="4">4元</option>
-                      <option value="5">5元</option>
-                    </select>
+                    <div class="input-group-text">
+                      <div class="row-div form-check form-switch form-check-inline">
+                        <input class="form-check-input" type="checkbox" value=false id="infoSellPri">
+                        <label class="form-check-label" for="infoSellPri">启用票价</label>
+                      </div>
+                    </div>
+                    <div class="form-floating">
+                      <select id="infoPrice1" class="form-select">
+                        <option value=null disabled="true">待选择</option>
+                        <option value="0">0元</option>
+                        <option value="1">1元</option>
+                        <option value="2" selected>2元</option>
+                        <option value="3">3元</option>
+                        <option value="4">4元</option>
+                        <option value="5">5元</option>
+                        <option value="6">6元</option>
+                        <option value="7">7元</option>
+                      </select>
+                      <label class="form-label" for="infoPrice1">票价</label>
+                    </div>
+                    <div class="form-floating">
+                      <select id="infoPrice2" class="form-select">
+                        <option value=null disabled="true">待选择</option>
+                        <option value="0">0元</option>
+                        <option value="1">1元</option>
+                        <option value="2" selected>2元</option>
+                        <option value="3">3元</option>
+                        <option value="4">4元</option>
+                        <option value="5">5元</option>
+                        <option value="6">6元</option>
+                        <option value="7">7元</option>
+                      </select>
+                      <label class="form-label" for="infoPrice2">至</label>
+                    </div>
                   </div>
                 </div>
               </li>
@@ -366,38 +519,44 @@
     </div>
   </div>
   <footer class="footer">
-    <p>&copy; 2024 Copyright 无情~之殇</p>
-    <p>Version 1.0</p>
+    <p>&copy; 2024 Copyright 无情~之殇 本项目遵循AGPL-3.0 license共享原则</p>
+    <p>Version 2.0.0-dev</p>
   </footer>
 
-  <!-- <script src="./js/bootstrap.bundle.min.js"></script>
-  <script src="./js/Sortable.min.js"></script>
-  <script src="./js/jquery-3.7.1.min.js"></script> -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+  <script src="./js/libs/Sortable.min.js"></script>
+  <script src="./js/libs/jquery-3.7.1.min.js"></script>
+  <script src="./js/libs/pixi.min.js"></script>
+  <script src="./js/libs/bootstrap.bundle.min.js"></script>
+  <script src="./js/lineData.js"></script>
+  <script src="./js/selectTag.js"></script>
+  <script src="./js/app.js" type="module"></script>
+  <script src="./js/liItemStation.js" defer></script>
+  <script src="./js/liItemOpera.js" defer></script>
+  <script src="./js/pageBtn.js" defer></script>
+  <script src="./js/lineInfo.js" defer></script>
+  <!-- <script src="http://webresource.c-ctrip.com/code/cquery/LABjs/LAB.js"></script> -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-  <script src="./iconfont/iconfont.js"></script>
-  <script src="./js/data.js"></script>
-  <script src="./js/mian.js.obfuscated.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script> -->
+  <!-- <script src="./iconfont/iconfont.js"></script> -->
+  <!-- <script src="./js/mian.js.obfuscated.js"></script>
   <script src="./js/lineInfo.js.obfuscated.js"></script>
   <script src="./js/selectTag.js.obfuscated.js"></script>
-  <script src="./js/listStation.js.obfuscated.js"></script>
-  <!-- <script src="./js/mian.js"></script>
-  <script src="./js/lineInfo.js"></script>
-  <script src="./js/selectTag.js"></script>
-  <script src="./js/listStation.js"></script> -->
+  <script src="./js/listStation.js.obfuscated.js"></script> -->
+  <!-- <script src="./js/mian.js"></script> -->
   <!-- <script src="./js/pixi.min.js"></script> -->
   <!-- <script src="./js/routeMap.js"></script> -->
-  <script src="https://cdn.jsdelivr.net/npm/pixi.js@7.4.0/dist/pixi.min.js"></script>
-  <script src="./js/routeMap.js.obfuscated.js"></script>
-  <script type="text/javascript">
+  <!-- <script src="./js/nanjing/jiangnan_2017/main.js"></script> -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/pixi.js@7.4.0/dist/pixi.min.js"></script> -->
+  <!-- <script src="./js/routeMap.js.obfuscated.js"></script> -->
+  <!-- <script type="text/javascript">
     // 确认WebGL可用
     let type = "WebGL"
     if (!PIXI.utils.isWebGLSupported()) {
       type = "canvas"
       alert('WebGL不可用，将调用canvas，图片生成可能会失败！');
     }
-  </script>
+  </script> -->
 </body>
 
 </html>

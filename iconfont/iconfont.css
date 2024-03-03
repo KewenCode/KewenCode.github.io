@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 4434432 */
-  src: url('iconfont.woff2?t=1707659240292') format('woff2'),
-       url('iconfont.woff?t=1707659240292') format('woff'),
-       url('iconfont.ttf?t=1707659240292') format('truetype');
+  src: url('iconfont.woff2?t=1709210400907') format('woff2'),
+       url('iconfont.woff?t=1709210400907') format('woff'),
+       url('iconfont.ttf?t=1709210400907') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,14 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-reiver:before {
+  content: "\e632";
+}
+
+.icon-tick-price:before {
+  content: "\e689";
 }
 
 .icon-metro-nanjing:before {
