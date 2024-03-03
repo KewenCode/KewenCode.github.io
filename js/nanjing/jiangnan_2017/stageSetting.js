@@ -142,7 +142,7 @@ async function loadResource() {
       },
       {
         alias: 'FZHTJW',
-        src: './font/fzhtjw.woff',
+        src: 'https://cdn.jsdelivr.net/gh/KewenCode/KewenCode.github.io@dev-format/font/fzhtjw.woff',
       },
       {
         alias: 'YGYXSZITI',
