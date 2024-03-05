@@ -9,22 +9,23 @@ import { LineBlank as Line_NEW, Line42, Line206, Line207, Line503, Line521, Line
 
 
 async function workflow(Map) {
-  const jiangnanMap = Map;
+  const jiangnanMap = new PIXI.Container();
+  Map.stage.addChild(jiangnanMap);
+  Map.view.id = "jiangnan_2017";
+  reSize(Map);
+  // const routeMapStage = jiangnanMap;
   console.log('加载jiangnan_2017模块');
-  jiangnanMap.view.id = "jiangnan_2017"
-  const routeMapStage = jiangnanMap.stage;
   // console.log(Map)
   // Map.renderer.events.resolution = 2
   // Map.renderer._view.resolution = 2
-  reSize(jiangnanMap);
   loadResource(); // 捆绑包加载 - 不能异步
-  buildMap(jiangnanMap, routeMapStage); // 基本内容创建
+  buildMap(Map, jiangnanMap); // 基本内容创建
 
   // 生成按钮
   const update = document.querySelector('[id="update"]');
   update.addEventListener("click", () => {
     console.log(Data.station);
-    pixiClear(jiangnanMap);
+    pixiClear(Map);
   });
   // 下载
   const output = document.querySelector('[id="download"]');
@@ -124,29 +125,38 @@ async function workflow(Map) {
 }
 
 function pixiClear(Map) {
-  const routeMapStage = Map.stage;
-  routeMapStage.removeChildren();
+  Map.stage.removeChildren().forEach(e => {
+    e.destroy({
+      children: true,
+      texture: false,
+      baseTexture: false,
+    })
+  })
   // loadData();
-  buildMap(Map, routeMapStage);
+  const jiangnanMap = new PIXI.Container();
+  Map.stage.addChild(jiangnanMap);
+  // const routeMapStage = jiangnanMap.stage;
+  buildMap(Map, jiangnanMap);
 }
 
-async function buildMap(jiangnanMap, routeMapStage) {
-  routeMapStage.addChild(await addLogo(jiangnanMap));
+async function buildMap(Map, jiangnanMap) {
+  jiangnanMap.addChild(await addLogo(Map));
   // 绘制矩形
   const _rec = await drawRect(0, 0, "blue");
-  _rec.forEach(e => routeMapStage.addChild(e));
+  _rec.forEach(e => jiangnanMap.addChild(e));
   // 绘制线段
   const { _line, _angle } = await drawLine(0, 0, "blue");
-  // routeMapStage.addChild(_line);
+  // jiangnanMap.addChild(_line);
   // 添加票价
-  routeMapStage.addChild(await drawPrice(0, 0, "blue"));
+  jiangnanMap.addChild(await drawPrice(0, 0, "blue"));
   // 添加基础文本
-  routeMapStage.addChild(await printBaseText(0, 0, "blue"));
+  jiangnanMap.addChild(await printBaseText(0, 0, "blue"));
   // 添加图片
-  routeMapStage.addChild(await printLogo(0, 0, "blue"));
-  routeMapStage.addChild(printNo(0, 0, "blue"));
-  routeMapStage.addChild(await printService(0, 0, "blue"));
-  routeMapStage.addChild(await printStation(0, 0, "blue", _line, _angle));
+  jiangnanMap.addChild(await printLogo(0, 0, "blue"));
+  jiangnanMap.addChild(printNo(0, 0, "blue"));
+  jiangnanMap.addChild(await printService(0, 0, "blue"));
+  jiangnanMap.addChild(await printStation(0, 0, "blue", _line, _angle));
+  Map.render() // 手动渲染
 }
 
 export {

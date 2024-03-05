@@ -1,14 +1,14 @@
 import { param } from "./parameter.js"
 import { OS } from "../../tools.js"
 
-async function addLogo(jiangnanMap) {
+async function addLogo(Map, jiangnanMap) {
   let logoElementAssets = await PIXI.Assets.loadBundle('load-icon');
   if (OS.isPc) {
     const SCBusFan = new PIXI.Sprite(logoElementAssets.logoSvg);
     // SCBusFan.tint = '0xFFFF660'
     SCBusFan.anchor.set(0.5, 0.5);
-    SCBusFan.scale.set(jiangnanMap.view.height / 3300);
-    SCBusFan.position.set(jiangnanMap.view.width / 2, jiangnanMap.view.height / 2);
+    SCBusFan.scale.set(Map.view.height / 3300);
+    SCBusFan.position.set(Map.view.width / 2, Map.view.height / 2);
     SCBusFan.name = "SCBusFan";
     SCBusFan.alpha = 0.15;
     return SCBusFan
@@ -16,8 +16,8 @@ async function addLogo(jiangnanMap) {
     const SCBusFan = new PIXI.Sprite(logoElementAssets.logoPng);
     // SCBusFan.tint = '0xFFFF660'
     SCBusFan.anchor.set(0.5, 0.5);
-    SCBusFan.scale.set(jiangnanMap.view.height / 330);
-    SCBusFan.position.set(jiangnanMap.view.width / 2, jiangnanMap.view.height / 2);
+    SCBusFan.scale.set(Map.view.height / 330);
+    SCBusFan.position.set(Map.view.width / 2, Map.view.height / 2);
     SCBusFan.name = "SCBusFan";
     SCBusFan.alpha = 0.15;
     return SCBusFan
