@@ -74,4 +74,6 @@ function clipboardToData(text, func) {
 window.onbeforeunload = function (e) {
   var e = window.event || e;
   e.returnValue = ("确定离开页面吗？ヾ(•ω•`)o");
+  // 销毁舞台
+  routeMap.destroy(true);
 };

@@ -167,7 +167,7 @@ async function printStation(_x, _y, _color, _line, _angle) {
     // 折现段旋转
     S.angle = S.x > _param.line.x[1] && S.x < _param.line.x[2] ? _angle : S.angle;
     // 修正单向站垂直高度
-    shiftY = _station[key].isSingle ? (_station[key].sign.direction ? 4 : -4) : 0;
+    shiftY = _station[key].isSingle ? (Number(_station[key].sign.direction) ? 4 : -4) : 0;
     S.y += shiftY;
 
     // 站名

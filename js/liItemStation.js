@@ -53,7 +53,7 @@ new Sortable(mapStation, {
 
 // 创建列表
 function createList() {
-  console.log(Data.station)
+  // console.log(Data.station)
   mapStation.querySelectorAll("li").forEach(li => li.remove());
   Data.station ? Object.keys(Data.station).map((key) => {
     const val = Data.station[key];

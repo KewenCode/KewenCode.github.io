@@ -72,7 +72,7 @@ function stationInfo(id) {
   const priSeg = itemStation.querySelector(".icon-tick-price");
   stationController = new AbortController();
   // 站名
-  stationName.value = item.name;
+  stationName.value = item.name.trim();
   // 图形站
   stationIsRiver.checked = item.isRiver;
   item.isRiver ?
@@ -125,7 +125,7 @@ function stationInfo(id) {
 
   // 站名
   stationName.addEventListener("input", e => {
-    item.name = stationName.value;
+    item.name = stationName.value.trim();
     itemStation.dataset.station = stationName.value;
     itemStation.querySelector("p").innerText = stationName.value;
   }, {
@@ -285,7 +285,7 @@ function stationInfo(id) {
     const tagDown = document.querySelector('[id="tagDown"]');
     const tagHid = document.querySelector('[id="tagHid"]');
     const singleTag = document.querySelectorAll('[name="singleTag"]')
-    console.log(singleTag)
+    // console.log(singleTag)
     // 初值覆盖
     dirUp.checked = item.sign.direction ? true : false;
     dirDown.checked = item.sign.direction ? false : true;
@@ -298,27 +298,27 @@ function stationInfo(id) {
       // console.log(e.target)
       switch (e.target.id) {
         case "dirUp":
-          item.sign.direction = dirUp.value;
+          item.sign.direction = Number(dirUp.value);
           dirDown.checked = !dirUp.checked;
           [left, right].forEach(e => { e.classList.toggle("hidden") })
           break;
         case "dirDown":
-          item.sign.direction = dirDown.value;
+          item.sign.direction = Number(dirDown.value);
           dirUp.checked = !dirDown.checked;
           [left, right].forEach(e => { e.classList.toggle("hidden") })
           break;
         case "tagUp":
-          item.sign.tag = tagUp.value;
+          item.sign.tag = Number(tagUp.value);
           tagDown.checked = !tagUp.checked;
           tagHid.checked = !tagUp.checked;
           break;
         case "tagDown":
-          item.sign.tag = tagDown.value;
+          item.sign.tag = Number(tagDown.value);
           tagUp.checked = !tagDown.checked;
           tagHid.checked = !tagDown.checked;
           break;
         case "tagHid":
-          item.sign.tag = tagHid.value;
+          item.sign.tag = Number(tagHid.value);
           tagUp.checked = !tagHid.checked;
           tagDown.checked = !tagHid.checked;
           break;
