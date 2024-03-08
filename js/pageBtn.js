@@ -51,14 +51,9 @@ function clipboardToData(text, func) {
     var obj = JSON.parse(text); // 2、仅仅通过 JSON.parse(str)，不能完全检验一个字符串是JSON格式的字符串
     if (typeof obj == 'object' && obj) {  //3、还必须是 object 类型
       alert('转换成功：' + text);
-      removeItemStation(0, Object.keys(Data.station).length - 1, '', true);
-      Data = obj;
-      // updateLineInfo();
-      createList();
-      countList();
-      updateLineInfo();
       if (func) { func() };
-      return true;
+      return obj;
+    } else if (text == null) {/**消除默认事件 */
     } else {
       alert('转换失败：' + text);
       return false;
@@ -77,3 +72,8 @@ window.onbeforeunload = function (e) {
   // 销毁舞台
   routeMap.destroy(true);
 };
+
+export {
+  copyToClipboard,
+  clipboardToData,
+}

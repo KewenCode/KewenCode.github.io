@@ -1,5 +1,5 @@
-import { param } from "./parameter.js"
-import { OS } from "../../tools.js"
+import { param } from "../parameter.js"
+import { OS } from "../../../tools.js"
 
 async function addLogo(Map, jiangnanMap) {
   let logoElementAssets = await PIXI.Assets.loadBundle('load-icon');
@@ -37,7 +37,7 @@ async function drawRect(_x, _y, _color) {
   !Data.company ? boxComp.height = boxComp.height / 2 : "";
   let boxLineNo = new PIXI.Sprite(bosSprite);
   boxLineNo.name = "boxLineNo";
-  boxLineNo.setTransform(_param.recNo.x + _x, _param.recNo.y + _y, _param.recNo.w / bosSprite.width, _param.recNo.h / bosSprite.height);
+  boxLineNo.setTransform(_param.recNo.x + _x, _param.recNo.y + _y, (Data.lineNo.append ? _param.recNo.w : _param.recComp.w) / bosSprite.width, _param.recNo.h / bosSprite.height);
   let boxTiHead = new PIXI.Sprite(bosSprite);
   boxTiHead.name = "boxTiHead";
   boxTiHead.setTransform(_param.recTiHd.x + _x, _param.recTiHd.y + _y, _param.recTiHd.w / bosSprite.width, _param.recTiHd.h / bosSprite.height);

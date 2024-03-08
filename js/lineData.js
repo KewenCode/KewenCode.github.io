@@ -277,4 +277,196 @@ let Data = {};
 //   }
 // }
 
-const Data_jiangnan_2017 = { "group": "公司名称为空则为新图", "groupEn": "", "company": "", "lineNo": "可以中文（括号也可）", "price": [], "isSeg": false, "isSel": false, "point": { "A": { "name": "起始站", "startTime": "06:00", "endTime": "18:00" }, "Z": { "name": "终点站", "startTime": "06:00", "endTime": "18:00" } }, "station": { "0": { "name": "起始站", "isStart": true, "isEnd": false }, "1": { "name": "添加站名步骤：" }, "2": { "name": "先在左侧“待选站点”添加" }, "3": { "name": "然后拖入此处" }, "4": { "name": "下面是范例：" }, "5": { "name": "换乘站", "isMetro": true, "metro": ["1", "10"] }, "6": { "name": "自定义哦", "river": { "road": "一般看不见", "infoL": "可以置底", "infoLD": true, "infoR": "也可以放上面", "infoRD": null }, "isRiver": true }, "7": { "name": "分段计价点", "peiSeg": { "direction": null, "price": null }, "isPriSeg": true }, "8": { "name": "下行单向站", "isSingle": true, "sign": { "direction": 0 } }, "9": { "name": "单向起点站", "isSingle": true, "sign": { "direction": 0 }, "isStart": true }, "10": { "name": "上行单向站", "isSingle": true, "sign": { "direction": 1 } }, "11": { "name": "单向终点站", "isSingle": true, "sign": { "direction": 1 }, "isEnd": true, "isStart": false } } }
+// const Data_jiangnan_2017 = {
+//   group: '公司名称为空则为新图',
+//   groupEn: 'NANJING PUBLIC TRANSPORTATION (GROUP) CO.,LTD',
+//   company: '',
+//   lineNo: { main: "可以中文（括号也可）", append: "路线路图\n及\n计价站点", type: null, icon: 0 },
+//   price: [],
+//   isSeg: false,
+//   isSel: false,
+//   point: {
+//     'A': {
+//       name: '起始站',
+//       startTime: '06:00',
+//       endTime: '18:00',
+//     },
+//     'Z': {
+//       name: '终点站',
+//       startTime: '06:00',
+//       endTime: '18:00',
+//     },
+//   },
+//   station: {
+//     0: {
+//       name: '起始站',
+//       isStart: true,
+//       isEnd: false
+//     },
+//     1: {
+//       name: '添加站名步骤：'
+//     },
+//     2: {
+//       name: '先在左侧“待选站点”添加'
+//     },
+//     3: {
+//       name: '然后拖入此处'
+//     },
+//     4: {
+//       name: '下面是范例：'
+//     },
+//     5: {
+//       name: '换乘站',
+//       isMetro: true,
+//       metro: ["1", "10"]
+//     },
+//     6: {
+//       name: '自定义哦',
+//       river: {
+//         road: "一般看不见",
+//         infoL: "可以置底",
+//         infoLD: true,
+//         infoR: "也可以放上面",
+//         infoRD: null
+//       },
+//       isRiver: true
+//     },
+//     7: {
+//       name: '分段计价点',
+//       peiSeg: {
+//         direction: null,
+//         price: null
+//       },
+//       isPriSeg: true
+//     },
+//     8: {
+//       name: '下行单向站',
+//       isSingle: true,
+//       sign: {
+//         direction: 0
+//       }
+//     },
+//     9: {
+//       name: '单向起点站',
+//       isSingle: true,
+//       sign: {
+//         direction: 0
+//       },
+//       isStart: true
+//     },
+//     10: {
+//       name: '上行单向站',
+//       isSingle: true,
+//       sign: {
+//         direction: 1
+//       }
+//     },
+//     11: {
+//       name: '单向终点站',
+//       isSingle: true,
+//       sign: {
+//         direction: 1,
+//         tag: -1
+//       },
+//       isEnd: true,
+//       isStart: false
+//     }
+//   }
+// }
+
+const Data_jiangnan_2017 = {
+  group: '南京公共交通 (集团) 有限公司',
+  groupEn: 'NANJING PUBLIC TRANSPORTATION (GROUP) CO.,LTD',
+  company: '',
+  lineNo: { main: "B16", append: "路线路图", type: 4, icon: 2 },
+  price: [],
+  isSeg: false,
+  isSel: false,
+  point: {
+    'A': {
+      name: '起始站',
+      startTime: '06:00',
+      endTime: '18:00',
+    },
+    'Z': {
+      name: '',
+      startTime: '06:00',
+      endTime: '18:00',
+    },
+  },
+  station: {
+    0: {
+      name: '起始站',
+      isStart: true,
+      isEnd: false
+    },
+    1: {
+      name: '添加站名步骤：'
+    },
+    2: {
+      name: '先在左侧“待选站点”添加'
+    },
+    3: {
+      name: '然后拖入此处'
+    },
+    4: {
+      name: '下面是范例：'
+    },
+    5: {
+      name: '换乘站',
+      isMetro: true,
+      metro: ["1", "10"]
+    },
+    6: {
+      name: '自定义哦',
+      river: {
+        road: "一般看不见",
+        infoL: "可以置底",
+        infoLD: true,
+        infoR: "也可以放上面",
+        infoRD: null
+      },
+      isRiver: true
+    },
+    7: {
+      name: '分段计价点',
+      peiSeg: {
+        direction: null,
+        price: null
+      },
+      isPriSeg: true
+    },
+    8: {
+      name: '下行单向站',
+      isSingle: true,
+      sign: {
+        direction: 0
+      }
+    },
+    9: {
+      name: '单向起点站',
+      isSingle: true,
+      sign: {
+        direction: 0
+      },
+      isStart: true
+    },
+    10: {
+      name: '上行单向站',
+      isSingle: true,
+      sign: {
+        direction: 1
+      }
+    },
+    11: {
+      name: '单向终点站',
+      isSingle: true,
+      sign: {
+        direction: 1,
+        tag: -1
+      },
+      isEnd: true,
+      isStart: false
+    }
+  }
+}

@@ -57,14 +57,14 @@ function createList() {
   mapStation.querySelectorAll("li").forEach(li => li.remove());
   Data.station ? Object.keys(Data.station).map((key) => {
     const val = Data.station[key];
-    color = val.isRiver ? 'style="background-color:#87CEEB"' : '';
-    dir = val.isSingle ? (val.sign.direction ?
+    const color = val.isRiver ? 'style="background-color:#87CEEB"' : '';
+    const dir = val.isSingle ? (val.sign.direction ?
       '<span class="iconfont icon-arrow-right-circle"></span><span class="iconfont icon-arrow-left-circle hidden"></span>' :
       '<span class="iconfont icon-arrow-right-circle hidden"></span><span class="iconfont icon-arrow-left-circle"></span>'
     ) : '<span class="iconfont icon-arrow-right-circle hidden"></span><span class="iconfont icon-arrow-left-circle hidden"></span>';
-    metro = val.isMetro ? '<span class="iconfont icon-metro-nanjing" style="color:red"></span>' : '<span class="iconfont icon-metro-nanjing hidden" style="color:red"></span>';
-    priSeg = val.isPriSeg ? '<span class="iconfont icon-tick-price" style="color:red"></span>' : '<span class="iconfont icon-tick-price hidden" style="color:red"></span>';
-    let liTag = `<li draggable="true" data-id="${key}" data-station="${val.name}" ${color}><p>${val.name}</p><div id="icon">${priSeg}${metro}${dir}<i class="iconfont icon-setting" onclick="stationClick(this)"></i></div></li>`
+    const metro = val.isMetro ? '<span class="iconfont icon-metro-nanjing" style="color:red"></span>' : '<span class="iconfont icon-metro-nanjing hidden" style="color:red"></span>';
+    const priSeg = val.isPriSeg ? '<span class="iconfont icon-tick-price" style="color:red"></span>' : '<span class="iconfont icon-tick-price hidden" style="color:red"></span>';
+    let liTag = `<li draggable="true" data-id="${key}" data-station="${val.name}" ${color}><p>${val.name}</p><div id="icon">${priSeg}${metro}${dir}<i class="iconfont icon-setting"></i></div></li>`
     mapStation.insertAdjacentHTML("beforeend", liTag);
   }) : ''
   countList();
@@ -73,8 +73,6 @@ function createList() {
 function countList() {
   countStationNum.innerText = Data.station ? Object.keys(Data.station).length : 0;
 }
-// 创建站名列表
-createList();
 
 // li-id 排序
 function resortItemId() {
@@ -142,9 +140,8 @@ mapStation.addEventListener("mouseout", (e) => {
   }
 }) // 设置按钮变图
 
-// export {
-//   createList,
-//   countList,
-//   removeItemStation,
-//   stationClick,
-// }
+export {
+  createList,
+  countList,
+  removeItemStation,
+}

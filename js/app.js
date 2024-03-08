@@ -51,7 +51,6 @@
 
 // })
 
-import { nanjing } from './nanjing/nanjingList.js';
 
 // 创建画布
 const routeMap = new PIXI.Application({
@@ -67,7 +66,17 @@ const wrap = document.querySelector("#map_wrap");
 wrap.appendChild(routeMap.view);
 
 let _boolean = true;
-Data = Object.assign({}, Data_jiangnan_2017);
-_boolean ? nanjing(routeMap,) : console.log("南京模块未加载");
+_boolean ? (() => {
+  import('./nanjing/nanjingList.js')
+    .then(module => {
+      Data = Object.assign({}, Data_jiangnan_2017);
+      // 使用模块中导出的功能
+      module.nanjing(routeMap,);
+    })
+    .catch(error => {
+      // 处理模块加载失败的情况
+      console.error('南京模块加载失败:', error);
+    })
+})() : console.log("南京模块未加载");
 // _boolean ? nanjing("jiangnan_2017", collectBtn) : console.log("南京模块未加载");
 

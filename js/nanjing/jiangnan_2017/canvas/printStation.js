@@ -1,5 +1,5 @@
-import { param } from "./parameter.js"
-import { OS } from "../../tools.js"
+import { param } from "../parameter.js"
+import { OS } from "../../../tools.js"
 
 async function printStation(_x, _y, _color, _line, _angle) {
   const _param = param.size;

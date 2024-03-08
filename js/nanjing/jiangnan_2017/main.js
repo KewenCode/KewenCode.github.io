@@ -1,10 +1,14 @@
 import { param } from "./parameter.js"
 import { reSize, loadResource } from "./stageSetting.js";
-import { addLogo, drawRect, drawLine, drawPrice } from "./drawSprite.js";
-import { printBaseText, printNo, printService } from "./printText.js";
-import { printLogo } from "./printLogo.js";
-import { printStation } from "./printStation.js";
+import { addLogo, drawRect, drawLine, drawPrice } from "./canvas/drawSprite.js";
+import { printBaseText, printNo, printService } from "./canvas/printText.js";
+import { printLogo } from "./canvas/printLogo.js";
+import { printStation } from "./canvas/printStation.js";
 import { LineBlank as Line_NEW, Line42, Line206, Line207, Line503, Line521, Line538, } from "./exampleData.js";
+import { copyToClipboard, clipboardToData } from "../../pageBtn.js"
+import { createList, countList, removeItemStation } from "./operate/liItemStation.js";
+import { stationClick } from "./operate/liItemOpera.js";
+import { buildLineInfo, updateLineInfo } from "./operate/lineInfo.js";
 
 
 
@@ -20,6 +24,8 @@ async function workflow(Map) {
   // Map.renderer._view.resolution = 2
   loadResource(); // 捆绑包加载 - 不能异步
   buildMap(Map, jiangnanMap); // 基本内容创建
+  createList();// 创建站名列表
+  buildLineInfo();
 
   // 生成按钮
   const update = document.querySelector('[id="update"]');
@@ -122,6 +128,34 @@ async function workflow(Map) {
       updateLineInfo();
     })() : "";
   })
+  // 清空
+  const stationClear = document.querySelector("#stationClear");
+  stationClear.addEventListener("click", e => {
+    removeItemStation(0, Object.keys(Data.station).length - 1);
+  })
+  // 导出
+  const stationOutput = document.querySelector("#stationOutput");
+  stationOutput.addEventListener("click", e => {
+    copyToClipboard(JSON.stringify(Data));
+  })
+  // 导入
+  const stationInput = document.querySelector("#stationInput");
+  stationInput.addEventListener("click", e => {
+    const obj = clipboardToData(prompt("请输入JSON", ""));
+    if (obj) {
+      removeItemStation(0, Object.keys(Data.station).length - 1, '', true);
+      Data = obj;
+      pixiClear(Map);
+      createList();
+      updateLineInfo();
+    }
+  })
+  // 点击站点
+  const mapStation = document.querySelector("#mapStation");
+  mapStation.addEventListener("click", e => {
+    e.target.className.includes("icon-setting") ? stationClick(e.target) : '';
+  })
+
 }
 
 function pixiClear(Map) {
@@ -153,7 +187,7 @@ async function buildMap(Map, jiangnanMap) {
   jiangnanMap.addChild(await printBaseText(0, 0, "blue"));
   // 添加图片
   jiangnanMap.addChild(await printLogo(0, 0, "blue"));
-  jiangnanMap.addChild(printNo(0, 0, "blue"));
+  jiangnanMap.addChild(await printNo(0, 0, "blue"));
   jiangnanMap.addChild(await printService(0, 0, "blue"));
   jiangnanMap.addChild(await printStation(0, 0, "blue", _line, _angle));
   Map.render() // 手动渲染
@@ -163,21 +197,3 @@ export {
   workflow,
   pixiClear
 }
-
-// function loadData() {
-//   reSet();
-//   if (Data.isSeg) segmentPri();
-//   // 分段计价
-//   function segmentPri() {
-//     sizeLineNo[1] = sizeLineNo[1] - 35;
-//     sizeLineNo[3] = sizeLineNo[3] + 35;
-//     sizePriHead[2] = 250;
-//     sizePriLine = [sizeRecComp[0] + sizeRecComp[2], sizePriHead[1] + sizePriHead[3], (sizeRecComp[2] - sizePriHead[2]), (sizePriHead[3] / 10)];
-//   }
-
-//   function reSet() {
-//     sizeLineNo = [100, 325, 295, 190]
-//     sizePriHead = [100, 900, 345, 100]
-//     sizePriLine = [sizeRecComp[0] + sizeRecComp[2], sizePriHead[1] + sizePriHead[3], (sizeRecComp[2] - sizePriHead[2]), (sizePriHead[3] / 10)]
-//   }
-// }

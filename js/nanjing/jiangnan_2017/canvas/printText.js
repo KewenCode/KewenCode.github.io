@@ -1,5 +1,6 @@
-import { param } from "./parameter.js"
-import { OS } from "../../tools.js"
+import { param } from "../parameter.js"
+import { OS } from "../../../tools.js"
+import { printBranch } from "./printLogo.js"
 
 async function printBaseText(_x, _y, _color) {
   await PIXI.Assets.loadBundle('load-font');
@@ -62,7 +63,7 @@ async function printBaseText(_x, _y, _color) {
   textTiHead.anchor.set(0.5);
   textTiHead.position.set(_param.size.textTiHd.x + _x, _param.size.textTiHd.y + _y);
   // 本线路单程票价
-  const textPriHead = new PIXI.Text(Data.isSel && !infoPrice.querySelector("#infoSellPri").checked ? '本线路售票方式' : '本线路单程票价', {
+  const textPriHead = new PIXI.Text(Data.isSel && !document.querySelector("#infoSellPri").checked ? '本线路售票方式' : '本线路单程票价', {
     fill: '#FFF',
     fontFamily: 'FZZZHONGJW',
     fontSize: 40,
@@ -78,10 +79,10 @@ async function printBaseText(_x, _y, _color) {
   return container
 }
 
-function printNo(_x, _y, _color) {
+async function printNo(_x, _y, _color) {
   const _param = param.size;
   const container = new PIXI.Container();
-  const lineSellPrice = infoPrice.querySelector("#infoSellPri").checked
+  const lineSellPrice = document.querySelector("#infoSellPri").checked
   // container.width = sizeRecComp[2];
   // container.height = sizeRecComp[3];
   container.position.set(_param.recNo.x + _x, _param.recNo.y + _y);
@@ -114,15 +115,17 @@ function printNo(_x, _y, _color) {
     if (text.match(/[\a-zA-Z]+/g)) { obj.width *= 0.8; obj.style.letterSpacing = 5; };
     if (text.match(/[\u4e00-\u9fa5,.!"\'（）()]+/g)) { obj.style.fontSize = 90; };
     obj.style.letterSpacing = obj.width > _param.recNo.w * 0.9 ? -5 : obj.style.letterSpacing;
-    obj.width = obj.width > _param.recNo.w ? _param.recNo.w * 0.9 : obj.width;
-    obj.height = Data.isSeg || lineSellPrice ? obj.height * 0.8 : obj.height;  // 分段计价
+    obj.width = Data.lineNo?.append ?/**长/窄类型判断 */
+      obj.width > _param.recNo.w ? _param.recNo.w * 0.9 : obj.width :
+      obj.width > _param.recComp.w ? _param.recComp.w * 0.9 : obj.width;
+    obj.height = Data.lineNo?.type ? obj.height * 0.8 : obj.height;  // 类型附注
     obj.anchor.set(0.5);
-    obj.x = _param.recNo.w / 2 + _x
-    obj.y = Data.isSeg || lineSellPrice ? _param.recNo.h / 2.6 + _y : _param.recNo.h / 2 + _y; // 分段计价偏移
+    obj.x = Data.lineNo?.append ? _param.recNo.w / 2 + _x : _param.recComp.w / 2;
+    obj.y = Data.lineNo?.type ? _param.recNo.h / 2.6 + _y : _param.recNo.h / 2 + _y; // 类型附注偏移
     return obj
   }
   // 路号
-  const lineSplit = split(Data.lineNo)
+  const lineSplit = split(Data.lineNo.main)
   let lineNo = textLine(lineSplit.numLetter);
   lineNo.name = "lineNo";
   let lineString = textLine(lineSplit.chinese);
@@ -131,30 +134,57 @@ function printNo(_x, _y, _color) {
   if (lineSplit.chinese && lineSplit.numLetter) {
     lineNo.width *= 0.7;
     lineNo.x *= 0.7;
-    lineString.width = _param.recNo.w - lineNo.width;
-    lineString.x = lineString.width / 1.8 + lineNo.width + _x;
-    lineString.y = Data.isSeg || lineSellPrice ? _param.recNo.h / 2.2 + _y : _param.recNo.h / 1.75 + _y;
+    lineString.width = /**长/窄类型判断 */Data.lineNo?.append ? (_param.recNo.w - lineNo.x - lineNo.width / 2) : (_param.recComp.w - lineNo.x - lineNo.width / 1.5);
+    lineString.x = lineNo.x + lineNo.width / 2 + lineString.width / 2 + _x;
+    lineString.y = Data.lineNo?.type ? _param.recNo.h / 2.2 + _y : _param.recNo.h / 1.75 + _y;
   }
+  // logo
+  const logo = await printBranch();
   // 底部计价文字
-  if (Data.isSeg || lineSellPrice) {
-    const textLineAppend = new PIXI.Text('[ 分段计价 ]', {
-      fill: '#FFF',
-      fontFamily: 'MicrosoftYaHei',
-      fontSize: 30,
-      fontWeight: 'bold',
-      letterSpacing: 3,
-    });
-    textLineAppend.name = "textLineAppend";
-    textLineAppend.anchor.set(0.5);
-    textLineAppend.width = _param.recNo.w * 0.85;
-    textLineAppend.height *= 0.95;
-    textLineAppend.x = _param.recNo.w / 2 + _x;
-    textLineAppend.y = _param.recNo.h * 0.8 + _y;
-    container.addChild(textLineAppend);
+
+  let lineType = null
+  switch (Data.lineNo?.type) {
+    case 0:
+      lineType = null;
+      break;
+    case 1:
+      lineType = "[分段计价]";
+      break;
+    case 2:
+      lineType = "[大站快车]";
+      break;
+    case 3:
+      lineType = "微循环公交";
+      break;
+    case 4:
+      lineType = "假日旅游线";
+      break;
   }
+  const textLineType = new PIXI.Text(lineType, {
+    fill: '#FFF',
+    fontFamily: 'MicrosoftYaHei',
+    fontSize: 30,
+    fontWeight: 'bold',
+    letterSpacing: 3,
+  });
+  textLineType.name = "textLineType";
+  textLineType.anchor.set(0.5);
+  textLineType.width = _param.recNo.w * 0.85;
+  switch (lineType) {
+    case "假日旅游线":
+    case "微循环公交":
+      textLineType.style.fontSize = 36;
+      textLineType.y = _param.recNo.h * 0.83 + _y;
+      break;
+    default:
+      textLineType.height *= 0.95;
+      textLineType.y = _param.recNo.h * 0.8 + _y;
+  }
+  textLineType.x = Data.lineNo?.append ? _param.recNo.w / 2 + _x : _param.recComp.w / 2;
+  container.addChild(textLineType);
   // 右侧文字
-  const ext = Data.isSeg ? '路线路图\n及\n计价站点' : '路线路图';
-  const textLineExt = new PIXI.Text(ext, {
+  // const ext = Data.isSeg ? '路线路图\n及\n计价站点' : '路线路图';
+  const textLineExt = new PIXI.Text(Data.lineNo?.append, {
     fill: param.color.JN,
     fontFamily: 'MicrosoftYaHei',
     fontSize: 45,
@@ -167,7 +197,24 @@ function printNo(_x, _y, _color) {
   textLineExt.height = textLineExt.height > _param.recNo.h * 0.9 ? _param.recNo.h * 0.9 : textLineExt.height;
   textLineExt.anchor.set(0.5);
   textLineExt.position.set(_param.recNo.w + (_param.recComp.w - _param.recNo.w) / 2 + _x, _param.recNo.h / 2 + _y);
+  Data.lineNo?.icon && Data.lineNo?.append ?
+    Data.lineNo?.append.includes("\n") ?
+      (() => {
+        textLineExt.y = _param.recNo.h * 13 / 20 + _y;
+        textLineExt.height *= 0.7;
+        logo.scale.set(_param.recNo.h * 3 / 5 / logo.width);
+        logo.position.set(textLineExt.x, _param.recNo.h / 10);
+      })() :
+      (() => {
+        textLineExt.y = _param.recNo.h * 13 / 16 + _y;
+        logo.scale.set(_param.recNo.h * 3 / 4 / logo.width);
+        logo.position.set(textLineExt.x, _param.recNo.h * 3 / 10);
+      })()
+    : "";
   container.addChild(lineNo, lineString, textLineExt);
+  if (Data.lineNo?.append && Data.lineNo?.icon) {
+    container.addChild(logo);
+  }
   return container
 }
 
@@ -203,8 +250,12 @@ async function printService(_x, _y, _color) {
   // 终点站
   conTime_Right.position.set(_param.recTi.w * 0.53, conTime_Margin[1]);
   container.addChild(conTime_Right);
-  stationName(Data.point['Z'].name, conTime_Right);
-  stationTime(sliceZero(Data.point['Z'].startTime), sliceZero(Data.point['Z'].endTime), conTime_Right);
+  if (Data.point['Z'].name) {
+    stationName(Data.point['Z'].name, conTime_Right);
+    stationTime(sliceZero(Data.point['Z'].startTime), sliceZero(Data.point['Z'].endTime), conTime_Right);
+  } else {
+    conTime_Left.position.set(_param.recTi.w * 0.3, conTime_Margin[1]);
+  }
 
   return container
 
@@ -212,13 +263,15 @@ async function printService(_x, _y, _color) {
     const text = new PIXI.Text(name, station_NS);
     text.anchor.set(0.5, 0)
     text.position.set(_param.recTi.w * 0.2, 0);
-    if (text.width > _param.recTi.w * 0.4) {
-      text.width = _param.recTi.w * 0.4;
+    if (Data.point['Z'].name ? text.width > _param.recTi.w * 0.4 : text.width > _param.recTi.w * 0.8) {
+      text.width = Data.point['Z'].name ? _param.recTi.w * 0.4 : _param.recTi.w * 0.8;
     } else {
       const style = station_NS.clone();
       style.letterSpacing = text.width < _param.recTi.w * 0.3 && name.length ? (_param.recTi.w * 0.3 - text.width) / name.length : 0;
       text.style = style;
-      text.width = text.width > _param.recTi.w * 0.4 ? _param.recTi.w * 0.4 : text.width;
+      text.width = Data.point['Z'].name ?
+        text.width > _param.recTi.w * 0.4 ? _param.recTi.w * 0.4 : text.width :
+        text.width > _param.recTi.w * 0.8 ? _param.recTi.w * 0.8 : text.width;
     }
     container.addChild(text);
   }

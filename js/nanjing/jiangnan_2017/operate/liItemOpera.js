@@ -15,7 +15,7 @@ let priSegController
 let riverController
 
 function stationClick(element) {
-  node = element.parentNode.parentNode;
+  const node = element.parentNode.parentNode;
   // 清除潜在监听器
   if (stationController) stationController.abort();
   if (singleController) singleController.abort();
@@ -81,6 +81,9 @@ function stationInfo(id) {
       stationIsSingle.disabled = true;
       stationIsMetro.disabled = true;
       stationIsPriSeg.disabled = true;
+      stationIsSingle.checked = false;
+      stationIsMetro.checked = false;
+      stationIsPriSeg.checked = false;
       $(stationIsSingle).parent().children("label").css("text-decoration", "line-through");
       $(stationIsMetro).parent().children("label").css("text-decoration", "line-through");
       $(stationIsPriSeg).parent().children("label").css("text-decoration", "line-through");
@@ -213,6 +216,9 @@ function stationInfo(id) {
           stationIsSingle.disabled = true;
           stationIsMetro.disabled = true;
           stationIsPriSeg.disabled = true;
+          stationIsSingle.checked = false;
+          stationIsMetro.checked = false;
+          stationIsPriSeg.checked = false;
           $(stationIsSingle).parent().children("label").css("text-decoration", "line-through");
           $(stationIsMetro).parent().children("label").css("text-decoration", "line-through");
           $(stationIsPriSeg).parent().children("label").css("text-decoration", "line-through");
@@ -291,7 +297,7 @@ function stationInfo(id) {
     dirDown.checked = item.sign.direction ? false : true;
     // tag初始
     item.isSingle && item.isStart || item.isEnd ?
-      singleTag.forEach(e => { e.disabled = false; e.checked = e.value == item.sign.tag ? true : false }) :
+      singleTag.forEach(e => { e.disabled = false; e.checked = Number(e.value) == item.sign.tag ? true : false }) :
       singleTag.forEach(e => { e.disabled = true })
 
     singleList.addEventListener("click", e => {
@@ -308,19 +314,19 @@ function stationInfo(id) {
           [left, right].forEach(e => { e.classList.toggle("hidden") })
           break;
         case "tagUp":
-          item.sign.tag = Number(tagUp.value);
-          tagDown.checked = !tagUp.checked;
-          tagHid.checked = !tagUp.checked;
+          tagDown.checked = tagUp.checked ? !tagUp.checked : tagUp.checked;
+          tagHid.checked = !tagUp.checked;  // 默认启用
+          item.sign.tag = tagUp.checked ? Number(tagUp.value) : -1;
           break;
         case "tagDown":
-          item.sign.tag = Number(tagDown.value);
-          tagUp.checked = !tagDown.checked;
-          tagHid.checked = !tagDown.checked;
+          tagUp.checked = tagDown.checked ? !tagDown.checked : tagDown.checked;
+          tagHid.checked = !tagDown.checked;  // 默认启用
+          item.sign.tag = tagDown.checked ? Number(tagDown.value) : -1;
           break;
         case "tagHid":
-          item.sign.tag = Number(tagHid.value);
-          tagUp.checked = !tagHid.checked;
-          tagDown.checked = !tagHid.checked;
+          tagDown.checked = tagHid.checked ? !tagHid.checked : tagHid.checked;
+          tagUp.checked = !tagHid.checked;  // 默认启用
+          item.sign.tag = tagHid.checked ? Number(tagHid.value) : 1;
           break;
       }
     }, {
@@ -418,4 +424,8 @@ function stationInfo(id) {
       signal: riverController.signal
     })
   }
+}
+
+export {
+  stationClick,
 }
