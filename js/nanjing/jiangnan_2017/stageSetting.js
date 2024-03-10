@@ -122,7 +122,7 @@ async function loadResource() {
       name: 'load-icon',
       assets: [{
         alias: 'icon_Info',
-        src: 'https://cdn.jsdelivr.net/gh/KewenCode/KewenCode.github.io@dev-format/images/nanjing/IconSprite.png',
+        src: 'https://cdn.jsdelivr.net/gh/KewenCode/KewenCode.github.io/images/nanjing/IconSprite.png',
       },
       {
         alias: 'logoSvg',
