@@ -149,227 +149,236 @@
                 <button id="stationInput">导入</button>
               </div>
             </div>
-            <!-- <!== 站点列表-参数 ==>
-            <div class="stationOption row justify-content-between hidden">
-              <ul class="stationBase divWrap row justify-content-between">
-                <!== 站名 ==>
-                <li class="col-12 col-md-3 my-2">
-                  <div class="form-floating col-12">
-                    <input type="text" class="form-control" name="stationName" id="optionName" placeholder="">
-                    <label for="optionName">站名：</label>
-                  </div>
-                </li>
-                <li class="row col-12 col-md-9 col-lg-7 my-2">
-                  <div class="row-div col-12">
-                    <div class="row-div form-check form-switch form-check-inline">
-                      <input type="checkbox" class="form-check-input" name="stationIsSingle" id="optionSingle">
-                      <label class="form-check-label" for="optionSingle">单向站</label>
-                    </div>
-                    <div class="row-div form-check form-switch form-check-inline">
-                      <input type="checkbox" class="form-check-input" name="stationIsStart" id="optionStart">
-                      <label class="form-check-label" for="optionStart">起始站</label>
-                    </div>
-                    <div class="row-div form-check form-switch form-check-inline">
-                      <input type="checkbox" class="form-check-input" name="stationIsEnd" id="optionEnd">
-                      <label class="form-check-label" for="optionEnd">终点站</label>
-                    </div>
-                    <div class="row-div form-check form-switch form-check-inline">
-                      <input type="checkbox" class="form-check-input" name="stationIsRiver" id="optionRiver">
-                      <label class="form-check-label" for="optionRiver">图形站</label>
-                    </div>
-                  </div>
-                  <div class="row-div col-12  justify-content-start">
-                    <div class="row-div form-check form-switch form-check-inline">
-                      <input type="checkbox" class="form-check-input" name="stationIsMetro" id="optionMetro">
-                      <label class="form-check-label" for="optionMetro">换乘站</label>
-                    </div>
-                    <div class="row-div form-check form-switch form-check-inline">
-                      <input type="checkbox" class="form-check-input" name="stationIsPriSeg" id="optionPrice">
-                      <label class="form-check-label" for="optionPrice">计价点</label>
-                    </div>
-                  </div>
-                </li>
-                <li class="row-div col-12 col-lg-2 my-2">
-                  <div class="row-div">
-                    <button type="button" class="btn btn-danger" id="stationDelate">删除当前站点</button>
-                  </div>
-                </li>
-              </ul>
-              <ul class="stationSingle divWrap row hidden">
-                <li class="col-12 col-md-6 my-2">
-                  <div class="input-group col-12">
-                    <div class="input-group-text col-12 col-md-6">
-                      <div class="row-div form-check form-switch form-check-inline">
-                        <input class="form-check-input" type="checkbox" value="1" id="dirUp" name="singleDir">
-                        <label class="form-check-label" for="dirUp">上行（从左往右）</label>
+            <!== 站点列表-参数==>
+              <!-- <div class="stationOption row justify-content-between hidden">
+                <ul class="stationBase divWrap row justify-content-between">
+                  <!== 站名==>
+                    <li class="col-12 col-md-3 my-2">
+                      <div class="form-floating col-12">
+                        <input type="text" class="form-control" name="stationName" id="optionName" placeholder="">
+                        <label for="optionName">站名：</label>
+                      </div>
+                    </li>
+                    <li class="row col-12 col-md-9 col-lg-7 my-2">
+                      <div class="row-div col-12">
+                        <div class="row-div form-check form-switch form-check-inline">
+                          <input type="checkbox" class="form-check-input" name="stationIsSingle" id="optionSingle">
+                          <label class="form-check-label" for="optionSingle">单向站</label>
+                        </div>
+                        <div class="row-div form-check form-switch form-check-inline">
+                          <input type="checkbox" class="form-check-input" name="stationIsStart" id="optionStart">
+                          <label class="form-check-label" for="optionStart">起始站</label>
+                        </div>
+                        <div class="row-div form-check form-switch form-check-inline">
+                          <input type="checkbox" class="form-check-input" name="stationIsEnd" id="optionEnd">
+                          <label class="form-check-label" for="optionEnd">终点站</label>
+                        </div>
+                        <div class="row-div form-check form-switch form-check-inline">
+                          <input type="checkbox" class="form-check-input" name="stationIsRiver" id="optionRiver">
+                          <label class="form-check-label" for="optionRiver">图形站</label>
+                        </div>
+                      </div>
+                      <div class="row-div col-12  justify-content-start">
+                        <div class="row-div form-check form-switch form-check-inline">
+                          <input type="checkbox" class="form-check-input" name="stationIsMetro" id="optionMetro">
+                          <label class="form-check-label" for="optionMetro">换乘站</label>
+                        </div>
+                        <div class="row-div form-check form-switch form-check-inline">
+                          <input type="checkbox" class="form-check-input" name="stationIsPriSeg" id="optionPrice">
+                          <label class="form-check-label" for="optionPrice">计价点</label>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="row-div col-12 col-lg-2 my-2">
+                      <div class="row-div">
+                        <button type="button" class="btn btn-danger" id="stationDelate">删除当前站点</button>
+                      </div>
+                    </li>
+                </ul>
+                <ul class="stationSingle divWrap row hidden">
+                  <li class="col-12 col-md-6 my-2">
+                    <div class="input-group col-12">
+                      <div class="input-group-text col-12 col-md-6">
+                        <div class="row-div form-check form-switch form-check-inline">
+                          <input class="form-check-input" type="checkbox" value="1" id="dirUp" name="singleDir">
+                          <label class="form-check-label" for="dirUp">上行（从左往右）</label>
+                        </div>
+                      </div>
+                      <div class="input-group-text col-12 col-md-6">
+                        <div class="row-div form-check form-switch form-check-inline">
+                          <input class="form-check-input" type="checkbox" value="0" id="dirDown" name="singleDir">
+                          <label class="form-check-label" for="dirDown">下行（从右往左）</label>
+                        </div>
                       </div>
                     </div>
-                    <div class="input-group-text col-12 col-md-6">
-                      <div class="row-div form-check form-switch form-check-inline">
-                        <input class="form-check-input" type="checkbox" value="0" id="dirDown" name="singleDir">
-                        <label class="form-check-label" for="dirDown">下行（从右往左）</label>
+                  </li>
+                  <li class="col-12 col-md-6 my-2">
+                    <div class="input-group col-12">
+                      <div class="input-group-text col-6 col-md-3"><span style="width: 100%;">Tag位置</span></div>
+                      <div class="input-group-text col-6 col-md-3">
+                        <div class="row-div form-check form-switch form-check-inline">
+                          <input class="form-check-input" type="checkbox" value="1" id="tagUp" name="singleTag"
+                            disabled>
+                          <label class="form-check-label" for="tagUp">上侧</label>
+                        </div>
+                      </div>
+                      <div class="input-group-text col-6 col-md-3">
+                        <div class="row-div form-check form-switch form-check-inline">
+                          <input class="form-check-input" type="checkbox" value="0" id="tagDown" name="singleTag"
+                            disabled>
+                          <label class="form-check-label" for="tagDown">下侧</label>
+                        </div>
+                      </div>
+                      <div class="input-group-text col-6 col-md-3">
+                        <div class="row-div form-check form-switch form-check-inline">
+                          <input class="form-check-input" type="checkbox" value="-1" id="tagHid" name="singleTag"
+                            disabled>
+                          <label class="form-check-label" for="tagHid">隐藏</label>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </li>
-                <li class="col-12 col-md-6 my-2">
-                  <div class="input-group col-12">
-                    <div class="input-group-text col-6 col-md-3"><span style="width: 100%;">Tag位置</span></div>
-                    <div class="input-group-text col-6 col-md-3">
-                      <div class="row-div form-check form-switch form-check-inline">
-                        <input class="form-check-input" type="checkbox" value="1" id="tagUp" name="singleTag" disabled>
-                        <label class="form-check-label" for="tagUp">上侧</label>
+                  </li>
+                </ul>
+                <ul class="stationMetro divWrap row col-md-12 hidden">
+                  <li class="col-12 my-2">
+                    <div class="d-flex justify-content-between alert alert-primary m-1" role="alert">
+                      <div class="w-100">
+                        <P>已选择线路（按顺序排序）：<span style="word-break: break-word;"></span></P>
+                      </div>
+                      <div class="flex-shrink-1 form-check form-switch form-check-inline align-self-center m-1">
+                        <input type="checkbox" class="form-check-input" id="metroMerge">
+                        <label class="form-check-label" for="metroMerge" style="white-space: nowrap;">自动合并</label>
                       </div>
                     </div>
-                    <div class="input-group-text col-6 col-md-3">
-                      <div class="row-div form-check form-switch form-check-inline">
-                        <input class="form-check-input" type="checkbox" value="0" id="tagDown" name="singleTag"
-                          disabled>
-                        <label class="form-check-label" for="tagDown">下侧</label>
+                  </li>
+                  <li>
+                    <div class="col-12 my-2">
+                      <input type="checkbox" class="btn-check" id="L1" autocomplete="off" value="1">
+                      <label class="btn btn-outline-njline1 my-1" for="L1">1号线</label>
+
+                      <input type="checkbox" class="btn-check" id="L2" autocomplete="off" value="2">
+                      <label class="btn btn-outline-njline2 my-1" for="L2">2号线</label>
+
+                      <input type="checkbox" class="btn-check" id="L3" autocomplete="off" value="3">
+                      <label class="btn btn-outline-njline3 my-1" for="L3">3号线</label>
+
+                      <input type="checkbox" class="btn-check" id="L4" autocomplete="off" value="4">
+                      <label class="btn btn-outline-njline4 my-1" for="L4">4号线</label>
+
+                      <input type="checkbox" class="btn-check" id="L5" autocomplete="off" value="5">
+                      <label class="btn btn-outline-njline5 my-1" for="L5">5号线</label>
+
+                      <input type="checkbox" class="btn-check" id="L6" autocomplete="off" value="6" disabled>
+                      <label class="btn btn-outline-njsecondary my-1" for="L6">6号线</label>
+
+                      <input type="checkbox" class="btn-check" id="L7" autocomplete="off" value="7">
+                      <label class="btn btn-outline-njline7 my-1" for="L7">7号线</label>
+
+                      <input type="checkbox" class="btn-check" id="L8" autocomplete="off" value="8" disabled>
+                      <label class="btn btn-outline-njsecondary my-1" for="L8">8号线</label>
+
+                      <input type="checkbox" class="btn-check" id="L9" autocomplete="off" value="9" disabled>
+                      <label class="btn btn-outline-njsecondary my-1" for="L9">9号线</label>
+
+                      <input type="checkbox" class="btn-check" id="L10" autocomplete="off" value="10">
+                      <label class="btn btn-outline-njline10 my-1" for="L10">10号线</label>
+
+                      <input type="checkbox" class="btn-check" id="L11" autocomplete="off" value="11" disabled>
+                      <label class="btn btn-outline-njsecondary my-1" for="L11">11号线</label>
+
+                      <input type="checkbox" class="btn-check" id="LS1" autocomplete="off" value="S1">
+                      <label class="btn btn-outline-njlineS1 my-1" for="LS1">S1号线</label>
+
+                      <input type="checkbox" class="btn-check" id="LS2" autocomplete="off" value="S2" disabled>
+                      <label class="btn btn-outline-njsecondary my-1" for="LS2">S2号线</label>
+
+                      <input type="checkbox" class="btn-check" id="LS3" autocomplete="off" value="S3">
+                      <label class="btn btn-outline-njlineS3 my-1" for="LS3">S3号线</label>
+
+                      <input type="checkbox" class="btn-check" id="LS4" autocomplete="off" value="S4" disabled>
+                      <label class="btn btn-outline-njsecondary my-1" for="LS4">S4号线</label>
+
+                      <input type="checkbox" class="btn-check" id="LS5" autocomplete="off" value="S5" disabled>
+                      <label class="btn btn-outline-njsecondary my-1" for="LS5">S5号线</label>
+
+                      <input type="checkbox" class="btn-check" id="LS6" autocomplete="off" value="S6">
+                      <label class="btn btn-outline-njlineS6 my-1" for="LS6">S6号线</label>
+
+                      <input type="checkbox" class="btn-check" id="LS7" autocomplete="off" value="S7">
+                      <label class="btn btn-outline-njlineS7 my-1" for="LS7">S7号线</label>
+
+                      <input type="checkbox" class="btn-check" id="LS8" autocomplete="off" value="S8">
+                      <label class="btn btn-outline-njlineS8 my-1" for="LS8">S8号线</label>
+
+                      <input type="checkbox" class="btn-check" id="LS9" autocomplete="off" value="S9">
+                      <label class="btn btn-outline-njlineS9 my-1" for="LS9">S9号线</label>
+                    </div>
+                  </li>
+                </ul>
+                <ul class="stationPrice divWrap row col-md-12">
+                  <li class="col-12 my-2 row">
+                    <div class="col-md-6">
+                      <div class="form-floating">
+                        <select id="priSegDir" class="form-select">
+                          <option value=null selected disabled="true">请选择</option>
+                          <option value="1">上行（红色）</option>
+                          <option value="0">下行（蓝色）</option>
+                        </select>
+                        <label for="priSegDir" class="form-label">计价点方向</label>
                       </div>
                     </div>
-                    <div class="input-group-text col-6 col-md-3">
-                      <div class="row-div form-check form-switch form-check-inline">
-                        <input class="form-check-input" type="checkbox" value="-1" id="tagHid" name="singleTag"
-                          disabled>
-                        <label class="form-check-label" for="tagHid">隐藏</label>
+                    <div class="col-md-6">
+                      <div class="form-floating">
+                        <select id="priSegPrice" class="form-select">
+                          <option value=null selected disabled="true">请选择</option>
+                          <option value="2">￥2</option>
+                          <option value="3">￥3</option>
+                          <option value="4">￥4</option>
+                        </select>
+                        <label for="priSegPrice" class="form-label">票价</label>
                       </div>
                     </div>
-                  </div>
-                </li>
-              </ul>
-              <ul class="stationMetro divWrap row col-md-12 hidden">
-                <li>
-                  <div class="alert alert-primary col-12 my-2" role="alert">
-                    <P>已选择线路（按顺序排序）：<span></span></P>
-                  </div>
-                </li>
-                <li>
-                  <div class="col-12 my-2">
-                    <input type="checkbox" class="btn-check" id="L1" autocomplete="off" value="1">
-                    <label class="btn btn-outline-njline1 my-1" for="L1">1号线</label>
-
-                    <input type="checkbox" class="btn-check" id="L2" autocomplete="off" value="2">
-                    <label class="btn btn-outline-njline2 my-1" for="L2">2号线</label>
-
-                    <input type="checkbox" class="btn-check" id="L3" autocomplete="off" value="3">
-                    <label class="btn btn-outline-njline3 my-1" for="L3">3号线</label>
-
-                    <input type="checkbox" class="btn-check" id="L4" autocomplete="off" value="4">
-                    <label class="btn btn-outline-njline4 my-1" for="L4">4号线</label>
-
-                    <input type="checkbox" class="btn-check" id="L5" autocomplete="off" value="5">
-                    <label class="btn btn-outline-njline5 my-1" for="L5">5号线</label>
-
-                    <input type="checkbox" class="btn-check" id="L6" autocomplete="off" value="6" disabled>
-                    <label class="btn btn-outline-njsecondary my-1" for="L6">6号线</label>
-
-                    <input type="checkbox" class="btn-check" id="L7" autocomplete="off" value="7">
-                    <label class="btn btn-outline-njline7 my-1" for="L7">7号线</label>
-
-                    <input type="checkbox" class="btn-check" id="L8" autocomplete="off" value="8" disabled>
-                    <label class="btn btn-outline-njsecondary my-1" for="L8">8号线</label>
-
-                    <input type="checkbox" class="btn-check" id="L9" autocomplete="off" value="9" disabled>
-                    <label class="btn btn-outline-njsecondary my-1" for="L9">9号线</label>
-
-                    <input type="checkbox" class="btn-check" id="L10" autocomplete="off" value="10">
-                    <label class="btn btn-outline-njline10 my-1" for="L10">10号线</label>
-
-                    <input type="checkbox" class="btn-check" id="L11" autocomplete="off" value="11" disabled>
-                    <label class="btn btn-outline-njsecondary my-1" for="L11">11号线</label>
-
-                    <input type="checkbox" class="btn-check" id="LS1" autocomplete="off" value="S1">
-                    <label class="btn btn-outline-njlineS1 my-1" for="LS1">S1号线</label>
-
-                    <input type="checkbox" class="btn-check" id="LS2" autocomplete="off" value="S2" disabled>
-                    <label class="btn btn-outline-njsecondary my-1" for="LS2">S2号线</label>
-
-                    <input type="checkbox" class="btn-check" id="LS3" autocomplete="off" value="S3">
-                    <label class="btn btn-outline-njlineS3 my-1" for="LS3">S3号线</label>
-
-                    <input type="checkbox" class="btn-check" id="LS4" autocomplete="off" value="S4" disabled>
-                    <label class="btn btn-outline-njsecondary my-1" for="LS4">S4号线</label>
-
-                    <input type="checkbox" class="btn-check" id="LS5" autocomplete="off" value="S5" disabled>
-                    <label class="btn btn-outline-njsecondary my-1" for="LS5">S5号线</label>
-
-                    <input type="checkbox" class="btn-check" id="LS6" autocomplete="off" value="S6">
-                    <label class="btn btn-outline-njlineS6 my-1" for="LS6">S6号线</label>
-
-                    <input type="checkbox" class="btn-check" id="LS7" autocomplete="off" value="S7">
-                    <label class="btn btn-outline-njlineS7 my-1" for="LS7">S7号线</label>
-
-                    <input type="checkbox" class="btn-check" id="LS8" autocomplete="off" value="S8">
-                    <label class="btn btn-outline-njlineS8 my-1" for="LS8">S8号线</label>
-
-                    <input type="checkbox" class="btn-check" id="LS9" autocomplete="off" value="S9">
-                    <label class="btn btn-outline-njlineS9 my-1" for="LS9">S9号线</label>
-                  </div>
-                </li>
-              </ul>
-              <ul class="stationPrice divWrap row col-md-12">
-                <li class="col-12 my-2 row">
-                  <div class="col-md-6">
-                    <div class="form-floating">
-                      <select id="priSegDir" class="form-select">
-                        <option value=null selected disabled="true">请选择</option>
-                        <option value="1">上行（红色）</option>
-                        <option value="0">下行（蓝色）</option>
-                      </select>
-                      <label for="priSegDir" class="form-label">计价点方向</label>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-floating">
-                      <select id="priSegPrice" class="form-select">
-                        <option value=null selected disabled="true">请选择</option>
-                        <option value="2">￥2</option>
-                        <option value="3">￥3</option>
-                        <option value="4">￥4</option>
-                      </select>
-                      <label for="priSegPrice" class="form-label">票价</label>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-              <ul class="stationRiver divWrap row col-md-12">
-                <li class="col-12 col-lg-4 my-2">
-                  <div class="form-floating col-12">
-                    <input type="text" class="form-control" name="stationRiver" id="optionRS" placeholder="">
-                    <label for="optionRS">道路名称</label>
-                  </div>
-                </li>
-                <li class="col-12 col-sm-6 col-lg-4 my-2">
-                  <div class="input-group">
-                    <div class="input-group-text">
-                      <div class="row-div form-check form-switch form-check-inline">
-                        <input class="form-check-input" type="checkbox" value=false id="optionRLD" name="stationRiver">
-                        <label class="form-check-label" for="optionRLD">置底</label>
-                      </div>
-                    </div>
+                  </li>
+                </ul>
+                <ul class="stationRiver divWrap row col-md-12">
+                  <li class="col-12 col-lg-4 my-2">
                     <div class="form-floating col-12">
-                      <input type="text" class="form-control" name="stationRiver" id="optionRL" placeholder="">
-                      <label for="optionRL">左侧附注</label>
+                      <input type="text" class="form-control" name="stationRiver" id="optionRS" placeholder="">
+                      <label for="optionRS">道路名称</label>
                     </div>
-                  </div>
-                </li>
-                <li class="col-12 col-sm-6 col-lg-4 my-2">
-                  <div class="input-group">
-                    <div class="input-group-text">
-                      <div class="row-div form-check form-switch form-check-inline">
-                        <input class="form-check-input" type="checkbox" value=false id="optionRRD" name="stationRiver">
-                        <label class="form-check-label" for="optionRRD">置底</label>
+                  </li>
+                  <li class="col-12 col-sm-6 col-lg-4 my-2">
+                    <div class="input-group">
+                      <div class="input-group-text">
+                        <div class="row-div form-check form-switch form-check-inline">
+                          <input class="form-check-input" type="checkbox" value=false id="optionRLD"
+                            name="stationRiver">
+                          <label class="form-check-label" for="optionRLD">置底</label>
+                        </div>
+                      </div>
+                      <div class="form-floating col-12">
+                        <input type="text" class="form-control" name="stationRiver" id="optionRL" placeholder="">
+                        <label for="optionRL">左侧附注</label>
                       </div>
                     </div>
-                    <div class="form-floating">
-                      <input type="text" class="form-control" name="stationRiver" id="optionRR" placeholder="">
-                      <label for="optionRR">右侧附注</label>
+                  </li>
+                  <li class="col-12 col-sm-6 col-lg-4 my-2">
+                    <div class="input-group">
+                      <div class="input-group-text">
+                        <div class="row-div form-check form-switch form-check-inline">
+                          <input class="form-check-input" type="checkbox" value=false id="optionRRD"
+                            name="stationRiver">
+                          <label class="form-check-label" for="optionRRD">置底</label>
+                        </div>
+                      </div>
+                      <div class="form-floating">
+                        <input type="text" class="form-control" name="stationRiver" id="optionRR" placeholder="">
+                        <label for="optionRR">右侧附注</label>
+                      </div>
                     </div>
-                  </div>
-                </li>
-              </ul>
-            </div> -->
+                  </li>
+                </ul>
+              </div> -->
           </div>
           <!-- 服务数据 -->
           <div data-link="lineInfo" class="lineInfo col-md-12 hidden">

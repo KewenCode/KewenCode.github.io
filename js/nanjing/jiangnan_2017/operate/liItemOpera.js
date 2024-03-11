@@ -335,7 +335,7 @@ function stationInfo(id) {
   }
 
   function stationMetro() {
-    const metroList = document.querySelectorAll('.stationMetro li div>input');
+    const metroList = document.querySelectorAll('.stationMetro li div>input.btn-check');
     const metroText = document.querySelector('.stationMetro div>p span');
     const M = item.metro;
     metroText.innerHTML = M.length ? M.join(",") + "号线" : "暂无数据";
