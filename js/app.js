@@ -47,26 +47,37 @@
 //   });
 //   // PIXI加入指定DOM
 //   const wrap = document.querySelector("#map_wrap");
-//   wrap.appendChild(routeMap.view);
+//   wrap.appendChild(routeMap.canvas);
 
 // })
 
-import { nanjing } from './nanjing/nanjingList.js';
 
 // 创建画布
-const routeMap = new PIXI.Application({
+const routeMap = new PIXI.Application();
+await routeMap.init({
   backgroundColor: '#FFF',
   hello: true,
   antialias: true,  //抗锯齿
-  // resolution: 1, //分辨率
-  // sortableChildren: true,
+  resolution: 1, //分辨率
+  sortableChildren: true,
+  autoStart: false, // 取消自动渲染
 });
 // PIXI加入指定DOM
 const wrap = document.querySelector("#map_wrap");
-wrap.appendChild(routeMap.view);
+wrap.appendChild(routeMap.canvas);
 
 let _boolean = true;
-Data = Object.assign({}, Data_jiangnan_2017);
-_boolean ? nanjing(routeMap,) : console.log("南京模块未加载");
+_boolean ? (() => {
+  import('./nanjing/nanjingList.js')
+    .then(module => {
+      Data = Object.assign({}, Data_jiangnan_2017);
+      // 使用模块中导出的功能
+      module.nanjing(routeMap,);
+    })
+    .catch(error => {
+      // 处理模块加载失败的情况
+      console.error('南京模块加载失败:', error);
+    })
+})() : console.log("南京模块未加载");
 // _boolean ? nanjing("jiangnan_2017", collectBtn) : console.log("南京模块未加载");
 

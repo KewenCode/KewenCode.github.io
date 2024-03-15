@@ -15,7 +15,7 @@ let priSegController
 let riverController
 
 function stationClick(element) {
-  node = element.parentNode.parentNode;
+  const node = element.parentNode.parentNode;
   // 清除潜在监听器
   if (stationController) stationController.abort();
   if (singleController) singleController.abort();
@@ -72,7 +72,7 @@ function stationInfo(id) {
   const priSeg = itemStation.querySelector(".icon-tick-price");
   stationController = new AbortController();
   // 站名
-  stationName.value = item.name;
+  stationName.value = item.name.trim();
   // 图形站
   stationIsRiver.checked = item.isRiver;
   item.isRiver ?
@@ -81,6 +81,9 @@ function stationInfo(id) {
       stationIsSingle.disabled = true;
       stationIsMetro.disabled = true;
       stationIsPriSeg.disabled = true;
+      stationIsSingle.checked = false;
+      stationIsMetro.checked = false;
+      stationIsPriSeg.checked = false;
       $(stationIsSingle).parent().children("label").css("text-decoration", "line-through");
       $(stationIsMetro).parent().children("label").css("text-decoration", "line-through");
       $(stationIsPriSeg).parent().children("label").css("text-decoration", "line-through");
@@ -125,7 +128,7 @@ function stationInfo(id) {
 
   // 站名
   stationName.addEventListener("input", e => {
-    item.name = stationName.value;
+    item.name = stationName.value.trim();
     itemStation.dataset.station = stationName.value;
     itemStation.querySelector("p").innerText = stationName.value;
   }, {
@@ -213,6 +216,9 @@ function stationInfo(id) {
           stationIsSingle.disabled = true;
           stationIsMetro.disabled = true;
           stationIsPriSeg.disabled = true;
+          stationIsSingle.checked = false;
+          stationIsMetro.checked = false;
+          stationIsPriSeg.checked = false;
           $(stationIsSingle).parent().children("label").css("text-decoration", "line-through");
           $(stationIsMetro).parent().children("label").css("text-decoration", "line-through");
           $(stationIsPriSeg).parent().children("label").css("text-decoration", "line-through");
@@ -285,42 +291,42 @@ function stationInfo(id) {
     const tagDown = document.querySelector('[id="tagDown"]');
     const tagHid = document.querySelector('[id="tagHid"]');
     const singleTag = document.querySelectorAll('[name="singleTag"]')
-    console.log(singleTag)
+    // console.log(singleTag)
     // 初值覆盖
     dirUp.checked = item.sign.direction ? true : false;
     dirDown.checked = item.sign.direction ? false : true;
     // tag初始
     item.isSingle && item.isStart || item.isEnd ?
-      singleTag.forEach(e => { e.disabled = false; e.checked = e.value == item.sign.tag ? true : false }) :
+      singleTag.forEach(e => { e.disabled = false; e.checked = Number(e.value) == item.sign.tag ? true : false }) :
       singleTag.forEach(e => { e.disabled = true })
 
     singleList.addEventListener("click", e => {
       // console.log(e.target)
       switch (e.target.id) {
         case "dirUp":
-          item.sign.direction = dirUp.value;
+          item.sign.direction = Number(dirUp.value);
           dirDown.checked = !dirUp.checked;
           [left, right].forEach(e => { e.classList.toggle("hidden") })
           break;
         case "dirDown":
-          item.sign.direction = dirDown.value;
+          item.sign.direction = Number(dirDown.value);
           dirUp.checked = !dirDown.checked;
           [left, right].forEach(e => { e.classList.toggle("hidden") })
           break;
         case "tagUp":
-          item.sign.tag = tagUp.value;
-          tagDown.checked = !tagUp.checked;
-          tagHid.checked = !tagUp.checked;
+          tagDown.checked = tagUp.checked ? !tagUp.checked : tagUp.checked;
+          tagHid.checked = !tagUp.checked;  // 默认启用
+          item.sign.tag = tagUp.checked ? Number(tagUp.value) : -1;
           break;
         case "tagDown":
-          item.sign.tag = tagDown.value;
-          tagUp.checked = !tagDown.checked;
-          tagHid.checked = !tagDown.checked;
+          tagUp.checked = tagDown.checked ? !tagDown.checked : tagDown.checked;
+          tagHid.checked = !tagDown.checked;  // 默认启用
+          item.sign.tag = tagDown.checked ? Number(tagDown.value) : -1;
           break;
         case "tagHid":
-          item.sign.tag = tagHid.value;
-          tagUp.checked = !tagHid.checked;
-          tagDown.checked = !tagHid.checked;
+          tagDown.checked = tagHid.checked ? !tagHid.checked : tagHid.checked;
+          tagUp.checked = !tagHid.checked;  // 默认启用
+          item.sign.tag = tagHid.checked ? Number(tagHid.value) : 1;
           break;
       }
     }, {
@@ -329,9 +335,16 @@ function stationInfo(id) {
   }
 
   function stationMetro() {
-    const metroList = document.querySelectorAll('.stationMetro li div>input');
+    const metroList = document.querySelectorAll('.stationMetro li div>input.btn-check');
+    const metroMerge = document.querySelector('.stationMetro li #metroMerge');
     const metroText = document.querySelector('.stationMetro div>p span');
     const M = item.metro;
+    metroMerge.checked = item?.metroMerge;
+    metroMerge.addEventListener("click", () => {
+      item.metroMerge = metroMerge.checked;
+    }, {
+      signal: metroController.signal
+    })
     metroText.innerHTML = M.length ? M.join(",") + "号线" : "暂无数据";
     metroList.forEach(e => {
       M.includes(e.value) ? e.checked = true : e.checked = false;
@@ -418,4 +431,8 @@ function stationInfo(id) {
       signal: riverController.signal
     })
   }
+}
+
+export {
+  stationClick,
 }

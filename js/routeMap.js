@@ -58,8 +58,8 @@ const ramp = new PIXI.Application({
 });
 // PIXI加入指定DOM
 let wrap = document.querySelector("#map_wrap");
-ramp.view.id = "jiangnan"
-let c_s = ramp.view.style;
+// ramp.view.id = "jiangnan"
+let c_s = ramp.canvas.style;
 const routeMapStage = ramp.stage;
 // 设置style宽高
 // // ramp.view.style.scale = (0.5, 0.5)
@@ -90,7 +90,7 @@ if (window.innerWidth > window.innerHeight) {
 }
 
 // c_s.width = (window.innerWidth > window.innerHeight) ? ((window.innerWidth / 1.5) + 'px') : ((window.innerHeight / 5) + 'px')
-wrap.appendChild(ramp.view);
+wrap.appendChild(ramp.canvas);
 
 loadResource(); // 捆绑包加载 - 不能异步
 loadData();
@@ -371,16 +371,16 @@ async function addLogo() {
     SCBusFan = new PIXI.Sprite(logoElementAssets.logoSvg);
     // SCBusFan.tint = '0xFFFF660'
     SCBusFan.anchor.set(0.5, 0.5);
-    SCBusFan.scale.set(ramp.view.height / 3300);
-    SCBusFan.position.set(ramp.view.width / 2, ramp.view.height / 2);
+    SCBusFan.scale.set(ramp.canvas.height / 3300);
+    SCBusFan.position.set(ramp.canvas.width / 2, ramp.canvas.height / 2);
     SCBusFan.alpha = 0.3;
     routeMapStage.addChild(SCBusFan);
   } else {
     SCBusFan = new PIXI.Sprite(logoElementAssets.logoPng);
     // SCBusFan.tint = '0xFFFF660'
     SCBusFan.anchor.set(0.5, 0.5);
-    SCBusFan.scale.set(ramp.view.height / 330);
-    SCBusFan.position.set(ramp.view.width / 2, ramp.view.height / 2);
+    SCBusFan.scale.set(ramp.canvas.height / 330);
+    SCBusFan.position.set(ramp.canvas.width / 2, ramp.canvas.height / 2);
     SCBusFan.alpha = 0.3;
     routeMapStage.addChild(SCBusFan);
   }
