@@ -66,12 +66,12 @@ function clipboardToData(text, func) {
 }
 
 // 关闭提示
-window.onbeforeunload = function (e) {
-  var e = window.event || e;
-  e.returnValue = ("确定离开页面吗？ヾ(•ω•`)o");
-  // 销毁舞台
-  routeMap.destroy(true);
-};
+// window.onbeforeunload = function (e) {
+//   var e = window.event || e;
+//   e.returnValue = ("确定离开页面吗？ヾ(•ω•`)o");
+//   // 销毁舞台
+//   routeMap.destroy(true);
+// };
 
 export {
   copyToClipboard,

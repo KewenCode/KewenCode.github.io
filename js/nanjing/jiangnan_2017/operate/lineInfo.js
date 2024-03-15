@@ -85,10 +85,10 @@ function buildLineInfo() {
     Data.isSeg ? "infoSeg" :
       Data.isSel ? "infoPerSeg" : null;
   Data.isSeg ? priHid(true, false, false) : priHid(true, false, true);
-  Data.isSel ? priHid(false, true, true) : "";
+  Data.isSel ? Data.price[0] && Data.price[1] ? priHid(false, false, false) : priHid(false, true, true) : "";
   infoPrice1.value = Data.price[0] || null;
   infoPrice2.value = Data.price[1] || null;
-  infoSellPri.checked = Data.price[0] && Data.price[1] ? true : false;
+  infoSellPri.checked = Data.price[0] && Data.price[1] && Data.isSel ? true : false;
 
   linePriceSelect.addEventListener("click", e => {
     switch (linePriceSelect.value) {
@@ -185,20 +185,10 @@ function updateLineInfo() {
       break;
     default:
       infoLineNoAppend.value = 0;
-      infoLineNoType.value = 0;
+      infoLineNoType.value = null;
       infoLineNoType.disabled = true;
       infoLineNoIcon.value = 0;
       infoLineNoIcon.disabled = true;
-  }
-  switch (Data.lineNo.type) {
-    case "[分段计价]":
-      infoLineNoType.value = 1;
-      break;
-    case "[大站快车]":
-      infoLineNoType.value = 2;
-      break;
-    default:
-      infoLineNoType.value = 0;
   }
   infoLineNoType.value = Data.lineNo.type;
   infoLineNoIcon.value = Data.lineNo.icon;

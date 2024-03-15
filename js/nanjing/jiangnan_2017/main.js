@@ -4,7 +4,7 @@ import { addLogo, drawRect, drawLine, drawPrice } from "./canvas/drawSprite.js";
 import { printBaseText, printNo, printService } from "./canvas/printText.js";
 import { printLogo } from "./canvas/printLogo.js";
 import { printStation } from "./canvas/printStation.js";
-import { LineBlank as Line_NEW, Line42, Line206, Line207, Line503, Line521, Line538, } from "./exampleData.js";
+import { LineBlank as Line_NEW, Line18, Line42, Line206, Line207, Line503, Line521, Line538, } from "./exampleData.js";
 import { copyToClipboard, clipboardToData } from "../../pageBtn.js"
 import { createList, countList, removeItemStation } from "./operate/liItemStation.js";
 import { stationClick } from "./operate/liItemOpera.js";
@@ -15,7 +15,7 @@ import { buildLineInfo, updateLineInfo } from "./operate/lineInfo.js";
 async function workflow(Map) {
   const jiangnanMap = new PIXI.Container();
   Map.stage.addChild(jiangnanMap);
-  Map.view.id = "jiangnan_2017";
+  // Map.view.id = "jiangnan_2017";
   reSize(Map);
   // const routeMapStage = jiangnanMap;
   console.log('加载jiangnan_2017模块');
@@ -53,7 +53,7 @@ async function workflow(Map) {
       }
       // return new Blob([u8arr], { type: fileType })
       const today = new Date();
-      return new File([u8arr], `${Data.lineNo}-${today.getTime()}`, { type: fileType })
+      return new File([u8arr], `${Data.lineNo.main}-${today.getTime()}`, { type: fileType })
     }
 
     const buttonClick = (base64) => {
@@ -76,12 +76,9 @@ async function workflow(Map) {
     }
     // 白色背景
     const addWhiteBgc = (boolean) => {
-      const bgcW = new PIXI.Graphics();
-      bgcW.name = 'background';
-      bgcW.zIndex = -1;
-      bgcW.beginFill('#FFFFFF');
-      bgcW.drawRect(param.size.map.x, param.size.map.y, param.size.map.w, param.size.map.h);
-      bgcW.endFill();
+      const bgcW = new PIXI.Graphics({ label: 'background', zIndex: -1 })
+        .rect(param.size.map.x, param.size.map.y, param.size.map.w, param.size.map.h)
+        .fill('#FFFFFF')
       routeMapStage.addChild(bgcW);
       routeMapStage.sortChildren();
     }
@@ -90,7 +87,7 @@ async function workflow(Map) {
     // console.log(ramp.renderer.extract.base64(routeMapStage, "image/png"));
     // console.log(ramp.renderer.extract.canvas(routeMapStage).toDataURL());
     buttonClick(Map.renderer.extract.canvas(routeMapStage).toDataURL())
-    routeMapStage.removeChild(routeMapStage.getChildByName('background'));
+    routeMapStage.removeChild(routeMapStage.getChildByLabel('background'));
     console.log("图像成功导出！");
   });
   // 新建线路
@@ -102,6 +99,9 @@ async function workflow(Map) {
       switch (confirm(e.target.dataset.line == '_NEW' ? `是否新建空白线路？\n当前数据将不会存储！` : `是否载入线路-${e.target.dataset.line}？\n当前数据将不会存储！`) && e.target.dataset.line) {
         case '_NEW':
           Data = Object.assign({}, Line_NEW);
+          break;
+        case '18':
+          Data = Object.assign({}, Line18);
           break;
         case '42':
           Data = Object.assign({}, Line42);
@@ -177,19 +177,35 @@ async function buildMap(Map, jiangnanMap) {
   jiangnanMap.addChild(await addLogo(Map));
   // 绘制矩形
   const _rec = await drawRect(0, 0, "blue");
-  _rec.forEach(e => jiangnanMap.addChild(e));
+  _rec.forEach(e => { e.zIndex = 10; jiangnanMap.addChild(e); });
   // 绘制线段
   const { _line, _angle } = await drawLine(0, 0, "blue");
-  // jiangnanMap.addChild(_line);
+  // _line.zIndex = 20;
+  jiangnanMap.addChild(_line);
   // 添加票价
-  jiangnanMap.addChild(await drawPrice(0, 0, "blue"));
+  const _price = await drawPrice(0, 0, "blue");
+  _price.zIndex = 30;
+  jiangnanMap.addChild(_price);
   // 添加基础文本
-  jiangnanMap.addChild(await printBaseText(0, 0, "blue"));
+  const _baseText = await printBaseText(0, 0, "blue");
+  _baseText.zIndex = 40;
+  jiangnanMap.addChild(_baseText);
   // 添加图片
-  jiangnanMap.addChild(await printLogo(0, 0, "blue"));
-  jiangnanMap.addChild(await printNo(0, 0, "blue"));
-  jiangnanMap.addChild(await printService(0, 0, "blue"));
-  jiangnanMap.addChild(await printStation(0, 0, "blue", _line, _angle));
+  const _logo = await printLogo(0, 0, "blue");
+  _logo.zIndex = 50;
+  jiangnanMap.addChild(_logo);
+  // 添加路号
+  const _lineNo = await printNo(0, 0, "blue");
+  _lineNo.zIndex = 60;
+  jiangnanMap.addChild(_lineNo);
+  // 添加服务时间
+  const _serveText = await printService(0, 0, "blue");
+  _serveText.zIndex = 70;
+  jiangnanMap.addChild(_serveText);
+  // 添加站点
+  const _station = await printStation(0, 0, "blue", _line, _angle);
+  _station.zIndex = 80;
+  jiangnanMap.addChild(_station);
   Map.render() // 手动渲染
 }
 

@@ -336,8 +336,15 @@ function stationInfo(id) {
 
   function stationMetro() {
     const metroList = document.querySelectorAll('.stationMetro li div>input.btn-check');
+    const metroMerge = document.querySelector('.stationMetro li #metroMerge');
     const metroText = document.querySelector('.stationMetro div>p span');
     const M = item.metro;
+    metroMerge.checked = item?.metroMerge;
+    metroMerge.addEventListener("click", () => {
+      item.metroMerge = metroMerge.checked;
+    }, {
+      signal: metroController.signal
+    })
     metroText.innerHTML = M.length ? M.join(",") + "号线" : "暂无数据";
     metroList.forEach(e => {
       M.includes(e.value) ? e.checked = true : e.checked = false;

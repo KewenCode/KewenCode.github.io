@@ -21,6 +21,145 @@ const LineBlank = {
   station: {}
 }
 
+const Line18 = {
+  group: '南京公共交通 (集团) 有限公司',
+  groupEn: 'NANJING PUBLIC TRANSPORTATION (GROUP) CO.,LTD',
+  company: '江南公交',
+  lineNo: { main: '18', append: "路线路图", "type": null, "icon": 0 },
+  price: [2, 2],
+  isSeg: false,
+  isSel: false,
+
+  point: {
+    'A': {
+      name: '金域中央总站',
+      startTime: '05:30',
+      endTime: '22:30',
+    },
+    'Z': {
+      name: '新街口·石鼓路',
+      startTime: '05:30',
+      endTime: '23:00',
+    },
+  },
+  station: {
+    0: {
+      name: '金域中央总站',
+      isStart: true
+    },
+    1: {
+      name: '戎军路南'
+    },
+    2: {
+      name: '孙家洼路西'
+    },
+    3: {
+      name: '幕府南路北'
+    },
+    4: {
+      name: '大庙村'
+    },
+    5: {
+      name: '水关桥'
+    },
+    6: {
+      name: '水关桥西'
+    },
+    7: {
+      name: '机务段'
+    },
+    8: {
+      name: '南京西站'
+    },
+    9: {
+      name: '热河路'
+    },
+    10: {
+      name: '热河南路'
+    },
+    11: {
+      name: '南医大二附院'
+    },
+    12: {
+      name: '农贸中心'
+    },
+    13: {
+      name: '江东北路·三汊河'
+    },
+    14: {
+      name: '江东北路·定淮门大街'
+    },
+    15: {
+      name: '江东北路·龙园北路'
+    },
+    16: {
+      name: '省妇幼保健院',
+      isMetro: true,
+      metroMerge: true,
+      metro: ['4'],
+      isSingle: true,
+      sign: {
+        direction: 0
+      }
+    },
+    17: {
+      name: '江东北路·草场门大街',
+      isMetro: true,
+      metroMerge: true,
+      metro: ['4']
+    },
+    18: {
+      name: '江东北路·闽江路'
+    },
+    19: {
+      name: '江东北路·清凉门大街'
+    },
+    20: {
+      name: '中心南村(江苏省国医馆)'
+    },
+    21: {
+      name: '凤凰花园城'
+    },
+    22: {
+      name: '凤凰三村'
+    },
+    23: {
+      name: '鱼苗塘'
+    },
+    24: {
+      name: '凤凰西街'
+    },
+    25: {
+      name: '凤凰街'
+    },
+    26: {
+      name: '汉中路·汉中门',
+      isMetro: true,
+      metroMerge: true,
+      metro: ['2']
+    },
+    27: {
+      name: '汉中路·莫愁路',
+      isMetro: true,
+      metroMerge: true,
+      metro: ['2']
+    },
+    28: {
+      name: '新街口西',
+      isMetro: true,
+      metroMerge: true,
+      metro: ['1', '2']
+    },
+    29: {
+      name: '新街口·石鼓路',
+      isMetro: true,
+      metroMerge: true,
+      metro: ['1', '2'],
+      isEnd: true
+    },
+  }
+}
+
 const Line42 = {
   group: '南京公共交通 (集团) 有限公司',
   groupEn: 'NANJING PUBLIC TRANSPORTATION (GROUP) CO.,LTD',
@@ -606,7 +745,7 @@ const Line503 = {
   group: '南京公共交通 (集团) 有限公司',
   groupEn: 'NANJING PUBLIC TRANSPORTATION (GROUP) CO.,LTD',
   company: '',
-  lineNo: { main: '503', append: "路线路图", "type": 0, "icon": 0 },
+  lineNo: { main: '503', append: "路线路图", "type": null, "icon": 0 },
   price: [],
   isSeg: false,
   isSel: true,
@@ -1018,7 +1157,7 @@ const Line538 = {
   group: '南京公共交通 (集团) 有限公司',
   groupEn: 'NANJING PUBLIC TRANSPORTATION (GROUP) CO.,LTD',
   company: '',
-  lineNo: { main: '538', append: "路线路图", "type": 0, "icon": 0 },
+  lineNo: { main: '538', append: "路线路图", "type": null, "icon": 0 },
   price: [2, 2],
   isSeg: false,
   isSel: false,
@@ -1166,6 +1305,7 @@ const Line538 = {
 
 export {
   LineBlank,
+  Line18,
   Line42,
   Line206,
   Line207,

@@ -4,8 +4,7 @@ import { OS } from "../../../tools.js"
 async function printStation(_x, _y, _color, _line, _angle) {
   const _param = param.size;
   const _station = Data.station;
-  const outerContainer = new PIXI.Container();
-  outerContainer.name = "printStation";
+  const outerContainer = new PIXI.Container({ label: "printStation" });
   // 加载图标
   let loadElementAssets = await PIXI.Assets.loadBundle('load-NJGJ');
   const A = loadElementAssets.Element;
@@ -36,7 +35,7 @@ async function printStation(_x, _y, _color, _line, _angle) {
     let R = []; // 河流图形
     let i = 0;
     for (let key in data) {
-      data[i].isPriSeg ? P++ : P; // 计价点
+      data[i]?.isPriSeg ? P++ : P; // 计价点
       // 首末站单向
       if (i == 0) {
         data[i].isSingle
@@ -95,7 +94,9 @@ async function printStation(_x, _y, _color, _line, _angle) {
 
   // 循环遍历json
   const stationContainer = new PIXI.Container();
+  let metroMerge = false;
   for (let key in _station) {
+    const SingleContainer = new PIXI.Container({ label: `station${key}` });
     shiftY = 0; //重置垂直偏移量
     // console.log(val);
 
@@ -124,7 +125,7 @@ async function printStation(_x, _y, _color, _line, _angle) {
       riverRoad.position.set(centerPosition[0], centerPosition[1]);
       riverRoad.angle = riverRoad.x > _param.line.x[1] && riverRoad.x < _param.line.x[2] ? _angle : riverRoad.angle;
       riverRoad.width = riverRoad.width > roundWB * 1.3 ? roundWB * 1.3 : riverRoad.width;
-      stationContainer.addChild(riverRoad);
+      SingleContainer.addChild(riverRoad);
 
       outerContainer.addChild(R)
       continue;
@@ -184,47 +185,58 @@ async function printStation(_x, _y, _color, _line, _angle) {
       // console.log(result)
       if (result) {
         result.position.set(S.x, _station[key].isSingle ? (_station[key].sign.direction ? S.y - _param.line.h / 1.5 : S.y - S.height / 2 - 10) : S.y - S.height / 2);
-        stationContainer.addChild(result);
+        SingleContainer.addChild(result);
       }
     });
 
     // 上下客图标
     let UP, UD
     if (_station[key].sign && _station[key].sign.tag == 1) {
+      /**上侧图标 */
       UP = iconUDTag(_station[key].isSingle && _station[key].isStart, _station[key].isSingle && _station[key].isEnd, T.width)
       if (UP) {
         UP.position.set(S.x - T.width / 2, _station[key].isSingle ? (_station[key].sign.direction ? S.y - _param.line.h / 1.5 - UP.height * 1.1 : S.y - S.height / 2 - 10 - UP.height * 1.1) : S.y - S.height / 2 - UP.height * 1.1);
-        stationContainer.addChild(UP)
+        SingleContainer.addChild(UP)
       }
 
     } else if (_station[key].sign && _station[key].sign.tag == 0) {
+      /**下侧图标 */
       UD = iconUDTag(_station[key].isSingle && _station[key].isStart, _station[key].isSingle && _station[key].isEnd, T.width)
     }
+
     // 地铁图标
     const M = await iconMetro(_station[key], T.width);
+    const ML = metroMerge;/**左侧存在 */
+    const MT = _station[key]?.metroMerge;/**当前存在 */
+    const MR = !metroMerge && _station[key]?.metroMerge && _station[Number(key) + 1]?.metroMerge && _station[Number(key) + 1]?.metro?.toString() == _station[key]?.metro?.toString();/**右侧存在 */
+    const MM = MR || ML;
+    // console.log(ML, MT, MR)
     // 判断存在地铁标识
     if (M || UD) {
       let plusHeight = 0;
-      M ? plusHeight += M.height : '';
+      M && !MM ? plusHeight += M.height : '';
       UD ? plusHeight += UD.height : '';
-      M && UD ? plusHeight += 5 : '';
+      M && !MM && UD ? plusHeight += 5 : '';
       // 提示框判断(高度超过&左侧超过&右侧没超)
       T.height = (T.x + (T.width / 2) > sizeP[0]) && (T.x - (T.width / 2) < sizeP[0] + sizeP[2]) ?
         (sizeP[1] - T.y - T.height - plusHeight < 0) ? sizeP[1] - T.y - plusHeight : T.height
         : T.height;
       // 底部基线判断
       T.height = (T.y + T.height + plusHeight) > _param.recPriBt.y ? _param.recPriBt.y - T.y - plusHeight : T.height;
-      if (M && UD) {
+      if (M && !MM && UD) {
         UD.position.set(T.x - T.width / 2, T.y + T.height + 5)  // container can't set anchor, need to sub text width/2.
         M.position.set(UD.x, UD.y + UD.height + 5)  // container can't set anchor, need to sub text width/2.
-        stationContainer.addChild(UD, M)
-      } else if (M) {
+        SingleContainer.addChild(UD, M)
+      } else if (M && !MM) {
         M.position.set(T.x - T.width / 2, T.y + T.height + 5)  // container can't set anchor, need to sub text width/2.
-        stationContainer.addChild(M)
+        SingleContainer.addChild(M)
       } else if (UD) {
         UD.position.set(T.x - T.width / 2, T.y + T.height + 5)  // container can't set anchor, need to sub text width/2.
-        stationContainer.addChild(UD)
+        SingleContainer.addChild(UD)
       }
+
+      MM ? SingleContainer.addChild(M)/**后处理位置 */ : '';
+
     } else {
       // 提示框判断(高度超过&左侧超过&右侧没超)
       T.height = (T.x + (T.width / 2) > sizeP[0]) && (T.x - (T.width / 2) < sizeP[0] + sizeP[2]) ?
@@ -234,10 +246,12 @@ async function printStation(_x, _y, _color, _line, _angle) {
       T.height = (T.y + T.height) > _param.recPriBt.y ? _param.recPriBt.y - T.y : T.height;
     }
 
-
+    metroMerge =/**传递为负且当前及后一位存在，两两配对*/MR ? true : false;
 
     // container.addChild(S)
-    stationContainer.addChild(S, T)
+    SingleContainer.addChild(S, T)
+    ML && MT ? mergeMetro(stationContainer.getChildByLabel(`station${key - 1}`), SingleContainer) : ''
+    stationContainer.addChild(SingleContainer)
   }
 
   // console.log(S)
@@ -250,20 +264,22 @@ async function printStation(_x, _y, _color, _line, _angle) {
   return outerContainer
 
   async function iconMetro(e, tWidth) {
-    const iconContain = new PIXI.Container();
+    const iconContain = new PIXI.Container({ label: "metro" });
 
     if (e.isMetro) {
-      const I = B.clone();
       // 梅花标
-      I.frame = new PIXI.Rectangle(0, 1000, 200, 200);
-      const icon = new PIXI.Sprite(I);
-      icon.name = 'metroIcon'
+      const frame1 = new PIXI.Rectangle(0, 1000, 200, 200);
+      const I = new PIXI.Texture({ source: B, frame: frame1 });
+      const icon = new PIXI.Sprite({
+        texture: I,
+        label: "metroIcon",
+      });
       iconContain.addChild(icon);
 
       e.metro.forEach((line) => {
         // container赋名
-        iconContain.name = iconContain.name ? iconContain.name + '/' + line : line
-        const M = B.clone();
+        // iconContain.label = iconContain.label ? iconContain.label + '/' + line : line
+        let M
         switch (String(line)) {
           case '1':
           case '2':
@@ -271,7 +287,8 @@ async function printStation(_x, _y, _color, _line, _angle) {
           case '4':
           case '5':
           case '6':
-            M.frame = new PIXI.Rectangle(200 * (Number(line) - 1), 0, 200, 200);
+            const frame1 = new PIXI.Rectangle(200 * (Number(line) - 1), 0, 200, 200);
+            M = new PIXI.Texture({ source: B, frame: frame1 });
             // console.log(M.frame)
             break;
           case 'S1':
@@ -280,13 +297,15 @@ async function printStation(_x, _y, _color, _line, _angle) {
           case 'S4':
           case 'S5':
           case 'S6':
-            M.frame = new PIXI.Rectangle(200 * (Number(line.replace('S', '')) - 1), 600, 200, 200);
+            const frame2 = new PIXI.Rectangle(200 * (Number(line.replace('S', '')) - 1), 600, 200, 200);
+            M = new PIXI.Texture({ source: B, frame: frame2 });
             // console.log(M.frame)
             break;
           case 'S7':
           case 'S8':
           case 'S9':
-            M.frame = new PIXI.Rectangle(200 * (Number(line.replace('S', '')) - 7), 800, 200, 200);
+            const frame3 = new PIXI.Rectangle(200 * (Number(line.replace('S', '')) - 7), 800, 200, 200);
+            M = new PIXI.Texture({ source: B, frame: frame3 });
             // console.log(M.frame)
             break;
           case '7':
@@ -295,7 +314,8 @@ async function printStation(_x, _y, _color, _line, _angle) {
           case '10':
           case '11':
           case '12':
-            M.frame = new PIXI.Rectangle(200 * (Number(line) - 7), 200, 200, 200);
+            const frame4 = new PIXI.Rectangle(200 * (Number(line) - 7), 200, 200, 200);
+            M = new PIXI.Texture({ source: B, frame: frame4 });
             // console.log(M.frame)
             break;
           case '13':
@@ -304,13 +324,16 @@ async function printStation(_x, _y, _color, _line, _angle) {
           case '16':
           case '17':
           case '18':
-            M.frame = new PIXI.Rectangle(200 * (Number(line) - 13), 400, 200, 200);
+            const frame5 = new PIXI.Rectangle(200 * (Number(line) - 13), 400, 200, 200);
+            M = new PIXI.Texture({ source: B, frame: frame5 });
             // console.log(M.frame)
             break;
         }
-        const _icon = new PIXI.Sprite(M);
-        _icon.name = 'line' + line
-        _icon.position.set(0, iconContain.height);
+        const _icon = new PIXI.Sprite({
+          texture: M,
+          label: 'line' + line,
+          position: { x: 0, y: iconContain.height },
+        });
         iconContain.addChild(_icon);
       });
 
@@ -324,10 +347,13 @@ async function printStation(_x, _y, _color, _line, _angle) {
       let PO = [0, 500, 350, 200]; // 定位
       PO[0] = e.isStart || e.sign.convert ? 350 : PO[0];
       PO[1] = e.sign.direction == 1 ? PO[1] + 200 : PO[1];
-      const circular = A.clone();
-      circular.frame = new PIXI.Rectangle(PO[0], PO[1], PO[2], PO[3]);
-      const icon = new PIXI.Sprite(circular);
-      icon.anchor.set(0.5, 0);
+      const frame1 = new PIXI.Rectangle(PO[0], PO[1], PO[2], PO[3]);
+      const circular = new PIXI.Texture({ source: A, frame: frame1 });
+      const icon = new PIXI.Sprite({
+        texture: circular,
+        label: "iconStation",
+        anchor: { x: 0.5, y: 0 },
+      });
       if (e.sign.direction == 0) {
         icon.anchor.set(0.5, 1);
       }
@@ -342,10 +368,13 @@ async function printStation(_x, _y, _color, _line, _angle) {
     if (e.isStart || e.isEnd) {
       let PO = [0, 150, 350, 350]; // 定位
       PO[0] = typeof e.sign !== "undefined" && e.sign.convert ? 350 : PO[0];
-      const circular = A.clone();
-      circular.frame = new PIXI.Rectangle(PO[0], PO[1], PO[2], PO[3]);
-      let icon = new PIXI.Sprite(circular);
-      icon.anchor.set(0.5);
+      const frame2 = new PIXI.Rectangle(PO[0], PO[1], PO[2], PO[3]);
+      const circular = new PIXI.Texture({ source: A, frame: frame2 });
+      const icon = new PIXI.Sprite({
+        texture: circular,
+        label: "iconStation",
+        anchor: { x: 0.5, y: 0.5 },
+      });
       if ((typeof e.sign !== "undefined" && e.sign.direction == 0) || e.isEnd) {
         icon.angle = 180;
       }
@@ -354,10 +383,13 @@ async function printStation(_x, _y, _color, _line, _angle) {
     }
 
     let PO = [700, 150, 350, 350];
-    const circular = A.clone();
-    circular.frame = new PIXI.Rectangle(PO[0], PO[1], PO[2], PO[3]);
-    let icon = new PIXI.Sprite(circular);
-    icon.anchor.set(0.5);
+    const frame3 = new PIXI.Rectangle(PO[0], PO[1], PO[2], PO[3]);
+    const circular = new PIXI.Texture({ source: A, frame: frame3 });
+    const icon = new PIXI.Sprite({
+      texture: circular,
+      label: "iconStation",
+      anchor: { x: 0.5, y: 0.5 },
+    });
     icon.scale.set(roundWS / icon.width);
     if (e.isStart || e.isEnd) {
       icon.scale.set(roundWB / icon.width);
@@ -369,54 +401,68 @@ async function printStation(_x, _y, _color, _line, _angle) {
   async function iconPriceSplit(e, tWidth) {
     if (!e.isPriSeg) { return false }
     let PO = [300 * (e.peiSeg.price - 2), 900 + (e.peiSeg.direction * 550), 300, 550]; // 定位
-    const priceSeg = A.clone();
-    priceSeg.frame = new PIXI.Rectangle(PO[0], PO[1], PO[2], PO[3]);
-    const icon = new PIXI.Sprite(priceSeg);
-    icon.anchor.set(0.5, 1);
-    icon.scale.set(tWidth / 200);
+    const frame = new PIXI.Rectangle(PO[0], PO[1], PO[2], PO[3]);
+    const priceSeg = new PIXI.Texture({ source: A, frame: frame });
+    const icon = new PIXI.Sprite({
+      texture: priceSeg,
+      label: "icon",
+      anchor: { x: 0.5, y: 1 },
+      scale: { x: tWidth / 200, y: tWidth / 200 },
+    });
     return icon
   }
 
   async function iconRiver(key, e) {
     const riverContain = new PIXI.Container();
     let riverAssets = await PIXI.Assets.loadBundle('load-NJGJ');
-    const roundBox = riverAssets.Element.clone(); // 克隆texture，避免冲突
-    roundBox.frame = new PIXI.Rectangle(1050, 0, 200, 800);
-    let river = new PIXI.Sprite(roundBox);
-    river.name = `river${key}`;
-    river.width = roundWB * 1.3;
-    river.height = 400;
+    const frame = new PIXI.Rectangle(1050, 0, 200, 800);
+    const roundBox = new PIXI.Texture({ source: riverAssets.Element, frame: frame });
+    const river = new PIXI.Sprite({
+      texture: roundBox,
+      label: `river${key}`,
+      width: roundWB * 1.3,
+      height: 400,
+    });
     // 名称
     const addSpace = (str) => {
       str = str.replace('（', '︵').replace('）', '︶').replace('(', '︵').replace(')', '︶')
       return str.split('').join('\n');
     }
-    const riverName = new PIXI.Text(addSpace(e.name), {
-      align: 'center',
-      fill: 0XFFFFFF,
-      fontFamily: 'FZZZHONGJW',
-      fontSize: 35,
-      // fontWeight: 'bold',
-      // lineHeight: 120,
+    const riverName = new PIXI.Text({
+      text: addSpace(e.name),
+      anchor: { x: 0.5, y: 0.5 },
+      position: { x: river.width / 2, y: river.height * 0.55 },
+      width: river.width / 2,
+      style: {
+        align: 'center',
+        fill: 0XFFFFFF,
+        fontFamily: 'FZZZHONGJW',
+        fontSize: 35,
+        // fontWeight: 'bold',
+        // lineHeight: 120,
+      }
     });
-    riverName.anchor.set(0.5, 0.5)
-    riverName.position.set(river.width / 2, river.height * 0.55)
-    riverName.height = 250;
-    riverName.width = river.width / 2;
     riverName.style.lineHeight = e.name.length <= 5 ? 24 * (7 - e.name.length) : 0;
-    const riverInfoL = new PIXI.Text(e.river.infoL || '', {
-      align: 'center',
-      fontFamily: 'FZZZHONGJW',
-      fontSize: 20,
+    riverName.height = riverName.height > 250 ? 250 : riverName.height;
+    const riverInfoL = new PIXI.Text({
+      text: e.river.infoL || '',
+      anchor: { x: 1, y: 1 },
+      style: {
+        align: 'center',
+        fontFamily: 'FZZZHONGJW',
+        fontSize: 20,
+      }
     });
-    riverInfoL.anchor.set(1, 1)
-    riverInfoL.position.set(0, e.river.infoLD ? river.height + riverInfoL.height : 0)
-    const riverInfoR = new PIXI.Text(e.river.infoR || '', {
-      align: 'center',
-      fontFamily: 'FZZZHONGJW',
-      fontSize: 20,
+    riverInfoL.position.set(0, e.river.infoLD ? river.height + riverInfoL.height : 0);
+    const riverInfoR = new PIXI.Text({
+      text: e.river.infoR || '',
+      anchor: { x: 0, y: 1 },
+      style: {
+        align: 'center',
+        fontFamily: 'FZZZHONGJW',
+        fontSize: 20,
+      }
     });
-    riverInfoR.anchor.set(0, 1)
     riverInfoR.position.set(river.width, e.river.infoRD ? river.height + riverInfoR.height : 0)
 
     // console.log(riverName.height)
@@ -428,25 +474,27 @@ async function printStation(_x, _y, _color, _line, _angle) {
 
   function iconUDTag(U, D, tWidth, text, textColor) {
     if (!U && !D) { return }
-    const iconUDTagContain = new PIXI.Container();
-    const UDTag = new PIXI.Graphics();
-    UDTag.name = "UDTag";
-    UDTag.beginFill(U ? 'red' : D ? 0X87CEEB : textColor)
-    UDTag.drawRoundedRect(0, 0, 50, 175, 25)
-    UDTag.endFill()
+    const iconUDTagContain = new PIXI.Container({ label: "UDTag" });
+    const UDTag = new PIXI.Graphics()
+      .roundRect(0, 0, 50, 175, 25)
+      .fill(U ? 'red' : D ? 0X87CEEB : textColor)
     iconUDTagContain.addChild(UDTag);
-    const tagName = new PIXI.Text(U ? '上\n客\n站' : D ? '下\n客\n站' : text, {
-      align: 'center',
-      fill: 0XFFFFFF,
-      fontFamily: 'FZZZHONGJW',
-      fontSize: 35,
-      // fontWeight: 'bold',
-      // lineHeight: 120,
+    const tagName = new PIXI.Text({
+      text: U ? '上\n客\n站' : D ? '下\n客\n站' : text,
+      anchor: { x: 0.5, y: 0.5 },
+      position: { x: UDTag.width / 2, y: UDTag.height * 0.5 },
+      style: {
+        align: 'center',
+        fill: 0XFFFFFF,
+        fontFamily: 'FZZZHONGJW',
+        fontSize: 35,
+        // fontWeight: 'bold',
+        // lineHeight: 120,
+      }
     });
-    tagName.anchor.set(0.5, 0.5)
-    tagName.position.set(UDTag.width / 2, UDTag.height * 0.5)
     iconUDTagContain.addChild(tagName);
     iconUDTagContain.scale.set(tWidth / UDTag.width)
+    iconUDTagContain.label = `${U ? 'U' : 'D'}Tag`;
     return iconUDTagContain
 
   }
@@ -468,8 +516,7 @@ async function printStation(_x, _y, _color, _line, _angle) {
     // text = "仙\n尧\n路\n·\n白\n金\n汉\n爵";
     // text = '西\n善\n花\n苑\n总\n站'
     // text = '赛\n虹\n桥\n立\n交\n西\n︵\n长\n江\n装\n饰\n城\n︶'
-    const station = new PIXI.Text(addSpace(e.name), style);
-    station.anchor.set(0.5, 0)
+    const station = new PIXI.Text({ text: addSpace(e.name), label: "text", style: style, anchor: { x: 0.5, y: 0 } });
     if (e.isStart || e.isEnd || (e.text && e.text.color)) {
       station.style.fill = e.isEnd && e.isSingle ? 0X87CEEB : 'red';
       station.style.fill = (e.text ? e.text.color : false) || station.style.fill;
@@ -492,21 +539,27 @@ async function printStation(_x, _y, _color, _line, _angle) {
     style_B.fontWeight = '700';
 
 
-    const info = new PIXI.Text('说明: ', style);
-    const info1 = new PIXI.Text(' 单向停靠站点', style);
-    const info2 = new PIXI.Text(' 换乘地铁站点', style);
+    const info = new PIXI.Text({ text: '说明: ', style: style });
+    const info1 = new PIXI.Text({ text: ' 单向停靠站点', style: style });
+    const info2 = new PIXI.Text({ text: ' 换乘地铁站点', style: style });
 
-    const circular = A.clone();
-    circular.frame = new PIXI.Rectangle(700, 500, 350, 200);
-    const icon1 = new PIXI.Sprite(circular);
-    icon1.position.set(info.width, info.height / 8)
-    icon1.scale.set(info.height / 300)
-    const metro = B.clone();
-    metro.frame = new PIXI.Rectangle(0, 1000, 200, 200);
-    const icon2 = new PIXI.Sprite(metro);
-    icon2.anchor.set(0.5, 0)
-    icon2.position.set(info.width + icon1.width / 2, info.height)
-    icon2.scale.set(info.height / 200)
+    const frame1 = new PIXI.Rectangle(700, 500, 350, 200);
+    const circular = new PIXI.Texture({ source: A, frame: frame1 });
+    const icon1 = new PIXI.Sprite({
+      texture: circular,
+      label: "icon1",
+      position: { x: info.width, y: info.height / 8 },
+      scale: { x: info.height / 300, y: info.height / 300 },
+    });
+    const frame2 = new PIXI.Rectangle(0, 1000, 200, 200);
+    const metro = new PIXI.Texture({ source: B, frame: frame2 });
+    const icon2 = new PIXI.Sprite({
+      texture: metro,
+      label: "icon2",
+      anchor: { x: 0.5, y: 0 },
+      position: { x: info.width + icon1.width / 2, y: info.height },
+      scale: { x: info.height / 200, y: info.height / 200 },
+    });
 
     info1.position.set(info.width + icon1.width, 0)
     info2.position.set(info.width + icon1.width, info.height)
@@ -515,16 +568,17 @@ async function printStation(_x, _y, _color, _line, _angle) {
 
     if (e.isSeg && num) {
       let PO = [300, 1450, 300, 497]; // 定位-3
-      const priceSeg = A.clone();
-      priceSeg.frame = new PIXI.Rectangle(PO[0], PO[1], PO[2], PO[3]);
-      const icon3 = new PIXI.Sprite(priceSeg);
-      icon3.anchor.set(0, 0.5);
-      icon3.position.set(info.width + icon1.width * 1.5 + info1.width, icon2.y * 1.08)
-      icon3.scale.set((icon1.height + icon2.height) / icon3.height);
+      const frame3 = new PIXI.Rectangle(PO[0], PO[1], PO[2], PO[3]);
+      const priceSeg = new PIXI.Texture({ source: A, frame: frame3 });
+      const icon3 = new PIXI.Sprite({
+        texture: priceSeg,
+        label: "icon3",
+        anchor: { x: 0, y: 0.5 },
+        position: { x: info.width + icon1.width * 1.5 + info1.width, y: icon2.y * 1.08 },
+        scale: { x: (icon1.height + icon2.height) / priceSeg.height, y: (icon1.height + icon2.height) / priceSeg.height },
+      });
       // 文字部分
-      const info3 = new PIXI.Text('上车站票价区间提示', style_B);
-      info3.anchor.set(0, 0.5);
-      info3.position.set(icon3.x + icon3.width * 1.2, icon3.y)
+      const info3 = new PIXI.Text({ text: '上车站票价区间提示', style: style_B, anchor: { x: 0, y: 0.5 }, position: { x: icon3.x + icon3.width * 1.2, y: icon3.y } });
       container.addChild(icon3, info3)
     }
 
@@ -534,6 +588,163 @@ async function printStation(_x, _y, _color, _line, _angle) {
     // }
     return container
   }
+
+  function mergeMetro(left, right) {
+    // console.log(left, right)
+    const LT = left.getChildByLabel("text");
+    const LM = left.getChildByLabel("metro");
+    const LI = left.getChildByLabel("DTag");
+    const RT = right.getChildByLabel("text");
+    const RM = right.getChildByLabel("metro");
+    const RI = right.getChildByLabel("DTag");
+    const minY = () => { return { L: LT.y, R: RT.y } }
+    const middleY = () => { return { L: LI ? LI.y + LI.height : LT.y + LT.height, R: RI ? RI.y + RI.height : RT.y + RT.height } }
+    const maxY = () => {
+      const max = (x, width) => { return ((x > sizeP[0]) && (x < sizeP[0] + sizeP[2] + width/**避免右侧压线导致长的输出短 */) ? sizeP[1] : _param.recPriBt.y) };
+      return { L: max(LT.x + (LT.width / 2), LT.width), R: max(RT.x + (RT.width / 2), RT.width) }
+    }
+    if /**长度一致*/(LT.text.length == RT.text.length && Math.abs(middleY().L - middleY().R) <= 15) {
+      right.removeChild(RM);/**清除右侧多余图标 */
+      LM.position.set(LT.x + (RT.x - LT.x) / 2 - LM.width / 2, middleY().L + 5);
+      // 测量底线
+      LM.y + LM.height > Math.min(maxY().L, maxY().R) ? (() => {
+        const subT = LM.y + LM.height - Math.min(maxY().L, maxY().R);
+        LT.height -= subT;
+        RT.height -= subT;
+        LM.y -= subT;
+      })() : '';
+      // 画线
+      const graphics = new PIXI.Graphics()
+        .circle(LT.x, middleY().L + 5, 5)
+        .circle(RT.x, middleY().R + 5, 5)
+        .fill(param.color.JN)
+        .moveTo(LT.x, middleY().L + 5)
+        .lineTo(LT.x, middleY().L + 5 + LT.width / 2 + Math.abs(middleY().L - middleY().R))
+        .lineTo(LT.x + (RT.x - LT.x - LM.width) / 2 - 5, middleY().L + 5 + LT.width / 2 + Math.abs(middleY().L - middleY().R))
+        .moveTo(RT.x, middleY().R + 5)
+        .lineTo(RT.x, middleY().R + 5 + RT.width / 2)
+        .lineTo(RT.x - (RT.x - LT.x - LM.width) / 2 + 5, middleY().R + 5 + RT.width / 2)
+        .stroke({ width: 4, color: param.color.JN })
+      left.addChild(graphics);
+    } else /**长度不一致*/ {
+      if (maxY().L - middleY().L > maxY().R - middleY().R - (minY().R - minY().L)) {
+        // 左侧空白大于右侧
+        right.removeChild(RM);/**清除右侧多余图标 */
+        // 空白高度容纳图标
+        if (middleY().L + 15 + LM.height < middleY().R) {
+          LM.position.set(LT.x - LT.width / 2, middleY().R - LM.height);
+          // 画线
+          const LLine = (LM.y - 5) - (middleY().L + 5) < LT.width / 2 ? true : false;/**间距小于字宽一半自动忽略布置 */
+          LLine ? LM.y -= ((LM.y - 5) - (middleY().L + 5)) / 1.5 : '';/**地铁图标上移 */
+          const graphics = new PIXI.Graphics()
+            .circle(LT.x, middleY().L + 5, LLine ? 0 : 5)
+            .circle(LT.x, middleY().R - LM.height - 10, LLine ? 0 : 5)
+            .circle(LT.x, middleY().R + 10, 5)
+            .circle(RT.x, middleY().R + 10, 5)
+            .fill(param.color.JN)
+            .moveTo(LT.x, middleY().L + 5)
+            .lineTo(LT.x, LLine ? middleY().L + 5 : LM.y - 5)
+            .moveTo(LT.x, middleY().R + 10)
+            .lineTo(RT.x, middleY().R + 10)
+            .stroke({ width: 4, color: param.color.JN })
+          left.addChild(graphics);
+        } else {
+          // 空白高度无法容纳图标
+          LM.position.set(LT.x - LT.width / 2, middleY().R + 5);
+          // 测量底线
+          // 左侧图标底线大于底线
+          LM.y + LM.height > maxY().L ? (() => {
+            const subT = LM.y + LM.height - maxY().L;
+            LM.y -= subT;
+            LT.height = LM.y - 20 < middleY().L ? LT.height - (middleY().L - (LM.y - 20)) : LT.height;
+            RT.height = middleY().R + RT.width / 2 + 5 > maxY().L ? RT.height - (maxY().L - (middleY().R - RT.width - 5)) : RT.height;
+          })() : '';
+          // 画线
+          const LLine = (LM.y - 5) - (middleY().L + 5) < LT.width / 2 ? true : false;/**间距小于字宽一半自动忽略布置 */
+          LLine ? LT.height += (LM.y - 5) - (middleY().L + 5) : '';/**字体放款 */
+          const LIcon =/**间距大于字宽缩回&图标底部不超过线段 */
+            (LM.y - 5) - (middleY().L + 5) > LT.width / 2 && (LM.y + LM.height - LT.width / 2) > middleY().R + 5 ?
+              (LM.y + LM.height - LT.width / 2) - ((LM.y - 5) - (middleY().L + 5) - LT.width / 2 - 5) < middleY().R + 5 + LT.width / 2 - Math.abs(LT.y - RT.y)/**消除y轴误差 */ ?
+                LM.y - 5 - middleY().R + LM.height - LT.width
+                : ((LM.y - 5) - (middleY().L + 5) - LT.width / 2 - 5)
+              : 0;
+          // console.log(LIcon, LM.y - 5 - LT.width - middleY().R + LM.height + RT.width / 2, ((LM.y - 5) - (middleY().L + 5) - LT.width / 2 - 5))
+          const graphics = new PIXI.Graphics()
+            .circle(LT.x, middleY().L + 5, LLine ? 0 : 5)
+            .circle(RT.x, middleY().R + 5, 5)
+            .fill(param.color.JN)
+            .moveTo(LT.x, middleY().L + 5)
+            .lineTo(LT.x, LLine ? middleY().L + 5 : LM.y - 5 - LIcon)
+            .moveTo(RT.x, middleY().R + 5)
+            .lineTo(RT.x, middleY().R + 5 + RT.width / 2)
+            .lineTo(LT.x + LT.width / 2 + 5, middleY().R + 5 + RT.width / 2)
+            .stroke({ width: 4, color: param.color.JN })
+          LIcon ? LM.y -= LIcon : '';
+          left.addChild(graphics);
+        }
+      } else {
+        // 右侧空白大于左侧
+        left.removeChild(LM);/**清除左侧多余图标 */
+        // 空白高度容纳图标
+        if (middleY().R + 15 + RM.height < middleY().L) {
+          RM.position.set(RT.x - RT.width / 2, middleY().L - RM.height);
+          // 画线
+          const RLine = (RM.y - 5) - (middleY().R + 5) < RT.width / 2 ? true : false;/**间距小于字宽一半自动忽略布置 */
+          RLine ? RM.y -= ((RM.y - 5) - (middleY().R + 5)) / 1.5 : '';/**地铁图标上移 */
+          const graphics = new PIXI.Graphics()
+            .circle(RT.x, middleY().R + 5, RLine ? 0 : 5)
+            .circle(RT.x, middleY().L - RM.height - 10, RLine ? 0 : 5)
+            .circle(RT.x, middleY().L + 10, 5)
+            .circle(LT.x, middleY().L + 10, 5)
+            .fill(param.color.JN)
+            .moveTo(RT.x, middleY().R + 5)
+            .lineTo(RT.x, RLine ? middleY().R + 5 : RM.y - 5)
+            .moveTo(RT.x, middleY().L + 10)
+            .lineTo(LT.x, middleY().L + 10)
+            .stroke({ width: 4, color: param.color.JN })
+          right.addChild(graphics);
+        } else {
+          // 空白高度无法容纳图标
+          RM.position.set(RT.x - RT.width / 2, middleY().L + 5);
+          // 测量底线
+          // 右侧图标底线大于底线
+          RM.y + RM.height > maxY().R ? (() => {
+            const subT = RM.y + RM.height - maxY().R;
+            RM.y -= subT;
+            LT.height = middleY().L + LT.width / 2 + 5 > maxY().R ? LT.height - (maxY().R - (middleY().L - LT.width - 5)) : LT.height;
+            RT.height = RM.y - 20 < middleY().R ? RT.height - (middleY().R - (RM.y - 20)) : RT.height;
+          })() : '';
+          // 画线
+          const RLine = (RM.y - 5) - (middleY().R + 5) < RT.width / 2 ? true : false;/**间距小于字宽一半自动忽略布置 */
+          RLine ? RT.height += (RM.y - 5) - (middleY().R + 5) : '';/**字体放款 */
+          const RIcon =/**间距大于字宽缩回&图标底部不超过线段 */
+            (RM.y - 5) - (middleY().R + 5) > RT.width / 2 && (RM.y + RM.height - RT.width / 2) > middleY().L + 5 ?
+              (RM.y + RM.height - RT.width / 2) - ((RM.y - 5) - (middleY().R + 5) - RT.width / 2 - 5) < middleY().L + 5 + RT.width / 2 - Math.abs(LT.y - RT.y)/**消除y轴误差 */ ?
+                RM.y - 5 - middleY().L + RM.height - RT.width
+                : ((RM.y - 5) - (middleY().R + 5) - RT.width / 2 - 5)
+              : 0;
+          // console.log(RIcon, RM.y - 5 - middleY().L + RM.height - RT.width / 2 - Math.abs(LT.y - RT.y), ((RM.y - 5) - (middleY().R + 5) - RT.width / 2 - 5))
+          const graphics = new PIXI.Graphics()
+            .circle(RT.x, middleY().R + 5, RLine ? 0 : 5)
+            .circle(LT.x, middleY().L + 5, 5)
+            .fill(param.color.JN)
+            .moveTo(RT.x, middleY().R + 5)
+            .lineTo(RT.x, RLine ? middleY().R + 5 : RM.y - 5 - RIcon)
+            .moveTo(LT.x, middleY().L + 5)
+            .lineTo(LT.x, middleY().L + 5 + LT.width / 2)
+            .lineTo(RT.x - RT.width / 2 - 4, middleY().L + 5 + LT.width / 2)
+            .stroke({ width: 4, color: param.color.JN })
+          RIcon ? RM.y -= RIcon : '';
+          right.addChild(graphics);
+        }
+      }
+    }
+
+  }
+  console.log(minY(), middleY(), maxY())
+  // console.log(LT, LM, LI, RT, RM, RI)
+
+
 }
 
 export {

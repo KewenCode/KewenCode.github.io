@@ -47,23 +47,24 @@
 //   });
 //   // PIXI加入指定DOM
 //   const wrap = document.querySelector("#map_wrap");
-//   wrap.appendChild(routeMap.view);
+//   wrap.appendChild(routeMap.canvas);
 
 // })
 
 
 // 创建画布
-const routeMap = new PIXI.Application({
+const routeMap = new PIXI.Application();
+await routeMap.init({
   backgroundColor: '#FFF',
   hello: true,
   antialias: true,  //抗锯齿
-  // resolution: 1, //分辨率
-  // sortableChildren: true,
+  resolution: 1, //分辨率
+  sortableChildren: true,
   autoStart: false, // 取消自动渲染
 });
 // PIXI加入指定DOM
 const wrap = document.querySelector("#map_wrap");
-wrap.appendChild(routeMap.view);
+wrap.appendChild(routeMap.canvas);
 
 let _boolean = true;
 _boolean ? (() => {
