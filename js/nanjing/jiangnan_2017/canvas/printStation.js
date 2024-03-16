@@ -250,7 +250,7 @@ async function printStation(_x, _y, _color, _line, _angle) {
 
     // container.addChild(S)
     SingleContainer.addChild(S, T)
-    ML && MT ? mergeMetro(stationContainer.getChildByLabel(`station${key - 1}`), SingleContainer) : ''
+    ML && MT ? mergeMetro(stationContainer.getChildByLabel(`station${key - 1}`), SingleContainer, x_width <= _param.roundDirScale.S) : ''
     stationContainer.addChild(SingleContainer)
   }
 
@@ -589,7 +589,7 @@ async function printStation(_x, _y, _color, _line, _angle) {
     return container
   }
 
-  function mergeMetro(left, right) {
+  function mergeMetro(left, right, smaller) {
     // console.log(left, right)
     const LT = left.getChildByLabel("text");
     const LM = left.getChildByLabel("metro");
@@ -604,8 +604,9 @@ async function printStation(_x, _y, _color, _line, _angle) {
       return { L: max(LT.x + (LT.width / 2), LT.width), R: max(RT.x + (RT.width / 2), RT.width) }
     }
     if /**长度一致*/(LT.text.length == RT.text.length && Math.abs(middleY().L - middleY().R) <= 15) {
+      console.log(x_width, LM.width, RM.width)
       right.removeChild(RM);/**清除右侧多余图标 */
-      LM.position.set(LT.x + (RT.x - LT.x) / 2 - LM.width / 2, middleY().L + 5);
+      LM.position.set(LT.x + (RT.x - LT.x) / 2 - LM.width / 2, middleY().R + 5/**取右侧文字方便折线偏移 */ + (smaller ? 5 : 0));
       // 测量底线
       LM.y + LM.height > Math.min(maxY().L, maxY().R) ? (() => {
         const subT = LM.y + LM.height - Math.min(maxY().L, maxY().R);
@@ -615,7 +616,7 @@ async function printStation(_x, _y, _color, _line, _angle) {
       })() : '';
       // 画线
       const graphics = new PIXI.Graphics()
-        .circle(LT.x, middleY().L + 5, 5)
+        .circle(LT.x, middleY().L + 5 + (smaller ? Math.abs(LT.y - RT.y) : 0)/**折线误差*/, 5)
         .circle(RT.x, middleY().R + 5, 5)
         .fill(param.color.JN)
         .moveTo(LT.x, middleY().L + 5)
@@ -624,7 +625,10 @@ async function printStation(_x, _y, _color, _line, _angle) {
         .moveTo(RT.x, middleY().R + 5)
         .lineTo(RT.x, middleY().R + 5 + RT.width / 2)
         .lineTo(RT.x - (RT.x - LT.x - LM.width) / 2 + 5, middleY().R + 5 + RT.width / 2)
-        .stroke({ width: 4, color: param.color.JN })
+        .stroke({ width: (smaller ? 0 : 4), color: param.color.JN })
+        .moveTo(LT.x, middleY().L + 5 + (smaller ? Math.abs(LT.y - RT.y) : 0))
+        .lineTo(RT.x, middleY().R + 5)
+        .stroke({ width: (smaller ? 4 : 0), color: param.color.JN })
       left.addChild(graphics);
     } else /**长度不一致*/ {
       if (maxY().L - middleY().L > maxY().R - middleY().R - (minY().R - minY().L)) {
@@ -741,9 +745,6 @@ async function printStation(_x, _y, _color, _line, _angle) {
     }
 
   }
-  console.log(minY(), middleY(), maxY())
-  // console.log(LT, LM, LI, RT, RM, RI)
-
 
 }
 
