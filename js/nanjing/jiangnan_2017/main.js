@@ -3,12 +3,13 @@ import { reSize, loadResource } from "./stageSetting.js";
 import { addLogo, drawRect, drawLine, drawPrice } from "./canvas/drawSprite.js";
 import { printBaseText, printNo, printService } from "./canvas/printText.js";
 import { printLogo } from "./canvas/printLogo.js";
-import { printStation } from "./canvas/printStation.js";
+import { printLineStation } from "./canvas/printLineStation.js";
 import { LineBlank as Line_NEW, Line18, Line42, Line206, Line207, Line503, Line521, Line538, } from "./exampleData.js";
 import { copyToClipboard, clipboardToData } from "../../pageBtn.js"
 import { createList, countList, removeItemStation } from "./operate/liItemStation.js";
 import { stationClick } from "./operate/liItemOpera.js";
 import { buildLineInfo, updateLineInfo } from "./operate/lineInfo.js";
+import { OS, progressBar } from "../../tools.js";
 
 
 
@@ -19,6 +20,7 @@ async function workflow(Map) {
   reSize(Map);
   // const routeMapStage = jiangnanMap;
   console.log('加载jiangnan_2017模块');
+  progressBar(1, 'js');
   // console.log(Map)
   // Map.renderer.events.resolution = 2
   // Map.renderer._view.resolution = 2
@@ -203,10 +205,11 @@ async function buildMap(Map, jiangnanMap) {
   _serveText.zIndex = 70;
   jiangnanMap.addChild(_serveText);
   // 添加站点
-  const _station = await printStation(0, 0, "blue", _line, _angle);
+  const _station = await printLineStation(0, 0, "blue", _line, _angle);
   _station.zIndex = 80;
   jiangnanMap.addChild(_station);
   Map.render() // 手动渲染
+  progressBar(1, 'canvas');
 }
 
 export {

@@ -64,6 +64,7 @@ await routeMap.init({
 });
 // PIXI加入指定DOM
 const wrap = document.querySelector("#map_wrap");
+routeMap.canvas.style.visibility = "hidden";
 wrap.appendChild(routeMap.canvas);
 
 let _boolean = true;

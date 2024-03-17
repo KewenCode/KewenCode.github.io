@@ -16,14 +16,14 @@ function reSize(jiangnanMap) {
   // 延迟500毫秒执行
   window.addEventListener('resize', (delay = 500) => {
     let timer;
-    return function () {
+    return (() => {
       if (timer) {
         clearTimeout(timer);
       }
       timer = setTimeout(() => {
         pixiResize();
       }, delay);
-    }
+    })()
   });
 }
 

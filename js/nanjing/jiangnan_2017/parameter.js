@@ -1,6 +1,7 @@
 let param = {
   "color": {
     "JN": 0X1F2677,
+    "JN_Tint": 0X8F93BB,
     "JNLine": 0X116db0
   },
   "size": {

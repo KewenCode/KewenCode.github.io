@@ -75,7 +75,33 @@
       </div>
     </div>
   </nav>
-  <div id="map_wrap"></div>
+  <div class="container" style="position: relative;">
+    <div id="map_load" class="row col-12" style="height: 18.75vw;position: absolute;">
+      <div class="row justify-content-center align-items-center h-100">
+        <div class="col-6">
+          <div class="progress">
+            <!-- app+架构加载 5+5+5-->
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"
+              data-target="js"></div>
+            <!-- 读取素材 -->
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar"
+              style="width: 0%" data-target="bg-sprite"></div>
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar"
+              style="width: 0%" data-target="font"></div>
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar"
+              style="width: 0%" data-target="icon"></div>
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar"
+              style="width: 0%" data-target="use-sprite"></div>
+            <!-- 渲染 -->
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar"
+              style="width: 0%" data-target="canvas"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="map_wrap"></div>
+  </div>
+
   <div class="container">
     <div class="workspace row">
       <div class="left col-md-3">

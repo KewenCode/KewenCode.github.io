@@ -1,5 +1,5 @@
 import { param } from "../parameter.js"
-import { OS } from "../../../tools.js"
+import { OS, progressBar } from "../../../tools.js"
 
 async function addLogo(Map, jiangnanMap) {
   let logoElementAssets = await PIXI.Assets.loadBundle('load-icon');
@@ -19,7 +19,7 @@ async function addLogo(Map, jiangnanMap) {
 async function drawRect(_x, _y, _color) {
   const _param = param.size
   let box_y = _color === "blue" ? 0 : 700;
-  let loadBoxAssets = await PIXI.Assets.loadBundle('load-box');
+  let loadBoxAssets = await PIXI.Assets.loadBundle('load-box', (pro) => progressBar(pro, 'bg-sprite'));
   // blue-big
   const boxFrame1 = new PIXI.Rectangle(0, 0 + box_y, 2000, 500);
   const bosSprite = new PIXI.Texture({ source: loadBoxAssets.box, frame: boxFrame1 });

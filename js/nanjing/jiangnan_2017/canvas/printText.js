@@ -1,9 +1,9 @@
 import { param } from "../parameter.js"
-import { OS } from "../../../tools.js"
+import { OS, progressBar } from "../../../tools.js"
 import { printBranch } from "./printLogo.js"
 
 async function printBaseText(_x, _y, _color) {
-  await PIXI.Assets.loadBundle('load-font');
+  await PIXI.Assets.loadBundle('load-font', (pro) => progressBar(pro, 'font'));
   const container = new PIXI.Container();
   const _param = param;
 
