@@ -1,3 +1,5 @@
+import { removeItemStation } from "./liItemStation.js";
+
 const option = document.querySelector(".stationOption");
 const stationName = option.querySelector("#optionName");
 const stationNameLabel = option.querySelector('[for="optionName"]');
