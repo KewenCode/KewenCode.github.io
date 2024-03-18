@@ -1,8 +1,7 @@
 let param = {
   "color": {
-    "JN": 0X1F2677,
-    "JN_Tint": 0X8F93BB,
-    "JNLine": 0X116db0
+    "JN": { name: 'JN', main: 0X1F2677, line: 0X116DB0 },
+    "YZ": { name: 'YZ', main: 0XAF0909, line: 0XAF0909 }
   },
   "size": {
     "line": { "x": [585.5, 1263, 2136.5, 2879], "y": [222.5, 222.5, 383.5, 383.5], "h": 18 },

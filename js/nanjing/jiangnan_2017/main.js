@@ -176,16 +176,19 @@ function pixiClear(Map) {
 }
 
 async function buildMap(Map, jiangnanMap) {
+  // const _color = Data.compColor.main === 0XAF0909 ? 1 : 0;
+  const _color = Data?.compColor;
+
   jiangnanMap.addChild(await addLogo(Map));
   // 绘制矩形
-  const _rec = await drawRect(0, 0, "blue");
+  const _rec = await drawRect(0, 0, (_color?.name == 'YZ' ? 1 : 0));
   _rec.forEach(e => { e.zIndex = 10; jiangnanMap.addChild(e); });
   // 绘制线段
-  const { _line, _angle } = await drawLine(0, 0, "blue");
+  const { _line, _angle } = await drawLine(0, 0, _color?.line);
   // _line.zIndex = 20;
   jiangnanMap.addChild(_line);
   // 添加票价
-  const _price = await drawPrice(0, 0, "blue");
+  const _price = await drawPrice(0, 0, (_color?.name == 'YZ' ? 1 : 0));
   _price.zIndex = 30;
   jiangnanMap.addChild(_price);
   // 添加基础文本
@@ -193,11 +196,11 @@ async function buildMap(Map, jiangnanMap) {
   _baseText.zIndex = 40;
   jiangnanMap.addChild(_baseText);
   // 添加图片
-  const _logo = await printLogo(0, 0, "blue");
+  const _logo = await printLogo(0, 0, _color?.main);
   _logo.zIndex = 50;
   jiangnanMap.addChild(_logo);
   // 添加路号
-  const _lineNo = await printNo(0, 0, "blue");
+  const _lineNo = await printNo(0, 0, _color?.main);
   _lineNo.zIndex = 60;
   jiangnanMap.addChild(_lineNo);
   // 添加服务时间
@@ -205,7 +208,7 @@ async function buildMap(Map, jiangnanMap) {
   _serveText.zIndex = 70;
   jiangnanMap.addChild(_serveText);
   // 添加站点
-  const _station = await printLineStation(0, 0, "blue", _line, _angle);
+  const _station = await printLineStation(0, 0, _color, _line, _angle);
   _station.zIndex = 80;
   jiangnanMap.addChild(_station);
   Map.render() // 手动渲染

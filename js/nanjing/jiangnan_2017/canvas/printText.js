@@ -14,7 +14,7 @@ async function printBaseText(_x, _y, _color) {
     position: { x: _param.size.textGro.x + _x, y: _param.size.textGro.y + _y },
     height: _param.size.textGro.h,
     style: {
-      fill: _param.color.JN,
+      fill: _param.color.JN.main,
       fontFamily: 'FZZZHONGJW',
       fontSize: 25.5,
       fontWeight: 'bold',
@@ -29,7 +29,7 @@ async function printBaseText(_x, _y, _color) {
     text: Data.groupEn,
     anchor: { x: 0.5, y: 0 },
     style: {
-      fill: _param.color.JN,
+      fill: _param.color.JN.main,
       fontFamily: 'FZZZHONGJW',
       fontSize: 11.1,
       fontWeight: 'bold',
@@ -53,7 +53,8 @@ async function printBaseText(_x, _y, _color) {
       align: 'center'
     }
   });
-  textComp.style.letterSpacing = textComp.width < _param.size.textComp.w ? textComp.style.letterSpacing : (70 / 11) * (11 - textComp.text.length);
+  textComp.style.letterSpacing = textComp.width < _param.size.textComp.w ? textComp.style.letterSpacing : (20 / 12) * (12 - textComp.text.length);
+  textComp.style.fontSize = textComp.width < _param.size.textComp.w * 0.8 ? textComp.style.fontSize : 32;
   textComp.width = textComp.width < _param.size.textComp.w ? textComp.width : _param.size.textComp.w;
   // 首末班车服务时间
   const textTiHead = new PIXI.Text({
@@ -203,7 +204,7 @@ async function printNo(_x, _y, _color) {
     anchor: { x: 0.5, y: 0.5 },
     position: { x: _param.recNo.w + (_param.recComp.w - _param.recNo.w) / 2 + _x, y: _param.recNo.h / 2 + _y },
     style: {
-      fill: param.color.JN,
+      fill: _color,
       fontFamily: 'MicrosoftYaHei',
       fontSize: 45,
       fontWeight: 'bold',

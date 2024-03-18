@@ -25,7 +25,7 @@ async function printLogo(_x, _y, _color) {
     return new PIXI.Sprite({
       texture: icon,
       label: "icon_Tel",
-      tint: param.color.JN_Tint,
+      tint: _color,
       position: { x: _param.line.x[2] - 120 + _x, y: _param.textGro.y + _y },
       scale: { x: 1, y: 1 },
     });
