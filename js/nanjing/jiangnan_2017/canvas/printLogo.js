@@ -20,7 +20,7 @@ async function printLogo(_x, _y, _color) {
   // 服务电话
   let loadElementAssets = await PIXI.Assets.loadBundle('load-NJGJ', (pro) => progressBar(pro, 'use-sprite'));
   const icon_Tel = (() => {
-    const frame = new PIXI.Rectangle(0, 0, 900, 150);
+    const frame = new PIXI.Rectangle(0, 0, 900, 120);
     const icon = new PIXI.Texture({ source: loadElementAssets.Element, frame: frame });
     return new PIXI.Sprite({
       texture: icon,

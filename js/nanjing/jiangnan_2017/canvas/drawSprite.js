@@ -18,7 +18,7 @@ async function addLogo(Map, jiangnanMap) {
 
 async function drawRect(_x, _y, _color) {
   const _param = param.size
-  let box_y = _color === "blue" ? 0 : 700;
+  let box_y = 700 * _color;
   let loadBoxAssets = await PIXI.Assets.loadBundle('load-box', (pro) => progressBar(pro, 'bg-sprite'));
   // blue-big
   const boxFrame1 = new PIXI.Rectangle(0, 0 + box_y, 2000, 500);
@@ -95,7 +95,7 @@ async function drawLine(_x, _y, _color) {
     .lineTo(_param.x[1], _param.y[1])
     .lineTo(_param.x[2], _param.y[2])
     .lineTo(_param.x[3], _param.y[3])
-    .stroke({ width: _param.h, color: param.color.JNLine })
+    .stroke({ width: _param.h, color: _color })
 
   return { _line: lineB, _angle: getAngle([_param.x[1], _param.y[1]], [_param.x[2], _param.y[2]], [_param.x[1], _param.y[2]]) }
 }
@@ -107,12 +107,12 @@ async function drawPrice(_x, _y, _color) {
   // 基础参数
   const _param = param.size
   const container = new PIXI.Container();
-  const PO = [200 * Data.price[0], 0]
-  const P1 = [200 * Data.price[0], 0]
-  const P2 = [200 * Data.price[1], 0]
-  const F = [900 * 0, 900]
-  const Y = [0, 600]
-  const Z = [300 * 2, 600]
+  const PO = [200 * Data.price[0], 300 * _color]
+  const P1 = [200 * Data.price[0], 300 * _color]
+  const P2 = [200 * Data.price[1], 300 * _color]
+  const F = [900 * _color, 900]
+  const Y = [300 * _color, 600]
+  const Z = [300 * (_color ? 3 : 2), 600]
   // 加载资源
   let loadPriceAssets = await PIXI.Assets.loadBundle('load-NJGJ');
   // 构建内容

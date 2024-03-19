@@ -168,7 +168,7 @@ async function printLineStation(_x, _y, _color, _line, _angle) {
     // 折现段旋转
     S.angle = S.x > _param.line.x[1] && S.x < _param.line.x[2] ? _angle : S.angle;
     // 修正单向站垂直高度
-    shiftY = _station[key].isSingle ? (Number(_station[key].sign.direction) ? 4 : -4) : 0;
+    shiftY = _station[key].isSingle ? (Number(_station[key].sign.direction) ? 7 : -7) : 0;
     S.y += shiftY;
 
     // 站名
@@ -343,64 +343,64 @@ async function printLineStation(_x, _y, _color, _line, _angle) {
   }
 
   async function iconStation(e) {
+    const _scale = (e.isStart || e.isEnd) ? (roundWB / _param.roundDirScale.B) : (roundWS / _param.roundDirScale.S);
     if (e.isSingle) {
-      let PO = [700 * (_color?.name === 'YZ' ? 1 : 0), 500, 350, 200]; // 定位
-      PO[0] = e.isStart || e.sign.convert ? PO[0] + 350 : PO[0];
-      PO[1] = e.sign.direction == 1 ? PO[1] + 200 : PO[1];
-      const frame1 = new PIXI.Rectangle(PO[0], PO[1], PO[2], PO[3]);
-      const circular = new PIXI.Texture({ source: A, frame: frame1 });
-      const icon = new PIXI.Sprite({
-        texture: circular,
-        label: "iconStation",
-        anchor: { x: 0.5, y: 0 },
-      });
-      if (e.sign.direction == 0) {
-        icon.anchor.set(0.5, 1);
-      }
-      if (e.isStart || e.isEnd) {
-        icon.scale.set(roundWB / icon.width);
-      } else {
-        icon.scale.set(roundWS / icon.width);
-      }
+      const _width = (e.isStart || e.isEnd) ? roundWB : roundWS;
+      const _size = (e.isStart || e.isEnd) ? 2 : 1;
+      const dir = e.sign.direction == 1 ? -1 : 1;
+      const _dir = dir * _scale;
+      const icon = new PIXI.Graphics({ label: "iconStation" })
+        .arc(0, 0, _width / 2 - 4, e.sign.direction == 1 ? 0 : Math.PI, e.sign.direction == 1 ? Math.PI : 0)
+        .stroke({ color: Data.compColor.stroke?.B ? Data.compColor.stroke?.B : Data.compColor.stroke, width: 8 * _scale })
+        .fill(Data.compColor.fill)
+        .moveTo(- _width / 2 * _dir, 2 * _dir)
+        .lineTo(_width / 2 * _dir, 2 * _dir)
+        .stroke({ color: Data.compColor.stroke?.B ? Data.compColor.stroke?.B : Data.compColor.stroke, width: 4 * _scale })
+        .moveTo(- _width * 0.02 * _dir, (- 2.5 - 2.5 * _size) * _dir)
+        .lineTo(_width * 0.3 * _dir + (8 - 8 * _scale) * dir, (- 2.5 - 2.5 * _size) * _dir)
+        .stroke({
+          color: (e.isStart || e.isEnd || e.sign.convert) ?
+            Data.compColor.stroke?.M ? Data.compColor.stroke?.M : Data.compColor.stroke
+            : Data.compColor.strokeVer, width: 5 * _size * _scale
+        })
+        .poly([
+          - _width * 0.02 * _dir, (- 2.5 - 10 * _size) * _dir,
+          - _width * 0.02 * _dir, (- 2.5) * _dir,
+          - _width * 0.35 * _dir - (8 - 8 * _scale) * dir, (- 2.5) * _dir])
+        .fill((e.isStart || e.isEnd || e.sign.convert) ? Data.compColor.stroke?.M ? Data.compColor.stroke?.M : Data.compColor.stroke
+          : Data.compColor.strokeVer)
       return icon
     }
 
     if (e.isStart || e.isEnd) {
-      let PO = [350 * (_color?.name === 'YZ' ? 1 : 0), 150, 350, 350]; // 定位
-      PO[0] = typeof e.sign !== "undefined" && e.sign.convert ? 350 : PO[0];
-      const frame2 = new PIXI.Rectangle(PO[0], PO[1], PO[2], PO[3]);
-      const circular = new PIXI.Texture({ source: A, frame: frame2 });
-      const icon = new PIXI.Sprite({
-        texture: circular,
-        label: "iconStation",
-        anchor: { x: 0.5, y: 0.5 },
-      });
-      if ((typeof e.sign !== "undefined" && e.sign.direction == 0) || e.isEnd) {
-        icon.angle = 180;
-      }
-      icon.scale.set(roundWB / icon.width);
+      const dir = ((typeof e.sign !== "undefined" && e.sign.direction == 0) || e.isEnd) ? -1 : 1;
+      const _dir = dir * _scale;
+      const icon = new PIXI.Graphics({ label: "iconStation" })
+        .circle(0, 0, roundWB / 2 - 4)
+        .stroke({ color: Data.compColor.stroke?.B ? Data.compColor.stroke?.B : Data.compColor.stroke, width: 8 * _scale })
+        .fill(Data.compColor.fill)
+        .moveTo(- roundWB * 0.38 * _dir - (8 - 8 * _scale) * dir, 0)
+        .lineTo(- roundWB * 0.08 * _dir, 0)
+        .stroke({ color: Data.compColor.stroke?.M ? Data.compColor.stroke?.M : Data.compColor.stroke, width: 15 * _scale })
+        .poly([
+          - roundWB * 0.08 * _dir, roundWB * 0.25,
+          roundWB * 0.45 * _dir + (8 - 8 * _scale) * dir, 0,
+          - roundWB * 0.08 * _dir, - roundWB * 0.25])
+        .fill(Data.compColor.stroke?.M ? Data.compColor.stroke?.M : Data.compColor.stroke)
       return icon
     }
 
-    let PO = [700 + 350 * (_color?.name === 'YZ' ? 1 : 0), 150, 350, 350];
-    const frame3 = new PIXI.Rectangle(PO[0], PO[1], PO[2], PO[3]);
-    const circular = new PIXI.Texture({ source: A, frame: frame3 });
-    const icon = new PIXI.Sprite({
-      texture: circular,
-      label: "iconStation",
-      anchor: { x: 0.5, y: 0.5 },
-    });
-    icon.scale.set(roundWS / icon.width);
-    if (e.isStart || e.isEnd) {
-      icon.scale.set(roundWB / icon.width);
-    }
+    const icon = new PIXI.Graphics({ label: "iconStation" })
+      .circle(0, 0, (e.isStart || e.isEnd ? roundWB : roundWS) / 2 - 4)
+      .stroke({ color: Data.compColor.stroke?.B ? Data.compColor.stroke?.B : Data.compColor.stroke, width: 8 * _scale })
+      .fill(Data.compColor.fill)
     return icon
 
   }
 
   async function iconPriceSplit(e, tWidth) {
     if (!e.isPriSeg) { return false }
-    let PO = [300 * (e.peiSeg.price - 2), 900 + (e.peiSeg.direction * 550), 300, 550]; // 定位
+    let PO = [300 * (e.peiSeg.price - 2), 350 + (e.peiSeg.direction * 550), 300, 550]; // 定位
     const frame = new PIXI.Rectangle(PO[0], PO[1], PO[2], PO[3]);
     const priceSeg = new PIXI.Texture({ source: A, frame: frame });
     const icon = new PIXI.Sprite({
@@ -415,13 +415,15 @@ async function printLineStation(_x, _y, _color, _line, _angle) {
   async function iconRiver(key, e) {
     const riverContain = new PIXI.Container();
     let riverAssets = await PIXI.Assets.loadBundle('load-NJGJ');
-    const frame = new PIXI.Rectangle(1750, 0, 200, 800);
+    const frame = new PIXI.Rectangle(0, 125, 900, 200);
     const roundBox = new PIXI.Texture({ source: riverAssets.Element, frame: frame });
     const river = new PIXI.Sprite({
       texture: roundBox,
       label: `river${key}`,
-      width: roundWB * 1.3,
-      height: 400,
+      height: roundWB * 1.3,
+      width: 400,
+      anchor: { x: 0, y: 1 },
+      angle: 90
     });
     // 名称
     const addSpace = (str) => {
@@ -431,8 +433,8 @@ async function printLineStation(_x, _y, _color, _line, _angle) {
     const riverName = new PIXI.Text({
       text: addSpace(e.name),
       anchor: { x: 0.5, y: 0.5 },
-      position: { x: river.width / 2, y: river.height * 0.55 },
-      width: river.width / 2,
+      position: { x: river.height / 2, y: river.width * 0.55 },
+      width: river.height / 2,
       style: {
         align: 'center',
         fill: 0XFFFFFF,
@@ -453,7 +455,7 @@ async function printLineStation(_x, _y, _color, _line, _angle) {
         fontSize: 20,
       }
     });
-    riverInfoL.position.set(0, e.river.infoLD ? river.height + riverInfoL.height : 0);
+    riverInfoL.position.set(0, e.river.infoLD ? river.width + riverInfoL.height : 0);
     const riverInfoR = new PIXI.Text({
       text: e.river.infoR || '',
       anchor: { x: 0, y: 1 },
@@ -463,20 +465,20 @@ async function printLineStation(_x, _y, _color, _line, _angle) {
         fontSize: 20,
       }
     });
-    riverInfoR.position.set(river.width, e.river.infoRD ? river.height + riverInfoR.height : 0)
+    riverInfoR.position.set(river.height, e.river.infoRD ? river.width + riverInfoR.height : 0)
 
     // console.log(riverName.height)
     // console.log(riverName.style.lineHeight)
 
     riverContain.addChild(river, riverName, riverInfoL, riverInfoR)
-    return { R: riverContain, RW: river.width }
+    return { R: riverContain, RW: river.height }
   }
 
   function iconUDTag(U, D, tWidth, text, textColor) {
     if (!U && !D) { return }
     const iconUDTagContain = new PIXI.Container({ label: "UDTag" });
     const UDTag = new PIXI.Graphics()
-      .roundRect(0, 0, 50, 175, 25)
+      .roundRect(0, 0, 50, 0, 25)
       .fill(U ? 'red' : D ? 0X87CEEB : textColor)
     iconUDTagContain.addChild(UDTag);
     const tagName = new PIXI.Text({
@@ -543,14 +545,14 @@ async function printLineStation(_x, _y, _color, _line, _angle) {
     const info1 = new PIXI.Text({ text: ' 单向停靠站点', style: style });
     const info2 = new PIXI.Text({ text: ' 换乘地铁站点', style: style });
 
-    const frame1 = new PIXI.Rectangle(1400, 500 + 200 * (_color?.name === 'YZ' ? 0 : 1), 350, 200);
-    const circular = new PIXI.Texture({ source: A, frame: frame1 });
-    const icon1 = new PIXI.Sprite({
-      texture: circular,
-      label: "icon1",
-      position: { x: info.width, y: info.height / 8 },
-      scale: { x: info.height / 300, y: info.height / 300 },
-    });
+    const icon1 = new PIXI.Graphics({ label: "icon1" })
+      .arc(5 / 4 * info.width, info.height * 6 / 8, info.height / 2 - 4, Math.PI, 0)
+      .stroke({ color: Data.compColor.stroke?.B ? Data.compColor.stroke?.B : Data.compColor.stroke, width: 8 })
+      .fill(Data.compColor.fill)
+      .moveTo(5 / 4 * info.width - info.height / 2, info.height * 6 / 8 + 2)
+      .lineTo(5 / 4 * info.width + info.height / 2, info.height * 6 / 8 + 2)
+      .stroke({ color: Data.compColor.stroke?.B ? Data.compColor.stroke?.B : Data.compColor.stroke, width: 4 })
+
     const frame2 = new PIXI.Rectangle(0, 1000, 200, 200);
     const metro = new PIXI.Texture({ source: B, frame: frame2 });
     const icon2 = new PIXI.Sprite({
