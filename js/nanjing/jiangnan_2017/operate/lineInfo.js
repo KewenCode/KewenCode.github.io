@@ -1,7 +1,12 @@
+import { param } from "../parameter.js"
+
 const lineInfo = document.querySelector('.lineInfo');
 const infoGroup = lineInfo.querySelector("#infoGroup");
 const infoGroupEn = lineInfo.querySelector("#infoGroupEn");
 const infoCompany = lineInfo.querySelector("#infoCompany");
+// 颜色
+const JN = lineInfo.querySelector("#JN");
+const YZ = lineInfo.querySelector("#YZ");
 // 路号部分
 const infoLineNo = lineInfo.querySelector("#infoLineNo");
 const infoLineNoAppend = lineInfo.querySelector("#infoLineNoAppend");
@@ -32,6 +37,17 @@ function buildLineInfo() {
   infoCompany.value = Data.company
   infoCompany.addEventListener("input", e => {
     Data.company = infoCompany.value;
+  })
+
+  JN.checked = JN.value == Data.compColor.name ? true : false;
+  YZ.checked = YZ.value == Data.compColor.name ? true : false;
+  JN.addEventListener("click", e => {
+    Data.compColor = param.color.JN;
+    YZ.checked = false;
+  })
+  YZ.addEventListener("click", e => {
+    Data.compColor = param.color.YZ;
+    JN.checked = false;
   })
   // 路号部分
   infoLineNo.value = Data.lineNo.main;
@@ -175,6 +191,8 @@ function updateLineInfo() {
   infoGroup.value = Data.group;
   infoGroupEn.value = Data.groupEn;
   infoCompany.value = Data.company;
+  JN.checked = JN.value == Data.compColor.name ? true : false;
+  YZ.checked = YZ.value == Data.compColor.name ? true : false;
   infoLineNo.value = Data.lineNo.main;
   switch (Data.lineNo.append) {
     case "路线路图":

@@ -2,6 +2,7 @@ const LineBlank = {
   group: '',
   groupEn: '',
   company: '',
+  compColor: { name: 'JN', main: 0X1F2677, line: 0X116DB0, stroke: 0X003F97, fill: 0XFFFFFF, strokeVer: 0XFF0000 },
   lineNo: { main: "", append: "路线路图", "type": null, "icon": 0 },
   price: [],
   isSeg: false,
@@ -25,6 +26,7 @@ const Line18 = {
   group: '南京公共交通 (集团) 有限公司',
   groupEn: 'NANJING PUBLIC TRANSPORTATION (GROUP) CO.,LTD',
   company: '江南公交',
+  compColor: { name: 'JN', main: 0X1F2677, line: 0X116DB0, stroke: 0X003F97, fill: 0XFFFFFF, strokeVer: 0XFF0000 },
   lineNo: { main: '18', append: "路线路图", "type": null, "icon": 0 },
   price: [2, 2],
   isSeg: false,
@@ -164,6 +166,7 @@ const Line42 = {
   group: '南京公共交通 (集团) 有限公司',
   groupEn: 'NANJING PUBLIC TRANSPORTATION (GROUP) CO.,LTD',
   company: '江南公交',
+  compColor: { name: 'JN', main: 0X1F2677, line: 0X116DB0, stroke: 0X003F97, fill: 0XFFFFFF, strokeVer: 0XFF0000 },
   lineNo: { main: '42', append: "路线路图", "type": null, "icon": 0 },
   price: [2, 2],
   isSeg: false,
@@ -343,6 +346,7 @@ const Line206 = {
   group: '南京公共交通 (集团) 有限公司',
   groupEn: 'NANJING PUBLIC TRANSPORTATION (GROUP) CO.,LTD',
   company: '',
+  compColor: { name: 'JN', main: 0X1F2677, line: 0X116DB0, stroke: 0X003F97, fill: 0XFFFFFF, strokeVer: 0XFF0000 },
   lineNo: { main: '206', append: "路线路图\n及\n计价站点", "type": 1, "icon": 0 },
   price: [3, 2],
   isSeg: true,
@@ -491,6 +495,7 @@ const Line207 = {
   group: '南京公共交通 (集团) 有限公司',
   groupEn: 'NANJING PUBLIC TRANSPORTATION (GROUP) CO.,LTD',
   company: '江南公交',
+  compColor: { name: 'JN', main: 0X1F2677, line: 0X116DB0, stroke: 0X003F97, fill: 0XFFFFFF, strokeVer: 0XFF0000 },
   lineNo: { main: '207', append: "路线路图", "type": 1, "icon": 0 },
   price: [7, 2],
   isSeg: false,
@@ -744,7 +749,8 @@ const Line207 = {
 const Line503 = {
   group: '南京公共交通 (集团) 有限公司',
   groupEn: 'NANJING PUBLIC TRANSPORTATION (GROUP) CO.,LTD',
-  company: '',
+  company: '南京扬子公交客运有限公司',
+  compColor: { name: 'YZ', main: 0XAF0909, line: 0XAF0909, stroke: { M: 0X1F2677, B: 0XAF0909 }, fill: 0XFFFFFF, strokeVer: 0X1F2677 },
   lineNo: { main: '503', append: "路线路图", "type": null, "icon": 0 },
   price: [],
   isSeg: false,
@@ -1022,6 +1028,7 @@ const Line521 = {
   group: '南京公共交通 (集团) 有限公司',
   groupEn: 'NANJING PUBLIC TRANSPORTATION (GROUP) CO.,LTD',
   company: '',
+  compColor: { name: 'JN', main: 0X1F2677, line: 0X116DB0, stroke: 0X003F97, fill: 0XFFFFFF, strokeVer: 0XFF0000 },
   lineNo: { main: '521', append: "路线路图\n及\n计价站点", "type": 1, "icon": 0 },
   price: [4, 2],
   isSeg: true,
@@ -1157,6 +1164,7 @@ const Line538 = {
   group: '南京公共交通 (集团) 有限公司',
   groupEn: 'NANJING PUBLIC TRANSPORTATION (GROUP) CO.,LTD',
   company: '',
+  compColor: { name: 'JN', main: 0X1F2677, line: 0X116DB0, stroke: 0X003F97, fill: 0XFFFFFF, strokeVer: 0XFF0000 },
   lineNo: { main: '538', append: "路线路图", "type": null, "icon": 0 },
   price: [2, 2],
   isSeg: false,
@@ -1177,6 +1185,7 @@ const Line538 = {
   station: {
     0: {
       name: '鼎泰家园西门',
+      isStart: true
     },
     1: {
       name: '澳林广场西',
