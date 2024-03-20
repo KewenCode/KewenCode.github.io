@@ -478,7 +478,7 @@ async function printLineStation(_x, _y, _color, _line, _angle) {
     if (!U && !D) { return }
     const iconUDTagContain = new PIXI.Container({ label: "UDTag" });
     const UDTag = new PIXI.Graphics()
-      .roundRect(0, 0, 50, 0, 25)
+      .roundRect(0, 0, 50, 175, 25)
       .fill(U ? 'red' : D ? 0X87CEEB : textColor)
     iconUDTagContain.addChild(UDTag);
     const tagName = new PIXI.Text({

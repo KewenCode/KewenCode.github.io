@@ -298,9 +298,12 @@ function stationInfo(id) {
     dirUp.checked = item.sign.direction ? true : false;
     dirDown.checked = item.sign.direction ? false : true;
     // tag初始
-    item.isSingle && item.isStart || item.isEnd ?
-      singleTag.forEach(e => { e.disabled = false; e.checked = Number(e.value) == item.sign.tag ? true : false }) :
+    item.isSingle && item.isStart || item.isSingle && item.isEnd ?
+      singleTag.forEach(e => {
+        e.disabled = false; e.checked = Number(e.value) === (item.sign.tag || -1) ? true : false
+      }) :
       singleTag.forEach(e => { e.disabled = true })
+
 
     singleList.addEventListener("click", e => {
       // console.log(e.target)
