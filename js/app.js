@@ -6,11 +6,11 @@ const routeMap = new PIXI.Application();
 await routeMap.init({
   backgroundColor: '#FFF',
   hello: true,
-  antialias: true,  //抗锯齿
   resolution: 1, //分辨率
   sortableChildren: true,
   autoStart: false, // 取消自动渲染
   preference: paramUrl.get('render'), //手动选择render
+  antialias: Number(paramUrl.get('antialias')) ? true : false,  //抗锯齿
 });
 // PIXI加入指定DOM
 const wrap = document.querySelector("#map_wrap");
@@ -26,7 +26,20 @@ renderOption.addEventListener("input", e => {
       paramUrl.set('render', `${renderOption.value}`);
       baseUrl.search = paramUrl.toString();
       window.location.href = baseUrl;
-    })() : renderOption.value = paramUrl.get('render')
+    })() : renderOption.value = paramUrl.get('render') || 'webgpu';
+})
+
+// antialias选项监听
+const antialiasOption = document.querySelector("#antialias");
+antialiasOption.value = paramUrl.get('antialias') || 1;
+antialiasOption.addEventListener("input", e => {
+  const Name = { "webgpu": "WebGPU", "webgl": "WebGL" }
+  confirm(`请确认是否${Number(antialiasOption.value) ? '开启' : '关闭'}图像抗锯齿？\n此项操作将不会保存数据，如需保存数据请提前使用【导出】按钮！`) ?
+    (() => {
+      paramUrl.set('antialias', `${antialiasOption.value}`);
+      baseUrl.search = paramUrl.toString();
+      window.location.href = baseUrl;
+    })() : antialiasOption.value = paramUrl.get('antialias') || 1;
 })
 
 let _boolean = true;

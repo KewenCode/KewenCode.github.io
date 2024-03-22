@@ -9,7 +9,7 @@
   <title>JiangNan Route Map</title>
   <!-- <link href="https://fonts.font.im/css?family=Crimson+Text" rel="stylesheet"> -->
   <!-- <link rel="stylesheet" href="./css/font.css"> -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
   <!-- <link rel="stylesheet" href="./css/bootstrap.min.css"> -->
   <link rel="stylesheet" href="./css/bootstrap.metro.min.css">
   <link rel="stylesheet" href="./iconfont/iconfont.css">
@@ -202,7 +202,16 @@
                       <option value="webgpu" selected>WebGPU</option>
                       <option value="webgl">WebGL</option>
                     </select>
-                    <label for="renderer">渲染器</label>
+                    <label for="renderer">渲染器(仅图像非正常显示时使用)</label>
+                  </div>
+                </li>
+                <li class="col-12 col-md-6 my-2 ">
+                  <div class="form-floating">
+                    <select class="form-select" id="antialias">
+                      <option value="1" selected>开启</option>
+                      <option value="0">关闭</option>
+                    </select>
+                    <label for="antialias">抗锯齿(低配设备使用)</label>
                   </div>
                 </li>
               </ul>
@@ -213,7 +222,7 @@
     </div>
   </div>
   <footer class="footer">
-    <p>&copy; 2024 Copyright 无情~之殇 <span class="text-warning">2.1.2-dev</span></p>
+    <p>&copy; 2024 Copyright 无情~之殇 <span class="text-warning">2.1.3-dev</span></p>
     <p><a class="text-warning" href="https://github.com/KewenCode/KewenCode.github.io">本项目</a>遵循
       <a class="text-warning" href="https://www.gnu.org/licenses/agpl-3.0">AGPL-3.0 license</a>
       共享原则
@@ -222,9 +231,9 @@
 
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/pixi.js@8.0.2/dist/pixi.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pixi.js@8.0.3/dist/pixi.min.js"></script>
   <!-- <script src="https://cdn.jsdelivr.net/npm/pixi.js@7.4.0/dist/pixi.min.js"></script> -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="./js/lineData.js"></script>
   <script src="./js/selectTag.js"></script>
   <script src="./js/app.js" type="module"></script>
