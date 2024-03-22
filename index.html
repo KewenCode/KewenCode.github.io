@@ -193,6 +193,20 @@
             <div data-link="lineInfo" class="lineInfo col-md-12 hidden">
               <!-- 插入内容 -->
             </div>
+            <!-- 画布设置 -->
+            <div data-link="canvasSetting" class="lineInfo col-md-12 hidden">
+              <ul class="divWrap row justify-content-between align-items-center ">
+                <li class="col-12 col-md-6 my-2 ">
+                  <div class="form-floating">
+                    <select class="form-select" id="renderer">
+                      <option value="webgpu" selected>WebGPU</option>
+                      <option value="webgl">WebGL</option>
+                    </select>
+                    <label for="renderer">渲染器</label>
+                  </div>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
