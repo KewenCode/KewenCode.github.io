@@ -161,6 +161,7 @@ async function workflow(Map) {
 }
 
 function pixiClear(Map) {
+  $(".stationOption").removeClass("animate-out").addClass("hidden");
   Map.stage.removeChildren().forEach(e => {
     e.destroy({
       children: true,

@@ -1,70 +1,46 @@
-// let generate = require.config({
-//   baseUrl: 'js/',
-//   paths: {
-//     "jquery": ["libs/jquery-3.7.1.min"],
-//     "bootstrap": ["libs/bootstrap.bundle"],
-//     "pixi": "libs/pixi.min",
-//     "SorTable": "libs/Sortable.min",  // include require
-//     "selectTag": "selectTag",
-//     "listStation": "listStation",
-//     "nanjing": "nanjing/nanjingList",
-//   },
-//   shim: {
-//     pixi: {
-//       exports: 'PIXI'
-//     },
-//     bootstrap: {
-//       deps: ['jquery']
-//     },
-//     // "SorTable": {
-//     //   exports: "Sortable"
-//     // },
-//     // "selectTag": {
-//     //   deps: ["Sortable"],
-//     // },
-//     //   "drawSprite": {
-//     //     deps: ["PIXI"],
-//     //     exports: "drawSprite"
-//     //   }
-//   }
-// })
-
-// let collectBtn = {}
-
-// generate(["nanjing", "selectTag", "listStation", "jquery", "SorTable"], function (nanjing, selectTag, listStation) {
-
-//   collectBtn.removeTag = function (_this, tag) { selectTag.removeTag(_this, tag) }
-//   collectBtn.removeItemStation = function (start, end) { listStation.removeItemStation(start, end) }
-//   collectBtn.stationClick = function (_this) { listStation.stationClick(_this) }
-//   collectBtn.updateBtn = function () { console.log(111); }
-//   // 创建画布
-//   const routeMap = new PIXI.Application({
-//     backgroundColor: '#FFF',
-//     hello: true,
-//     // antialias: true,  //抗锯齿
-//     // resolution: 1, //分辨率
-//     sortableChildren: true,
-//   });
-//   // PIXI加入指定DOM
-//   const wrap = document.querySelector("#map_wrap");
-//   wrap.appendChild(routeMap.canvas);
-
-// })
-
+const baseUrl = new URL(document.documentURI)
+const paramUrl = new URLSearchParams(baseUrl.search)
 
 // 创建画布
 const routeMap = new PIXI.Application();
 await routeMap.init({
   backgroundColor: '#FFF',
   hello: true,
-  antialias: true,  //抗锯齿
   resolution: 1, //分辨率
   sortableChildren: true,
   autoStart: false, // 取消自动渲染
+  preference: paramUrl.get('render'), //手动选择render
+  antialias: Number(paramUrl.get('antialias')) ? true : false,  //抗锯齿
 });
 // PIXI加入指定DOM
 const wrap = document.querySelector("#map_wrap");
 wrap.appendChild(routeMap.canvas);
+
+// render选项监听
+const renderOption = document.querySelector("#renderer");
+renderOption.value = paramUrl.get('render') || 'webgpu';
+renderOption.addEventListener("input", e => {
+  const Name = { "webgpu": "WebGPU", "webgl": "WebGL" }
+  confirm(`请确认是否切换为【${Name[renderOption.value]}】渲染？\n此项操作将不会保存数据，如需保存数据请提前使用【导出】按钮！`) ?
+    (() => {
+      paramUrl.set('render', `${renderOption.value}`);
+      baseUrl.search = paramUrl.toString();
+      window.location.href = baseUrl;
+    })() : renderOption.value = paramUrl.get('render') || 'webgpu';
+})
+
+// antialias选项监听
+const antialiasOption = document.querySelector("#antialias");
+antialiasOption.value = paramUrl.get('antialias') || 1;
+antialiasOption.addEventListener("input", e => {
+  const Name = { "webgpu": "WebGPU", "webgl": "WebGL" }
+  confirm(`请确认是否${Number(antialiasOption.value) ? '开启' : '关闭'}图像抗锯齿？\n此项操作将不会保存数据，如需保存数据请提前使用【导出】按钮！`) ?
+    (() => {
+      paramUrl.set('antialias', `${antialiasOption.value}`);
+      baseUrl.search = paramUrl.toString();
+      window.location.href = baseUrl;
+    })() : antialiasOption.value = paramUrl.get('antialias') || 1;
+})
 
 let _boolean = true;
 _boolean ? (() => {
