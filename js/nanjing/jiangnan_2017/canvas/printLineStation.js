@@ -1,7 +1,8 @@
 import { param } from "../parameter.js"
 import { OS } from "../../../tools.js"
+import { drawLine } from "./drawSprite.js";
 
-async function printLineStation(_x, _y, _color, _line, _angle) {
+async function printLineStation(_x, _y, _color) {
   const _param = param.size;
   const _station = Data.station;
   const outerContainer = new PIXI.Container({ label: "lineStation" });
@@ -9,6 +10,7 @@ async function printLineStation(_x, _y, _color, _line, _angle) {
   let loadElementAssets = await PIXI.Assets.loadBundle('load-NJGJ');
   const A = loadElementAssets.Element;
   const B = loadElementAssets.Metro;
+  const { _line, _angle } = await drawLine(0, 0, _color?.line);
 
   const widthSub = (A, W, B, S) => {
     // 首条item
@@ -569,7 +571,7 @@ async function printLineStation(_x, _y, _color, _line, _angle) {
     container.addChild(info, icon1, icon2, info1, info2)
 
     if (e.isSeg && num) {
-      let PO = [300, 1450, 300, 497]; // 定位-3
+      let PO = [300, 900, 300, 497]; // 定位-3
       const frame3 = new PIXI.Rectangle(PO[0], PO[1], PO[2], PO[3]);
       const priceSeg = new PIXI.Texture({ source: A, frame: frame3 });
       const icon3 = new PIXI.Sprite({

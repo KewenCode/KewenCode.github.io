@@ -100,6 +100,45 @@ async function drawLine(_x, _y, _color) {
   return { _line: lineB, _angle: getAngle([_param.x[1], _param.y[1]], [_param.x[2], _param.y[2]], [_param.x[1], _param.y[2]]) }
 }
 
+async function drawRoundLine(_x, _y, _color, _point) {
+  const _param = param.size.roundLine;
+  // const point = [
+  //   { method: 'moveTo', x: _param.x[0] + _param.h, y: _param.y[0] + _param.h },
+  //   { method: 'lineTo', x: 900, y: _param.y[0] + _param.h },
+  //   { method: 'bezierCurveTo', cp1x: 920, cp1y: _param.y[0] + _param.h, cp2x: 920, cp2y: _param.y[0], x: 940, y: _param.y[0] },
+  //   { method: 'arcTo', x1: _param.x[1], y1: _param.y[0], x2: _param.x[1], y2: _param.y[0] + _param.h, radius: _param.r },
+  //   { method: 'arcTo', x1: _param.x[1], y1: _param.y[1], x2: _param.x[1] - _param.h, y2: _param.y[1], radius: _param.r },
+  //   { method: 'lineTo', x: 940, y: _param.y[1] },
+  //   { method: 'bezierCurveTo', cp1x: 920, cp1y: _param.y[1], cp2x: 920, cp2y: _param.y[1] - _param.h, x: 900, y: _param.y[1] - _param.h },
+  //   { method: 'arcTo', x1: _param.x[0], y1: _param.y[1] - _param.h, x2: _param.x[0], y2: _param.y[1] - _param.h * 2, radius: _param.r },
+  //   { method: 'arcTo', x1: _param.x[0], y1: _param.y[0] + _param.h, x2: _param.x[0] + _param.h, y2: _param.y[0] + _param.h, radius: _param.r },
+  //   { method: 'stroke', width: _param.h, color: _color },
+  // ]
+  const lineB = new PIXI.Graphics({ label: "lineB" })
+  _point?.forEach(e => {
+    // console.log(e)
+    switch (e.method) {
+      case 'moveTo':
+        lineB.moveTo(e.x, e.y);
+        break;
+      case 'lineTo':
+        lineB.lineTo(e.x, e.y);
+        break;
+      case 'arcTo':
+        lineB.arcTo(e.x1, e.y1, e.x2, e.y2, e.radius);
+        break;
+      case 'bezierCurveTo':
+        lineB.bezierCurveTo(e.cp1x, e.cp1y, e.cp2x, e.cp2y, e.x, e.y, e?.smoothness)
+        break;
+      case 'stroke':
+        lineB.stroke({ width: e.width, color: e.color || _color })
+        break;
+    }
+  })
+
+  return lineB
+}
+
 async function drawPrice(_x, _y, _color) {
   // 条件判断
   const segCheck = Data.isSeg || document.querySelector("#infoSellPri").checked;
@@ -184,112 +223,10 @@ async function drawPrice(_x, _y, _color) {
   return container
 }
 
-// async function draw(_x, _y, _color) {
-//   const _param = param.size
-//   // // 添加水印
-//   // await addLogo();
-//   // // 加载字体
-//   // await PIXI.Assets.loadBundle('load-font');
-//   // if (!OS.isPc) {
-//   //   await PIXI.Assets.loadBundle('load-font-mobile');
-//   // }
-//   // box素材 Load a bundle...
-//   let box_y = _color === "blue" ? 0 : 700;
-//   let loadBoxAssets = await PIXI.Assets.loadBundle('load-box');
-//   // blue-big
-//   const bosSprite = loadBoxAssets.box;
-//   bosSprite.frame = new PIXI.Rectangle(0, 0 + box_y, 2000, 500);
-//   let boxComp = new PIXI.Sprite(bosSprite);
-//   boxComp.setTransform(_param.recComp.x + _x, _param.recComp.y + _y, _param.recComp.w / bosSprite.width, _param.recComp.h / bosSprite.height);
-//   let boxLineNo = new PIXI.Sprite(bosSprite);
-//   boxLineNo.setTransform(_param.recNo.x + _x, _param.recNo.y + _y, _param.recNo.w / bosSprite.width, _param.recNo.h / bosSprite.height);
-//   let boxTiHead = new PIXI.Sprite(bosSprite);
-//   boxTiHead.setTransform(_param.recTiHd.x + _x, _param.recTiHd.y + _y, _param.recTiHd.w / bosSprite.width, _param.recTiHd.h / bosSprite.height);
-//   let boxPriHead = new PIXI.Sprite(bosSprite);
-//   boxPriHead.setTransform(_param.recPriHd.x + _x, _param.recPriHd.y + _y, _param.recPriHd.w / bosSprite.width, _param.recPriHd.h / bosSprite.height);
-//   // blue-small
-//   const box_Slice = bosSprite.clone();
-//   box_Slice.frame = new PIXI.Rectangle(0, 500 + box_y, 2000, 200);
-//   let boxPriLine = new PIXI.Sprite(box_Slice);
-//   boxPriLine.setTransform(_param.recPriBt.x + _x, _param.recPriBt.y + _y, _param.recPriBt.w / box_Slice.width, _param.recPriBt.h / box_Slice.height);
-//   // sizePriLineNew = [boxPriLine.x, boxPriLine.y, boxPriLine.width, boxPriLine.height] //更新尺寸
-//   return [boxComp, boxLineNo, boxTiHead, boxPriHead, boxPriLine];
-
-//   // #09178b - 矩形集合
-//   // const rectB = new PIXI.Graphics()
-//   // rectB.beginFill(colorJN)
-//   // rectB.drawRect(sizeRecComp[0], sizeRecComp[1], sizeRecComp[2], sizeRecComp[3])
-//   // rectB.drawRect(sizeLineNo[0], sizeLineNo[1], sizeLineNo[2], sizeLineNo[3])
-//   // rectB.drawRect(sizeTiHead[0], sizeTiHead[1], sizeTiHead[2], sizeTiHead[3])
-//   // rectB.drawRect(sizePriHead[0], sizePriHead[1], sizePriHead[2], sizePriHead[3])
-//   // rectB.drawRect(sizePriHead[0] + sizePriHead[2], sizePriHead[1] + sizePriHead[3] - 5, sizeRecComp[2] - sizePriHead[2], 5)
-//   // rectB.endFill()
-//   // routeMapStage.addChild(rectB);
-
-//   // #dedede - 矩形集合
-//   // const rectG = new PIXI.Graphics()
-//   // rectG.beginFill('#dedede')
-//   // rectG.drawRect(sizeTi[0], sizeTi[1], sizeTi[2], sizeTi[3])
-//   // rectG.endFill()
-//   // routeMapStage.addChild(rectG)
-
-//   // // 计算中间点角度
-//   // const getAngle = (pointA, pointB, pointC) => {
-//   //   const ABX = pointA[0] - pointB[0];
-//   //   const ABY = pointA[1] - pointB[1];
-//   //   const CBX = pointC[0] - pointB[0];
-//   //   const CBY = pointC[1] - pointB[1];
-//   //   const AB_MUL_CB = ABX * CBX + ABY * CBY;
-//   //   const DIST_AB = Math.sqrt(ABX * ABX + ABY * ABY)
-//   //   const DIST_CB = Math.sqrt(CBX * CBX + CBY * CBY)
-//   //   const cosValue = AB_MUL_CB / (DIST_AB * DIST_CB);
-//   //   return Math.acos(cosValue) * 180 / Math.PI;
-//   // }
-//   // // #116db0 - 线段
-//   // const lineB = new PIXI.Graphics()
-//   // lineB.lineStyle(25, colorJNLine)
-//   // lineB.moveTo(lineX[0], lineY[0])
-//   // lineB.lineTo(lineX[1], lineY[1])
-//   // lineB.lineTo(lineX[2], lineY[2])
-//   // lineB.lineTo(lineX[3], lineY[3])
-//   // routeMapStage.addChild(lineB)
-//   // lineAngle = getAngle([lineX[1], lineY[1]], [lineX[2], lineY[2]], [lineX[1], lineY[2]])
-
-
-//   // // 江南公交 - 旧方式，嵌入图像
-//   // // const rectSizeComp = new PIXI.Graphics()
-//   // // rectSizeComp.x = 100
-//   // // rectSizeComp.y = 210
-//   // // rectSizeComp.beginFill('#09178b')
-//   // // rectSizeComp.drawRect(0, 0, 540, 60)
-//   // // rectSizeComp.endFill()
-//   // // const textComp = new PIXI.Text('江南公交', {
-//   // //   fill: '#FFF',
-//   // //   fontFamily: Font.FZZZHONGJW,
-//   // //   fontSize: 36,
-//   // //   fontWeight: 'bold',
-//   // //   lineHeight: 95,
-//   // //   letterSpacing: 75,
-//   // //   align: 'center'
-//   // // });
-//   // // textComp.anchor.set(0.5)
-//   // // textComp.x = rectSizeComp.width / 2
-//   // // textComp.y = rectSizeComp.height / 2
-//   // // rectSizeComp.addChild(textComp)
-//   // // routeMapStage.addChild(rectSizeComp)
-
-//   // routeMapStage.addChild(await printPrice()); // 票价
-//   // routeMapStage.addChild(await printTextIcon()); // 图标
-//   // routeMapStage.addChild(await printService()); // 服务时间
-
-//   // routeMapStage.addChild(await printStation())
-//   // await printStation()
-
-// }
-
 export {
   drawRect,
   drawLine,
+  drawRoundLine,
   addLogo,
   drawPrice,
 }

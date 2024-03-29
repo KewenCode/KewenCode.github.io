@@ -4,7 +4,8 @@ import { addLogo, drawRect, drawLine, drawPrice } from "./canvas/drawSprite.js";
 import { printBaseText, printNo, printService } from "./canvas/printText.js";
 import { printLogo } from "./canvas/printLogo.js";
 import { printLineStation } from "./canvas/printLineStation.js";
-import { LineBlank as Line_NEW, Line18, Line42, Line206, Line207, Line503, Line521, Line538, } from "./exampleData.js";
+import { printRoundStation } from "./canvas/printRoundStation.js";
+import { LineBlank as Line_NEW, Line3, Line18, Line42, Line206, Line207, Line208, Line503, Line521, Line538, } from "./exampleData.js";
 import { copyToClipboard, clipboardToData } from "../../pageBtn.js"
 import { createList, countList, removeItemStation } from "./operate/liItemStation.js";
 import { stationClick } from "./operate/liItemOpera.js";
@@ -102,6 +103,9 @@ async function workflow(Map) {
         case '_NEW':
           Data = Object.assign({}, Line_NEW);
           break;
+        case '3':
+          Data = Object.assign({}, Line3);
+          break;
         case '18':
           Data = Object.assign({}, Line18);
           break;
@@ -113,6 +117,9 @@ async function workflow(Map) {
           break;
         case '207':
           Data = Object.assign({}, Line207);
+          break;
+        case '208':
+          Data = Object.assign({}, Line208);
           break;
         case '503':
           Data = Object.assign({}, Line503);
@@ -185,9 +192,9 @@ async function buildMap(Map, jiangnanMap) {
   const _rec = await drawRect(0, 0, (_color?.name == 'YZ' ? 1 : 0));
   _rec.forEach(e => { e.zIndex = 10; jiangnanMap.addChild(e); });
   // 绘制线段
-  const { _line, _angle } = await drawLine(0, 0, _color?.line);
+  // const { _line, _angle } = await drawLine(0, 0, _color?.line);
   // _line.zIndex = 20;
-  jiangnanMap.addChild(_line);
+  // jiangnanMap.addChild(_line);
   // 添加票价
   const _price = await drawPrice(0, 0, (_color?.name == 'YZ' ? 1 : 0));
   _price.zIndex = 30;
@@ -198,6 +205,7 @@ async function buildMap(Map, jiangnanMap) {
   jiangnanMap.addChild(_baseText);
   // 添加图片
   const _logo = await printLogo(0, 0, _color?.main);
+  const telBounds = _logo.getChildByLabel('icon_Tel').getBounds()
   _logo.zIndex = 50;
   jiangnanMap.addChild(_logo);
   // 添加路号
@@ -209,9 +217,19 @@ async function buildMap(Map, jiangnanMap) {
   _serveText.zIndex = 70;
   jiangnanMap.addChild(_serveText);
   // 添加站点
-  const _station = await printLineStation(0, 0, _color, _line, _angle);
-  _station.zIndex = 80;
-  jiangnanMap.addChild(_station);
+  let _station = null
+  switch (Data.lineType) {
+    case 'normal':
+      _station = await printLineStation(0, 0, _color);
+      _station.zIndex = 80;
+      jiangnanMap.addChild(_station);
+      break;
+    case 'round':
+      _station = await printRoundStation(0, 0, _color, telBounds);
+      _station.zIndex = 80;
+      jiangnanMap.addChild(_station);
+      break;
+  }
   Map.render() // 手动渲染
   progressBar(1, 'canvas');
 }

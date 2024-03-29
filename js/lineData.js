@@ -4,7 +4,9 @@ let Data = {};
 //   group: '南京公共交通 (集团) 有限公司',
 //   groupEn: 'NANJING PUBLIC TRANSPORTATION (GROUP) CO.,LTD',
 //   company: '',
-//   lineNo: '503',
+//   compColor: { name: 'JN', main: 0X1F2677, line: 0X116DB0, stroke: 0X003F97, fill: 0XFFFFFF, strokeVer: 0XFF0000 },
+//   lineNo: { main: '503', append: "路线路图", "type": 2, "icon": 0 },
+// lineType: 'normal',
 //   price: [],
 //   isSeg: false,
 //   isSel: true,
@@ -283,6 +285,7 @@ const Data_jiangnan_2017 = {
   company: '',
   compColor: { name: 'JN', main: 0X1F2677, line: 0X116DB0, stroke: 0X003F97, fill: 0XFFFFFF, strokeVer: 0XFF0000 },
   lineNo: { main: "可以中文（括号也可）", append: "路线路图\n及\n计价站点", type: null, icon: 0 },
+  lineType: 'normal',
   price: [],
   isSeg: false,
   isSel: false,
@@ -385,6 +388,7 @@ const Data_jiangnan_2017 = {
 //   company: '江南公交',
 //   compColor: { name: 'JN', main: 0X1F2677, line: 0X116DB0, stroke: 0X003F97, fill: 0XFFFFFF, strokeVer: 0XFF0000 },
 //   lineNo: { main: '42', append: "路线路图", "type": 2, "icon": 0 },
+// lineType: 'normal',
 //   price: [2, 2],
 //   isSeg: false,
 //   isSel: false,
@@ -606,5 +610,144 @@ const Data_jiangnan_2017 = {
 //       name: '银城花园',
 //       isEnd: true
 //     },
+//   }
+// }
+
+// const Data_jiangnan_2017 = {
+//   group: '南京公共交通 (集团) 有限公司',
+//   groupEn: 'NANJING PUBLIC TRANSPORTATION (GROUP) CO.,LTD',
+//   company: '江南公交',
+//   compColor: { name: 'JN', main: 0X1F2677, line: 0X116DB0, stroke: 0X003F97, fill: 0XFFFFFF, strokeVer: 0XFF0000 },
+//   lineNo: { main: '3', append: "路线路图", "type": 0, "icon": 0 },
+//   lineType: 'round',
+//   price: [2, 2],
+//   isSeg: false,
+//   isSel: false,
+
+//   point: {
+//     'A': {
+//       name: '随家仓',
+//       startTime: '05:00',
+//       endTime: '22:30',
+//     },
+//     'Z': {
+//       name: '随家仓',
+//       startTime: '05:00',
+//       endTime: '22:30',
+//     },
+//   },
+//   station: {
+//     0: {
+//       name: '中央路·鼓楼',
+//       isStart: true,
+//       isMetro: true,
+//       metroMerge: true,
+//       metro: ['1', '4']
+//     },
+//     1: {
+//       name: '南阴阳营'
+//     },
+//     2: {
+//       name: '山阴路'
+//     },
+//     3: {
+//       name: '西康路'
+//     },
+//     4: {
+//       name: '玉泉路'
+//     },
+//     5: {
+//       name: '莫干路'
+//     },
+//     6: {
+//       name: '江苏路'
+//     },
+//     7: {
+//       name: '傅佐路'
+//     },
+//     8: {
+//       name: '湖南路'
+//     },
+//     9: {
+//       name: '中央路·鼓楼',
+//       isMetro: true,
+//       metroMerge: true,
+//       metro: ['1', '4']
+//     },
+//     10: {
+//       name: '北京东路·进香河路',
+//       isSingle: true,
+//       sign: {
+//         direction: 1
+//       }
+//     },
+//     11: {
+//       name: '北京东路·鼓楼',
+//       isSingle: true,
+//       sign: {
+//         direction: 0
+//       },
+//       isMetro: true,
+//       metroMerge: true,
+//       metro: ['1', '4']
+//     },
+//     12: {
+//       name: '太平北路·鸡鸣寺',
+//       isMetro: true,
+//       metroMerge: true,
+//       metro: ['3', '4']
+//     },
+//     13: {
+//       name: '四牌楼',
+//       isMetro: true,
+//       metroMerge: true,
+//       metro: ['4']
+//     },
+//     14: {
+//       name: '大行宫北'
+//     },
+//     15: {
+//       name: '南京图书馆',
+//       isMetro: true,
+//       metroMerge: true,
+//       metro: ['2', '3']
+//     },
+//     16: {
+//       name: '新街口东',
+//       isMetro: true,
+//       metroMerge: true,
+//       metro: ['1', '2']
+//     },
+//     17: {
+//       name: '新街口西',
+//       isMetro: true,
+//       metroMerge: true,
+//       metro: ['1', '2']
+//     },
+//     18: {
+//       name: '大锏银巷',
+//       isMetro: true,
+//       metroMerge: true,
+//       metro: ['2']
+//     },
+//     19: {
+//       name: '五台山'
+//     },
+//     20: {
+//       name: '永庆巷'
+//     },
+//     21: {
+//       name: '拉萨路'
+//     },
+//     22: {
+//       name: '脑科医院'
+//     },
+//     23: {
+//       name: '随家仓',
+//       isEnd: true,
+//       isMetro: true,
+//       metroMerge: true,
+//       metro: ['2', '3']
+//     }
 //   }
 // }
