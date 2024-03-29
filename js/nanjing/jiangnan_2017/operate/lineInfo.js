@@ -12,6 +12,8 @@ const infoLineNo = lineInfo.querySelector("#infoLineNo");
 const infoLineNoAppend = lineInfo.querySelector("#infoLineNoAppend");
 const infoLineNoType = lineInfo.querySelector("#infoLineNoType");
 const infoLineNoIcon = lineInfo.querySelector("#infoLineNoIcon");
+// 线路类型
+const lineTypeSelect = lineInfo.querySelector("#lineTypeSelect");
 // 票价部分
 const lineTick = lineInfo.querySelector(".lineTick");
 const infoPrice = lineInfo.querySelector(".linePrice");
@@ -95,6 +97,11 @@ function buildLineInfo() {
   infoLineNoIcon.value = Data.lineNo.icon;
   infoLineNoIcon.addEventListener("input", e => {
     Data.lineNo.icon = Number(infoLineNoIcon.value);
+  })
+
+  lineTypeSelect.value = Data.lineType;
+  lineTypeSelect.addEventListener("input", e => {
+    Data.lineType = lineTypeSelect.value;
   })
 
   linePriceSelect.value = !Data.isSeg && !Data.isSel ? "infoNoSeg" :
@@ -210,6 +217,7 @@ function updateLineInfo() {
   }
   infoLineNoType.value = Data.lineNo.type;
   infoLineNoIcon.value = Data.lineNo.icon;
+  lineTypeSelect.value = Data.lineType;
   linePriceSelect.value = !Data.isSeg && !Data.isSel ? "infoNoSeg" :
     Data.isSeg ? "infoSeg" :
       Data.isSel ? "infoPerSeg" : null;
