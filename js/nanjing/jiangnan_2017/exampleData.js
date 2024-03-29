@@ -4,6 +4,7 @@ const LineBlank = {
   company: '',
   compColor: { name: 'JN', main: 0X1F2677, line: 0X116DB0, stroke: 0X003F97, fill: 0XFFFFFF, strokeVer: 0XFF0000 },
   lineNo: { main: "", append: "路线路图", "type": null, "icon": 0 },
+  lineType: 'null',
   price: [],
   isSeg: false,
   isSel: false,
@@ -22,12 +23,146 @@ const LineBlank = {
   station: {}
 }
 
+const Line3 = {
+  group: '南京公共交通 (集团) 有限公司',
+  groupEn: 'NANJING PUBLIC TRANSPORTATION (GROUP) CO.,LTD',
+  company: '江南公交',
+  compColor: { name: 'JN', main: 0X1F2677, line: 0X116DB0, stroke: 0X003F97, fill: 0XFFFFFF, strokeVer: 0XFF0000 },
+  lineNo: { main: '3', append: "路线路图", "type": 0, "icon": 0 },
+  lineType: 'round',
+  price: [2, 2],
+  isSeg: false,
+  isSel: false,
+
+  point: {
+    'A': {
+      name: '随家仓',
+      startTime: '05:00',
+      endTime: '22:30',
+    },
+    'Z': {
+      name: '随家仓',
+      startTime: '05:00',
+      endTime: '22:30',
+    },
+  },
+  station: {
+    0: {
+      name: '随家仓',
+      isStart: true
+    },
+    1: {
+      name: '南阴阳营'
+    },
+    2: {
+      name: '山阴路'
+    },
+    3: {
+      name: '西康路'
+    },
+    4: {
+      name: '玉泉路'
+    },
+    5: {
+      name: '莫干路'
+    },
+    6: {
+      name: '江苏路'
+    },
+    7: {
+      name: '傅佐路'
+    },
+    8: {
+      name: '湖南路'
+    },
+    9: {
+      name: '中央路·鼓楼',
+      isMetro: true,
+      metroMerge: true,
+      metro: ['1', '4']
+    },
+    10: {
+      name: '北京东路·进香河路',
+      isSingle: true,
+      sign: {
+        direction: 1
+      }
+    },
+    11: {
+      name: '北京东路·鼓楼',
+      isSingle: true,
+      sign: {
+        direction: 0
+      },
+      isMetro: true,
+      metroMerge: true,
+      metro: ['1', '4']
+    },
+    12: {
+      name: '太平北路·鸡鸣寺',
+      isMetro: true,
+      metroMerge: true,
+      metro: ['3', '4']
+    },
+    13: {
+      name: '四牌楼',
+      isMetro: true,
+      metroMerge: true,
+      metro: ['3']
+    },
+    14: {
+      name: '大行宫北'
+    },
+    15: {
+      name: '南京图书馆',
+      isMetro: true,
+      metroMerge: true,
+      metro: ['2', '3']
+    },
+    16: {
+      name: '新街口东',
+      isMetro: true,
+      metroMerge: true,
+      metro: ['1', '2']
+    },
+    17: {
+      name: '新街口西',
+      isMetro: true,
+      metroMerge: true,
+      metro: ['1', '2']
+    },
+    18: {
+      name: '大锏银巷',
+      isMetro: true,
+      metroMerge: true,
+      metro: ['2']
+    },
+    19: {
+      name: '五台山'
+    },
+    20: {
+      name: '永庆巷'
+    },
+    21: {
+      name: '拉萨路'
+    },
+    22: {
+      name: '脑科医院'
+    },
+    23: {
+      name: '随家仓',
+      isEnd: true
+    }
+  }
+}
+
 const Line18 = {
   group: '南京公共交通 (集团) 有限公司',
   groupEn: 'NANJING PUBLIC TRANSPORTATION (GROUP) CO.,LTD',
   company: '江南公交',
   compColor: { name: 'JN', main: 0X1F2677, line: 0X116DB0, stroke: 0X003F97, fill: 0XFFFFFF, strokeVer: 0XFF0000 },
   lineNo: { main: '18', append: "路线路图", "type": null, "icon": 0 },
+  lineType: 'normal',
   price: [2, 2],
   isSeg: false,
   isSel: false,
@@ -168,6 +303,7 @@ const Line42 = {
   company: '江南公交',
   compColor: { name: 'JN', main: 0X1F2677, line: 0X116DB0, stroke: 0X003F97, fill: 0XFFFFFF, strokeVer: 0XFF0000 },
   lineNo: { main: '42', append: "路线路图", "type": null, "icon": 0 },
+  lineType: 'normal',
   price: [2, 2],
   isSeg: false,
   isSel: false,
@@ -348,6 +484,7 @@ const Line206 = {
   company: '',
   compColor: { name: 'JN', main: 0X1F2677, line: 0X116DB0, stroke: 0X003F97, fill: 0XFFFFFF, strokeVer: 0XFF0000 },
   lineNo: { main: '206', append: "路线路图\n及\n计价站点", "type": 1, "icon": 0 },
+  lineType: 'normal',
   price: [3, 2],
   isSeg: true,
   isSel: false,
@@ -497,6 +634,7 @@ const Line207 = {
   company: '江南公交',
   compColor: { name: 'JN', main: 0X1F2677, line: 0X116DB0, stroke: 0X003F97, fill: 0XFFFFFF, strokeVer: 0XFF0000 },
   lineNo: { main: '207', append: "路线路图", "type": 1, "icon": 0 },
+  lineType: 'normal',
   price: [7, 2],
   isSeg: false,
   isSel: true,
@@ -746,12 +884,201 @@ const Line207 = {
   }
 }
 
+const Line208 = {
+  group: '南京公共交通 (集团) 有限公司',
+  groupEn: 'NANJING PUBLIC TRANSPORTATION (GROUP) CO.,LTD',
+  company: '',
+  compColor: { name: 'JN', main: 0X1F2677, line: 0X116DB0, stroke: 0X003F97, fill: 0XFFFFFF, strokeVer: 0XFF0000 },
+  lineNo: { main: '208', append: "路线路图", "type": 3, "icon": 1 },
+  lineType: 'round',
+  price: [2, 2],
+  isSeg: false,
+  isSel: false,
+
+  point: {
+    'A': {
+      name: '岱山南路·岱山中路',
+      startTime: '06:30',
+      endTime: '19:00',
+    },
+    'Z': {
+      name: '',
+      startTime: '',
+      endTime: '',
+    },
+  },
+  station: {
+    0: {
+      name: '岱山南路·岱山中路',
+      isSingle: true,
+      sign: {
+        direction: 1
+      }
+    },
+    1: {
+      name: '平治东苑西',
+      isSingle: true,
+      sign: {
+        direction: 1
+      }
+    },
+    2: {
+      name: '岱善路·徐村街',
+      isSingle: true,
+      sign: {
+        direction: 1
+      }
+    },
+    3: {
+      name: '徐村街·岱善路',
+      isSingle: true,
+      sign: {
+        direction: 1
+      }
+    },
+    4: {
+      name: '恒永东苑西',
+      isSingle: true,
+      sign: {
+        direction: 1
+      }
+    },
+    5: {
+      name: '明尚西苑北',
+      isSingle: true,
+      sign: {
+        direction: 1
+      }
+    },
+    6: {
+      name: '明尚东苑北',
+      isSingle: true,
+      sign: {
+        direction: 1
+      }
+    },
+    7: {
+      name: '芮村',
+      isSingle: true,
+      sign: {
+        direction: 1
+      }
+    },
+    8: {
+      name: '西善桥地铁站',
+      isMetro: true,
+      metro: ['7'],
+      isSingle: true,
+      metroMerge: true,
+      sign: {
+        direction: 1
+      }
+    },
+    9: {
+      name: '天保桥',
+      isSingle: true,
+      sign: {
+        direction: 1
+      }
+    },
+    10: {
+      name: '岱山西路北',
+      isSingle: true,
+      sign: {
+        direction: 1
+      }
+    },
+    11: {
+      name: '天保桥',
+      isSingle: true,
+      sign: {
+        direction: 1
+      }
+    },
+    12: {
+      name: '西善桥地铁站',
+      isMetro: true,
+      metro: ['7'],
+      isSingle: true,
+      metroMerge: true,
+      sign: {
+        direction: 1
+      }
+    },
+    13: {
+      name: '芮村',
+      isSingle: true,
+      sign: {
+        direction: 1
+      }
+    },
+    14: {
+      name: '明尚东苑北',
+      isSingle: true,
+      sign: {
+        direction: 1
+      }
+    },
+    15: {
+      name: '明尚西苑北',
+      isSingle: true,
+      sign: {
+        direction: 1
+      }
+    },
+    16: {
+      name: '恒永东苑北',
+      isSingle: true,
+      sign: {
+        direction: 1
+      }
+    },
+    17: {
+      name: '恒永东苑西',
+      isSingle: true,
+      sign: {
+        direction: 1
+      }
+    },
+    18: {
+      name: '徐村街·岱善路',
+      isSingle: true,
+      sign: {
+        direction: 1
+      }
+    },
+    19: {
+      name: '岱善路·徐村街',
+      isSingle: true,
+      sign: {
+        direction: 1
+      }
+    },
+    20: {
+      name: '平治东苑西',
+      isSingle: true,
+      sign: {
+        direction: 1
+      }
+    },
+    21: {
+      name: '岱山南路·岱山中路',
+      isEnd: true,
+      isSingle: true,
+      sign: {
+        direction: 1
+      }
+    },
+  }
+}
+
 const Line503 = {
   group: '南京公共交通 (集团) 有限公司',
   groupEn: 'NANJING PUBLIC TRANSPORTATION (GROUP) CO.,LTD',
   company: '南京扬子公交客运有限公司',
   compColor: { name: 'YZ', main: 0XAF0909, line: 0XAF0909, stroke: { M: 0X1F2677, B: 0XAF0909 }, fill: 0XFFFFFF, strokeVer: 0X1F2677 },
   lineNo: { main: '503', append: "路线路图", "type": null, "icon": 0 },
+  lineType: 'normal',
   price: [],
   isSeg: false,
   isSel: true,
@@ -1030,6 +1357,7 @@ const Line521 = {
   company: '',
   compColor: { name: 'JN', main: 0X1F2677, line: 0X116DB0, stroke: 0X003F97, fill: 0XFFFFFF, strokeVer: 0XFF0000 },
   lineNo: { main: '521', append: "路线路图\n及\n计价站点", "type": 1, "icon": 0 },
+  lineType: 'normal',
   price: [4, 2],
   isSeg: true,
   isSel: false,
@@ -1166,6 +1494,7 @@ const Line538 = {
   company: '',
   compColor: { name: 'JN', main: 0X1F2677, line: 0X116DB0, stroke: 0X003F97, fill: 0XFFFFFF, strokeVer: 0XFF0000 },
   lineNo: { main: '538', append: "路线路图", "type": null, "icon": 0 },
+  lineType: 'normal',
   price: [2, 2],
   isSeg: false,
   isSel: false,
@@ -1314,10 +1643,12 @@ const Line538 = {
 
 export {
   LineBlank,
+  Line3,
   Line18,
   Line42,
   Line206,
   Line207,
+  Line208,
   Line503,
   Line521,
   Line538,

@@ -1,5 +1,6 @@
 const baseUrl = new URL(document.documentURI)
 const paramUrl = new URLSearchParams(baseUrl.search)
+let skipUnloadConfirm = false;
 
 // 创建画布
 const routeMap = new PIXI.Application();
@@ -25,6 +26,7 @@ renderOption.addEventListener("input", e => {
     (() => {
       paramUrl.set('render', `${renderOption.value}`);
       baseUrl.search = paramUrl.toString();
+      skipUnloadConfirm = true;
       window.location.href = baseUrl;
     })() : renderOption.value = paramUrl.get('render') || 'webgpu';
 })
@@ -38,9 +40,21 @@ antialiasOption.addEventListener("input", e => {
     (() => {
       paramUrl.set('antialias', `${antialiasOption.value}`);
       baseUrl.search = paramUrl.toString();
+      skipUnloadConfirm = true;
       window.location.href = baseUrl;
     })() : antialiasOption.value = paramUrl.get('antialias') || 1;
 })
+
+// 关闭提示
+window.onbeforeunload = function (e) {
+  console.log(skipUnloadConfirm)
+  if (!skipUnloadConfirm) {
+    var e = window.event || e;
+    e.returnValue = ("确定离开页面吗？ヾ(•ω•`)o");
+    // 销毁舞台
+    routeMap.destroy(true);
+  }
+};
 
 let _boolean = true;
 _boolean ? (() => {
