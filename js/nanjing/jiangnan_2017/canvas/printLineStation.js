@@ -209,8 +209,8 @@ async function printLineStation(_x, _y, _color) {
     // 地铁图标
     const M = await iconMetro(_station[key], T.width);
     const ML = metroMerge;/**左侧存在 */
-    const MT = _station[key]?.metroMerge;/**当前存在 */
-    const MR = !metroMerge && _station[key]?.metroMerge && _station[Number(key) + 1]?.metroMerge && _station[Number(key) + 1]?.metro?.toString() == _station[key]?.metro?.toString();/**右侧存在 */
+    const MT = _station[key]?.metroMerge && _station[key]?.isMetro;/**当前存在 */
+    const MR = !metroMerge && _station[key]?.metroMerge && _station[Number(key) + 1]?.metroMerge && _station[Number(key) + 1]?.metro?.toString() == _station[key]?.metro?.toString() && (_station[key]?.isMetro && _station[Number(key) + 1]?.isMetro);/**右侧存在 */
     const MM = MR || ML;
     // console.log(ML, MT, MR)
     // 判断存在地铁标识
