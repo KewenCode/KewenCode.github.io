@@ -35,7 +35,6 @@ renderOption.addEventListener("input", e => {
 const antialiasOption = document.querySelector("#antialias");
 antialiasOption.value = paramUrl.get('antialias') || 1;
 antialiasOption.addEventListener("input", e => {
-  const Name = { "webgpu": "WebGPU", "webgl": "WebGL" }
   confirm(`请确认是否${Number(antialiasOption.value) ? '开启' : '关闭'}图像抗锯齿？\n此项操作将不会保存数据，如需保存数据请提前使用【导出】按钮！`) ?
     (() => {
       paramUrl.set('antialias', `${antialiasOption.value}`);
@@ -44,6 +43,16 @@ antialiasOption.addEventListener("input", e => {
       window.location.href = baseUrl;
     })() : antialiasOption.value = paramUrl.get('antialias') || 1;
 })
+
+// 加载vConsole
+paramUrl.get('vConsole') ? (() => {
+  let consoleScript = document.createElement("script");
+  consoleScript.src = "https://cdn.jsdelivr.net/npm/vconsole@latest/dist/vconsole.min.js";
+  consoleScript.onload = function () {
+    new VConsole()
+  }
+  document.head.appendChild(consoleScript);
+})() : '';
 
 // 关闭提示
 window.onbeforeunload = function (e) {
