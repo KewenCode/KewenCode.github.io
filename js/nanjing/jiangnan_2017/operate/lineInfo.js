@@ -4,6 +4,9 @@ const lineInfo = document.querySelector('.lineInfo');
 const infoGroup = lineInfo.querySelector("#infoGroup");
 const infoGroupEn = lineInfo.querySelector("#infoGroupEn");
 const infoCompany = lineInfo.querySelector("#infoCompany");
+// Logo
+const infoGroupLogoFile = lineInfo.querySelector("#infoGroupLogoFile");
+const infoGroupLogo = lineInfo.querySelector("#infoGroupLogo");
 // 颜色
 const JN = lineInfo.querySelector("#JN");
 const YZ = lineInfo.querySelector("#YZ");
@@ -39,6 +42,24 @@ function buildLineInfo() {
   infoCompany.value = Data.company
   infoCompany.addEventListener("input", e => {
     Data.company = infoCompany.value;
+  })
+
+  const modifyFile = () => {
+    const curFiles = infoGroupLogoFile.files;
+
+    if (curFiles.length !== 0 && infoGroupLogo.checked) {
+      // console.log(curFiles[0].size);
+      Data.files = URL.createObjectURL(curFiles[0]);
+    } else {
+      URL.revokeObjectURL(Data.files);
+      delete Data.files
+    }
+  }
+  infoGroupLogoFile.addEventListener("change", e => {
+    modifyFile();
+  })
+  infoGroupLogo.addEventListener("input", e => {
+    modifyFile();
   })
 
   JN.checked = JN.value == Data.compColor.name ? true : false;

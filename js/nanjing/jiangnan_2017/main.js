@@ -148,6 +148,7 @@ async function workflow(Map) {
   // 导出
   const stationOutput = document.querySelector("#stationOutput");
   stationOutput.addEventListener("click", e => {
+    delete Data.files
     copyToClipboard(JSON.stringify(Data));
   })
   // 导入

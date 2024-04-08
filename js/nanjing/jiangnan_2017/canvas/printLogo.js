@@ -4,17 +4,24 @@ import { OS, progressBar } from "../../../tools.js"
 async function printLogo(_x, _y, _color) {
   const container = new PIXI.Container();
   const _param = param.size;
+  let _logo = Data.files ? await PIXI.Assets.load({ src: Data.files, loadParser: 'loadTextures' }) : null;
+  // console.log(_logo?.width, _logo?.height)
+  if (_logo?.width > 8192 || _logo?.height > 8192) {
+    alert(`请确保Logo宽度及高度小于8192px！`);
+    _logo = null;
+  }
+
   // 集团标志
   let loadIconAssets = await PIXI.Assets.loadBundle('load-icon', (pro) => progressBar(pro, 'icon'));
   const icon_Nj = (() => {
     const frame = new PIXI.Rectangle(0, 0, 440, 440);
     const icon = new PIXI.Texture({ source: loadIconAssets.icon_Info, frame: frame });
     return new PIXI.Sprite({
-      texture: icon,
+      texture: _logo ? _logo : icon,
       label: "icon_Nj",
       anchor: { x: 0.5, y: 0.5 },
       position: { x: _param.logoGro.x + _x, y: _param.logoGro.y + _y },
-      scale: { x: _param.logoGro.w / 445, y: _param.logoGro.h / 445 },
+      scale: { x: _param.logoGro.w / (_logo ? _logo?.width : 445), y: _param.logoGro.h / (_logo ? _logo?.height : 445) },
     });
   })()
   // 服务电话

@@ -13,7 +13,7 @@ async function printRoundStation(_x, _y, _color, _telBounds) {
   const outerContainer = new PIXI.Container({ label: "roundStation" });
 
   const _arraySplit = (_array, _num) => {
-    console.log(_array)
+    // console.log(_array)
 
     const obj = {
       start: ['0'],
@@ -22,7 +22,7 @@ async function printRoundStation(_x, _y, _color, _telBounds) {
     const twinFormer = [] /* 由前至后 */
 
     const stationName = _array.map(id => Number(id)).slice(1, _array.length - 1);
-    console.log(_station)
+    // console.log(_station)
     while (stationName.length >= 2) {
       const baseID = stationName[0];
       // console.log(baseID, _station[baseID])
@@ -45,9 +45,9 @@ async function printRoundStation(_x, _y, _color, _telBounds) {
         // 二次循环 - 寻找偏移对称（往下同步偏移对称，不可能往上偏移对称，同步判断下侧坐标是否越过其他连续体）
         const index = twinLast.indexOf(twinFormer[i])
         if (t == 2 && i <= formerId && index >= formerIndex && twinFormer[i][2] && twinLast[index][2]) {
-          console.log(i, index, twinFormer[i], twinLast[index])
+          // console.log(i, index, twinFormer[i], twinLast[index])
           if (formerIndex == index - 1) {
-            console.log(twinFormer[i], twinLast[i])
+            // console.log(twinFormer[i], twinLast[i])
             twinFormer[i].splice(2, 1);
             twinLast[index].splice(2, 1);
             twinFormer.splice(index, 1);
@@ -55,7 +55,7 @@ async function printRoundStation(_x, _y, _color, _telBounds) {
             [formerId, formerIndex] = [i, index];
           } else {
             for (let id = i; id <= index; id++) {
-              console.log(id, index, twinFormer[id], twinLast[index])
+              // console.log(id, index, twinFormer[id], twinLast[index])
               if (!twinLast[id][2]) { /* 剔除id至index间无用array */
                 twinFormer.splice(i, 1);
                 twinLast.splice(index, 1);
@@ -82,7 +82,7 @@ async function printRoundStation(_x, _y, _color, _telBounds) {
         }
       }
     }
-    console.log(twinFormer, twinLast)
+    // console.log(twinFormer, twinLast)
 
     const arraySlice = {}
     const mergeID = new Set() /* 需合并段落ID */
@@ -91,7 +91,7 @@ async function printRoundStation(_x, _y, _color, _telBounds) {
       // console.log(typeof (arraySlice?.[groupID]) == "undefined")
       typeof (arraySlice[groupID]) == "undefined" ? arraySlice[groupID] = { U: [], D: [] } : '';
       if (!array[2]) {
-        console.log(formerID, array[0], lastID, array[1], groupID)
+        // console.log(formerID, array[0], lastID, array[1], groupID)
         if (formerID != array[0] || lastID != array[1]) {
           if (formerID == array[0] && lastID > array[1]) {  /* 上部相同，下部不同 */
             arraySlice[groupID].D = Array.from({ length: lastID - array[1] }, (_, index) => index + array[1] + 1).reverse();
@@ -110,12 +110,12 @@ async function printRoundStation(_x, _y, _color, _telBounds) {
           sameGroup = false;
           groupID++;
           typeof (arraySlice[groupID]) == "undefined" ? arraySlice[groupID] = { U: [], D: [] } : '';
-          console.log(formerID, array[0], lastID, array[1], groupID)
+          // console.log(formerID, array[0], lastID, array[1], groupID)
         }
-        console.log(formerID, array[0], lastID, array[1], groupID)
+        // console.log(formerID, array[0], lastID, array[1], groupID)
 
         if (formerID == array[0] && lastID == array[1]) { /* 相同 */
-          console.log(formerID, array[0], lastID, array[1], groupID)
+          // console.log(formerID, array[0], lastID, array[1], groupID)
           sameGroup ? groupID-- : '';
           arraySlice[groupID].U.push(array[0]);
           arraySlice[groupID].D.push(array[1]);
@@ -147,12 +147,12 @@ async function printRoundStation(_x, _y, _color, _telBounds) {
     }
     // 构建obj
     for (const [index, element] of Object.entries(arraySlice)) {
-      console.log(index, element);
+      // console.log(index, element);
       element?.U && element?.U.length ? obj[`U${index}`] = element.U : null;
       element?.D && element?.D.length ? obj[`D${index}`] = element.D : null;
       element?.M && element?.M.length ? obj[`M${index}`] = element.M : null;
     }
-    console.log(obj, mergeID);
+    // console.log(obj, mergeID);
 
     return { _remainder: 1, _array: obj, _merge: mergeID }
     // switch (_array.length % _num) {
@@ -192,7 +192,7 @@ async function printRoundStation(_x, _y, _color, _telBounds) {
     let [i] = [1];
     while (i <= Object.keys(_array).length - 2) {
       let [U/* 非首末站大图标 */, P/* 分段计价点 */, R/* 河流图标 */, N/* 站点数 */] = [0, 0, [], 0];
-      console.log(e, e + String(i), _array?.[e + String(i)])
+      // console.log(e, e + String(i), _array?.[e + String(i)])
       if (_array?.[e + String(i)]) {
         _array?.[e + String(i)].forEach(item => {
           // 单块item遍历
@@ -211,7 +211,7 @@ async function printRoundStation(_x, _y, _color, _telBounds) {
         // Object.assign(x_width[e], { [e + String(i)]: (isFinite(_width) ? _width : 0) });
       }
       i++;
-      console.log(extWidth, x_width)
+      // console.log(extWidth, x_width)
     }
   });
 
@@ -221,18 +221,18 @@ async function printRoundStation(_x, _y, _color, _telBounds) {
   const displayCount = new Map(); /* 图标对称分布情况 */
   for (let i = 1; i <= extWidth['MAXI']; i++) {
     const [up, down] = [extWidth['U'][String(i)], extWidth['D'][String(i)]]
-    console.log(up, down)
+    // console.log(up, down)
     countIcon += Math.max(up?.U || 0, down?.U || 0);
     countRiver += Math.max(up?.R.length || 0, down?.R.length || 0);
     countStation += Math.max(up?.N || 0, down?.N || 0);
     up?.N || down?.N ? displayCount.set(i, Math.max(up?.N || 0, down?.N || 0)) : '';
   }
-  console.log(countIcon, countRiver, countStation, countParagraph, displayCount)
+  // console.log(countIcon, countRiver, countStation, countParagraph, displayCount)
 
   const _width = widthSub({ U: countIcon, R: countRiver, P: countParagraph }, itemWidthALL, _param.roundDirScale.B, _param.roundDirScale.S) / countStation;
   // 间距小于图标宽度
   for (const e of ['U', 'D', 'M']) {
-    console.log(e)
+    // console.log(e)
     x_width[e] = (isFinite(_width) ? _width : 0);
     x_width[e] > 0 && x_width[e] <= _param.roundDirScale.S * 1.5 ?
       (() => {
@@ -243,13 +243,13 @@ async function printRoundStation(_x, _y, _color, _telBounds) {
         roundWS = _newRoundWS < roundWS ? _newRoundWS : roundWS;
       })() : '';
     // 制作定位点
-    console.log(_merge)
+    // console.log(_merge)
   }
   const [_pointUp, _pointDown] = [[], []];
   let [pointX, lastMerge] = [_paramR.x[0] + _paramR.h * 1.5, false];
   const [pointUYU, pointDYD, pointUYD, pointDYU] = [_paramR.y[0], _paramR.y[1], _paramR.y[0] + _paramR.h, _paramR.y[1] - _paramR.h];
   displayCount.forEach((num, index) => {
-    console.log(index, num)
+    // console.log(index, num)
     // 贝塞尔曲线绘制
     const bezierCurve = (width) => {
       _pointUp.push(
@@ -269,20 +269,20 @@ async function printRoundStation(_x, _y, _color, _telBounds) {
 
     index == 1 ? _pointUp.push({ method: 'moveTo', x: pointX, y: pointUYU }) : '';
     if (_merge.has(Number(index))) {
-      console.log(index)
+      // console.log(index)
       if (index == 1) {
         pointX += _param.roundDirScale.S * 2;
       }
-      console.log(pointX, (num || 0) * _width)
+      // console.log(pointX, (num || 0) * _width)
       bezierCurve((num || 0) * _width);
       lastMerge = true;
-      console.log(pointX)
+      // console.log(pointX)
     } else {
       pointX += (num || 0) * _width;
       lastMerge = false;
     }
   })
-  console.log(_pointUp, _pointDown)
+  // console.log(_pointUp, _pointDown)
   lastMerge ? (() => { _pointUp.splice(-2, 2); _pointDown.splice(-2, 2) })() : '';
   const point = [..._pointUp, ...[
     { method: 'arcTo', x1: _paramR.x[1], y1: lastMerge ? pointUYU + _paramR.h : pointUYU, x2: _paramR.x[1], y2: lastMerge ? pointUYU + _paramR.h * 2.5 : pointUYU + _paramR.h * 1.5, radius: _paramR.r },
@@ -292,7 +292,7 @@ async function printRoundStation(_x, _y, _color, _telBounds) {
     { method: 'arcTo', x1: _paramR.x[0], y1: pointUYU, x2: _paramR.x[0] + _paramR.h * 1.5, y2: pointUYU, radius: _paramR.r },
     { method: 'stroke', width: _paramR.h }
   ]]
-  console.log(point)
+  // console.log(point)
 
   // const point = [
   //   { method: 'moveTo', x: _paramR.x[0] + _paramR.h * 1.5, y: _paramR.y[0] },
@@ -367,15 +367,15 @@ async function printRoundStation(_x, _y, _color, _telBounds) {
         _X = _paramR.x[1];
         break;
     }
-    console.log(_X)
+    // console.log(_X)
     while (i <= extWidth['MAXI']) {
       const mergeItem = _merge.has(i);
       const [cuArrayLength, maxArrayLength] = [_array[e + String(i)]?.length, displayCount.get(i)];
-      console.log(e + String(i), _array[e + String(i)], mergeItem, e, (mergeItem && e == 'D' ? false : true))
+      // console.log(e + String(i), _array[e + String(i)], mergeItem, e, (mergeItem && e == 'D' ? false : true))
       e != 'M' ? _X += 40 : '';
       i == 1 && !_merge.has(1) && e != 'M' ? _X -= 40 : '';
-      console.log(cuArrayLength, maxArrayLength, _X)
-      console.log(_array?.[e + String(i)] && (mergeItem && e == 'D' ? false : true))
+      // console.log(cuArrayLength, maxArrayLength, _X)
+      // console.log(_array?.[e + String(i)] && (mergeItem && e == 'D' ? false : true))
       if (_array?.[e + String(i)] && (mergeItem && e == 'D' ? false : true)) {
         let [_no] = [0];  /* 每块内部序号 */
         // 数据间存在【_no】依赖，无法同步执行
@@ -384,7 +384,7 @@ async function printRoundStation(_x, _y, _color, _telBounds) {
           const SingleContainer = new PIXI.Container({ label: `station${item}` });
           const scale = roundWS / _param.roundDirScale.S;
           const merge = _station[item]?.metroMerge || false;
-          console.log(_station[item], merge)
+          // console.log(_station[item], merge)
 
           const itemWidthPlus = cuArrayLength < maxArrayLength ? (maxArrayLength - cuArrayLength) * x_width[e] / cuArrayLength : 0;
           const itemWidth = x_width[e] + itemWidthPlus;
@@ -393,7 +393,7 @@ async function printRoundStation(_x, _y, _color, _telBounds) {
           const S = iconStation(_station[item], e, mergeItem);
           S.position.set(itemWidth * _no + _X + _x, _Y[e] + _y);
           index == cuArrayLength - 1 && e != 'M' ? _X -= itemWidthPlus / 2 : '';  /* 末尾_X消去 */
-          console.log(itemWidth * _no, _X)
+          // console.log(itemWidth * _no, _X)
 
           const T = textStation(_station[item], scale, e);
           T.anchor.set(e == 'U' || e == 'M' ? 0 : 1, e == 'M' ? 0.5 : e == 'U' ? 1 : 0)
@@ -429,7 +429,7 @@ async function printRoundStation(_x, _y, _color, _telBounds) {
                   break;
               }
           }
-          console.log(S.position, T.position)
+          // console.log(S.position, T.position)
 
           SingleContainer.addChild(S, T)
 
@@ -666,7 +666,7 @@ async function printRoundStation(_x, _y, _color, _telBounds) {
           outerContainer.addChild(SingleContainer)
         }
       }
-      console.log(x_width[e], maxArrayLength, x_width[e] * maxArrayLength)
+      // console.log(x_width[e], maxArrayLength, x_width[e] * maxArrayLength)
       e != 'M' ? _X += x_width[e] * maxArrayLength : '';
       i++;
     }
