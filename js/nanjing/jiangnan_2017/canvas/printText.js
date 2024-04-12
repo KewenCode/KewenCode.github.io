@@ -165,9 +165,12 @@ async function printNo(_x, _y, _color) {
       lineType = "[大站快车]";
       break;
     case 3:
-      lineType = "微循环公交";
+      lineType = "[环行线]";
       break;
     case 4:
+      lineType = "微循环公交";
+      break;
+    case 5:
       lineType = "假日旅游线";
       break;
   }

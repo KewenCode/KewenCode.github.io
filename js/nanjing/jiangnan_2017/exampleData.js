@@ -1641,6 +1641,179 @@ const Line538 = {
   }
 }
 
+const Line452 = {
+  group: '南京公共交通 (集团) 有限公司',
+  groupEn: 'NANJING PUBLIC TRANSPORTATION (GROUP) CO.,LTD',
+  company: '',
+  compColor: { name: 'JN', main: 0X1F2677, line: 0X116DB0, stroke: 0X003F97, fill: 0XFFFFFF, strokeVer: 0XFF0000 },
+  lineNo: { main: '452', append: "路线路图", "type": 3, "icon": 0 },
+  lineType: 'round',
+  price: [2, 2],
+  isSeg: false,
+  isSel: false,
+
+  point: {
+    'A': {
+      name: '马集客运站',
+      startTime: '06:00',
+      endTime: '18:00',
+    },
+    'Z': {
+      name: '马集客运站',
+      startTime: '06:00',
+      endTime: '18:00',
+    },
+  },
+  station: {
+    0: {
+      name: '马集客运站',
+      isStart: true
+    },
+    1: {
+      name: '赤兔路·汇集路'
+    },
+    2: {
+      name: '圣马丽都'
+    },
+    3: {
+      name: '马集教堂'
+    },
+    4: {
+      name: '马集中心小学'
+    },
+    5: {
+      name: '西马村'
+    },
+    6: {
+      name: '马集上庄'
+    },
+    7: {
+      name: '东马村'
+    },
+    8: {
+      name: '河王社区'
+    },
+    9: {
+      name: '独山杨'
+    },
+    10: {
+      name: '独山石柱林'
+    },
+    11: {
+      name: '河王村北'
+    },
+    12: {
+      name: '河王村南'
+    },
+    13: {
+      name: '茉莉谷'
+    },
+    14: {
+      name: '贵庄'
+    },
+    15: {
+      name: '冯营村北'
+    },
+    16: {
+      name: '冯营村南'
+    },
+    17: {
+      name: '原家岗'
+    },
+    18: {
+      name: '小刘营村北'
+    },
+    19: {
+      name: '小刘营村',
+      isSingle: true,
+      sign: {
+        direction: 1
+      }
+    },
+    20: {
+      name: '小刘营村南',
+      isSingle: true,
+      sign: {
+        direction: 1
+      }
+    },
+    21: {
+      name: '阮郑村',
+      isSingle: true,
+      sign: {
+        direction: 1
+      }
+    },
+    22: {
+      name: '阮郑村',
+      isSingle: true,
+      sign: {
+        direction: 1
+      }
+    },
+    23: {
+      name: '小刘营村南',
+      isSingle: true,
+      sign: {
+        direction: 1
+      }
+    },
+    24: {
+      name: '小刘营村',
+      isSingle: true,
+      sign: {
+        direction: 1
+      }
+    },
+    25: {
+      name: '后锻路西'
+    },
+    26: {
+      name: '大陈村'
+    },
+    27: {
+      name: '后锻路·沈营村'
+    },
+    28: {
+      name: '金陈村'
+    },
+    29: {
+      name: '官陈村'
+    },
+    30: {
+      name: '后锻路·赵营村'
+    },
+    31: {
+      name: '山张村'
+    },
+    32: {
+      name: '后锻路东'
+    },
+    33: {
+      name: '尖山东'
+    },
+    34: {
+      name: '尖山'
+    },
+    35: {
+      name: '尖山北'
+    },
+    36: {
+      name: '马集初中'
+    },
+    37: {
+      name: '马集初中北'
+    },
+    38: {
+      name: '马集南'
+    },
+    39: {
+      name: '马集客运站',
+      isEnd: true
+    }
+  }
+}
+
 export {
   LineBlank,
   Line3,
@@ -1652,4 +1825,5 @@ export {
   Line503,
   Line521,
   Line538,
+  Line452
 }

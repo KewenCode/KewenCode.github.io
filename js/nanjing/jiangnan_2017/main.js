@@ -5,7 +5,7 @@ import { printBaseText, printNo, printService } from "./canvas/printText.js";
 import { printLogo } from "./canvas/printLogo.js";
 import { printLineStation } from "./canvas/printLineStation.js";
 import { printRoundStation } from "./canvas/printRoundStation.js";
-import { LineBlank as Line_NEW, Line3, Line18, Line42, Line206, Line207, Line208, Line503, Line521, Line538, } from "./exampleData.js";
+import { LineBlank as Line_NEW, Line3, Line18, Line42, Line206, Line207, Line208, Line503, Line521, Line538, Line452, } from "./exampleData.js";
 import { copyToClipboard, clipboardToData } from "../../pageBtn.js"
 import { createList, countList, removeItemStation } from "./operate/liItemStation.js";
 import { stationClick } from "./operate/liItemOpera.js";
@@ -130,6 +130,9 @@ async function workflow(Map) {
         case '538':
           Data = Object.assign({}, Line538);
           break;
+        case '452':
+          Data = Object.assign({}, Line452);
+          break;
       }
       pixiClear(Map);
       createList();
@@ -145,6 +148,7 @@ async function workflow(Map) {
   // 导出
   const stationOutput = document.querySelector("#stationOutput");
   stationOutput.addEventListener("click", e => {
+    delete Data.files
     copyToClipboard(JSON.stringify(Data));
   })
   // 导入
