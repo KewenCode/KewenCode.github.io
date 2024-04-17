@@ -129,6 +129,7 @@ async function printLineStation(_x, _y, _color) {
       riverRoad.width = riverRoad.width > roundWB * 1.3 ? roundWB * 1.3 : riverRoad.width;
       SingleContainer.addChild(riverRoad);
 
+      stationContainer.addChild(SingleContainer)
       outerContainer.addChild(R)
       continue;
     }
