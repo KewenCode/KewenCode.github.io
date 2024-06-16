@@ -10,7 +10,7 @@ await routeMap.init({
   resolution: 1, //分辨率
   sortableChildren: true,
   autoStart: false, // 取消自动渲染
-  preference: paramUrl.get('render'), //手动选择render
+  preference: paramUrl.get('render') || 'webgpu', //手动选择render 8.1.0又切换为webgl默认
   antialias: Number(paramUrl.get('antialias')) ? true : false,  //抗锯齿
 });
 // PIXI加入指定DOM

@@ -146,11 +146,11 @@ function stationInfo(id) {
       ...item.sign,
       ...{
         direction: 1,
-        tag: -1
+        tag: 0
       }
     } : item.sign = {
       direction: 1,
-      tag: -1
+      tag: 0
     } : delete item.sign.direction;
     // 添加默认右箭头/清除箭头
     item.isSingle ? right.classList.toggle("hidden") : [left, right].forEach(e => { e.classList.add("hidden") });
@@ -300,7 +300,7 @@ function stationInfo(id) {
     // tag初始
     item.isSingle && item.isStart || item.isSingle && item.isEnd ?
       singleTag.forEach(e => {
-        e.disabled = false; e.checked = Number(e.value) === (item.sign.tag || -1) ? true : false
+        e.disabled = false; e.checked = Number(e.value) === (item.sign.tag || 0) ? true : false
       }) :
       singleTag.forEach(e => { e.disabled = true })
 
@@ -321,12 +321,12 @@ function stationInfo(id) {
         case "tagUp":
           tagDown.checked = tagUp.checked ? !tagUp.checked : tagUp.checked;
           tagHid.checked = !tagUp.checked;  // 默认启用
-          item.sign.tag = tagUp.checked ? Number(tagUp.value) : -1;
+          item.sign.tag = tagUp.checked ? Number(tagUp.value) : 0;
           break;
         case "tagDown":
           tagUp.checked = tagDown.checked ? !tagDown.checked : tagDown.checked;
           tagHid.checked = !tagDown.checked;  // 默认启用
-          item.sign.tag = tagDown.checked ? Number(tagDown.value) : -1;
+          item.sign.tag = tagDown.checked ? Number(tagDown.value) : 0;
           break;
         case "tagHid":
           tagDown.checked = tagHid.checked ? !tagHid.checked : tagHid.checked;
