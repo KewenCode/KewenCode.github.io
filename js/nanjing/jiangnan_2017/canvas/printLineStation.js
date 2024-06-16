@@ -196,15 +196,15 @@ async function printLineStation(_x, _y, _color) {
     let UP, UD
     if (_station[key].sign && _station[key].sign.tag == 1) {
       /**上侧图标 */
-      UP = iconUDTag(_station[key].isSingle && _station[key].isStart, _station[key].isSingle && _station[key].isEnd, T.width)
+      UP = iconUDTag(_station[key].isSingle && _station[key].isStart, _station[key].isSingle && _station[key].isEnd, T.width, 'Plus')
       if (UP) {
         UP.position.set(S.x - T.width / 2, _station[key].isSingle ? (_station[key].sign.direction ? S.y - _param.line.h / 1.5 - UP.height * 1.1 : S.y - S.height / 2 - 10 - UP.height * 1.1) : S.y - S.height / 2 - UP.height * 1.1);
         SingleContainer.addChild(UP)
       }
 
-    } else if (_station[key].sign && _station[key].sign.tag == 0) {
+    } else if (_station[key].sign && _station[key].sign.tag == -1) {
       /**下侧图标 */
-      UD = iconUDTag(_station[key].isSingle && _station[key].isStart, _station[key].isSingle && _station[key].isEnd, T.width)
+      UD = iconUDTag(_station[key].isSingle && _station[key].isStart, _station[key].isSingle && _station[key].isEnd, T.width, 'Negative')
     }
 
     // 地铁图标
@@ -477,7 +477,8 @@ async function printLineStation(_x, _y, _color) {
     return { R: riverContain, RW: river.height }
   }
 
-  function iconUDTag(U, D, tWidth, text, textColor) {
+  function iconUDTag(U, D, tWidth, position, text, textColor) {
+    // U代表上客站图标 D代表下客站图标
     if (!U && !D) { return }
     const iconUDTagContain = new PIXI.Container({ label: "UDTag" });
     const UDTag = new PIXI.Graphics()
@@ -499,7 +500,7 @@ async function printLineStation(_x, _y, _color) {
     });
     iconUDTagContain.addChild(tagName);
     iconUDTagContain.scale.set(tWidth / UDTag.width)
-    iconUDTagContain.label = `${U ? 'U' : 'D'}Tag`;
+    iconUDTagContain.label = `${position}${U ? 'U' : 'D'}Tag`;
     return iconUDTagContain
 
   }
@@ -598,10 +599,10 @@ async function printLineStation(_x, _y, _color) {
     // console.log(left, right)
     const LT = left.getChildByLabel("text");
     const LM = left.getChildByLabel("metro");
-    const LI = left.getChildByLabel("DTag");
+    const LI = left.getChildByLabel("NegativeUTag") || left.getChildByLabel("NegativeDTag");
     const RT = right.getChildByLabel("text");
     const RM = right.getChildByLabel("metro");
-    const RI = right.getChildByLabel("DTag");
+    const RI = right.getChildByLabel("NegativeUTag") || right.getChildByLabel("NegativeDTag");
     const minY = () => { return { L: LT.y, R: RT.y } }
     const middleY = () => { return { L: LI ? LI.y + LI.height : LT.y + LT.height, R: RI ? RI.y + RI.height : RT.y + RT.height } }
     const maxY = () => {
@@ -618,6 +619,7 @@ async function printLineStation(_x, _y, _color) {
         LT.height -= subT;
         RT.height -= subT;
         LM.y -= subT;
+        LI.y -= subT; RI.y -= subT; /*提升Tag位置*/
       })() : '';
       // 画线
       const graphics = new PIXI.Graphics()
@@ -667,6 +669,9 @@ async function printLineStation(_x, _y, _color) {
             LM.y -= subT;
             LT.height = LM.y - 20 < middleY().L ? LT.height - (middleY().L - (LM.y - 20)) : LT.height;
             RT.height = middleY().R + RT.width / 2 + 5 > maxY().L ? RT.height - (maxY().L - (middleY().R - RT.width - 5)) : RT.height;
+            // 提升Tag位置
+            LI.y = LM.y - 20 < middleY().L ? LI.y - (middleY().L - (LM.y - 20)) + 5/* 测试后添加 */ : LI.y;
+            RI.y = middleY().R + RT.width / 2 + 5 > maxY().L ? RI.y - (maxY().L - (middleY().R - RT.width - 5)) : RI.y;
           })() : '';
           // 画线
           const LLine = (LM.y - 5) - (middleY().L + 5) < LT.width / 2 ? true : false;/**间距小于字宽一半自动忽略布置 */
@@ -722,6 +727,9 @@ async function printLineStation(_x, _y, _color) {
             RM.y -= subT;
             LT.height = middleY().L + LT.width / 2 + 5 > maxY().R ? LT.height - (maxY().R - (middleY().L - LT.width - 5)) : LT.height;
             RT.height = RM.y - 20 < middleY().R ? RT.height - (middleY().R - (RM.y - 20)) : RT.height;
+            // 提升Tag位置
+            LI.y = middleY().L + LT.width / 2 + 5 > maxY().R ? LI.y - (maxY().R - (middleY().L - LT.width - 5)) : LI.y;
+            RI.y = RM.y - 20 < middleY().R ? RI.y - (middleY().R - (RM.y - 20)) + 5/* 测试后添加 */ : RI.y;
           })() : '';
           // 画线
           const RLine = (RM.y - 5) - (middleY().R + 5) < RT.width / 2 ? true : false;/**间距小于字宽一半自动忽略布置 */
